@@ -122,7 +122,7 @@ The same application and code. Only environment variables differ.
    | Variable | Description |
    | :--- | :--- |
    | `DATABASE_URL` | Pooled PostgreSQL connection string for queries |
-   | `DATABASE_URL_UNPOOLED` | Direct connection string for Drizzle migrations (set by the Neon and Vercel integration) |
+   | `DATABASE_URL_UNPOOLED` | Direct connection string for Drizzle migrations |
    | `BETTER_AUTH_SECRET` | Secret key for auth tokens (`openssl rand -base64 32`) |
    | `BETTER_AUTH_URL` | Public production URL of the app |
    | `TMDB_API_READ_ACCESS_TOKEN` | TMDB API Read Access Token (bearer token) |
