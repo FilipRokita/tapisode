@@ -1,4 +1,4 @@
-@[README.md](README.md)
+@README.md
 
 # Agent Guidelines & Behavior
 
@@ -91,7 +91,7 @@ Whichever one a change makes stale, update it in the same change rather than
 later. When code or architecture changes, check if existing docs need updates or
 if a new doc is genuinely needed (keep docs lean; only add docs that are truly
 necessary). This file is part of that rule too: when a workflow, command, path
-or rule it names changes, update `AGENTS.md` in the same change.
+or rule it names changes, update `CLAUDE.md` in the same change.
 
 ## Secrets
 
@@ -102,7 +102,7 @@ Treat the repository and its entire history as public. Before every commit:
   placeholders belong in git.
 - Check `git status` and `git diff` first. Never run a blind `git add -A`.
 - Do not put secret values in code, docs, tests, logs, commit messages, or chat.
-- Keep personal files ignored: `.agents/plans/`, `dev-only/`.
+- Keep personal files ignored: `.claude/plans/`, `dev-only/`.
 - If a secret ever leaks, rotate it first. Removing it from git does not undo
   the exposure.
 
@@ -113,7 +113,7 @@ Nothing in it is part of the product.
 
 ## Planning
 
-Plans live in `.agents/plans/`, gitignored and local to one machine. One plan is
+Plans live in `.claude/plans/`, gitignored and local to one machine. One plan is
 one entry: a single `.md` when that's all it needs, a folder (`plan.md` plus its
 attachments) when it produces a mock, research or anything else. Name it for the
 work it does, `invite-expiry` rather than `implementation-plan`, so the next plan

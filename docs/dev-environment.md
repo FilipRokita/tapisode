@@ -7,33 +7,34 @@ Everything runs inside a dev container. Open the repo in VS Code and choose
 
 ## Before you start
 
-Configuration files manage secrets and tooling setup:
+Create the environment files from their committed templates:
 
 ```bash
-cp .agents/mcp_config.example.json .agents/mcp_config.json # Antigravity MCP config
-# cp .env.example .env                             # application secrets (when app is initialized)
+# cp .env.example .env                         # when the app is initialized
+cp .devcontainer/.env.example .devcontainer/.env
 ```
 
 ## Configuration and secrets
 
-Configuration is split by who consumes it:
-
 | File | Holds | Read by |
 | :--- | :--- | :--- |
-| `.agents/mcp_config.json` | Context7 API key | Antigravity MCP server |
 | `.env` | Database credentials, app secrets | The application runtime |
+| `.devcontainer/.env` | Context7 API key | Claude Code, through `.mcp.json` |
 
-Both files are gitignored, with committed `.example` counterparts.
+Both files are gitignored, with committed `.env.example` counterparts.
 
-The application reads `.env` through Next.js, while Antigravity reads `.agents/mcp_config.json` directly.
+The dev container loads `.devcontainer/.env` into its environment through
+`runArgs` in `devcontainer.json`. The file must exist before the container
+starts, otherwise Docker fails to create it.
 
-## Antigravity and MCP
+## Claude Code and MCP
 
-Antigravity loads project guidelines from [`AGENTS.md`](../AGENTS.md) and tool
-configurations from [`.agents/mcp_config.json`](../.agents/mcp_config.json) (created from template [`.agents/mcp_config.example.json`](../.agents/mcp_config.example.json)).
+Claude Code loads project guidelines from [`CLAUDE.md`](../CLAUDE.md), which
+imports the README. MCP servers are declared in [`.mcp.json`](../.mcp.json).
 
 Currently, Context7 is configured as an MCP server to provide up-to-date
-documentation for libraries and tools.
+documentation for libraries and tools. Claude Code asks for approval the first
+time it sees a project MCP server.
 
 ## The dev container
 

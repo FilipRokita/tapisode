@@ -85,15 +85,15 @@ the codebase.
 Everything runs inside the dev container; nothing needs to be installed on your
 host machine.
 
-1. **Create the environment and configuration files.** Both are gitignored:
+1. **Create the environment files.** Both are gitignored:
 
    ```bash
    cp .env.example .env
-   cp .agents/mcp_config.example.json .agents/mcp_config.json
+   cp .devcontainer/.env.example .devcontainer/.env
    ```
 
-   Fill in the required values (`DATABASE_URL`, `BETTER_AUTH_SECRET`, `TMDB_API_KEY`
-   in `.env`, and replace placeholder in `.agents/mcp_config.json`).
+   Fill in the required values (`DATABASE_URL`, `BETTER_AUTH_SECRET`,
+   `TMDB_API_KEY` in `.env`, and `CONTEXT7_API_KEY` in `.devcontainer/.env`).
 
 2. **Open the repository in the container.** In VS Code, run *Dev Containers: Reopen in
    Container*.
