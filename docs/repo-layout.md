@@ -7,7 +7,7 @@ What every entry in the repository root is for.
 | Path | What it is |
 | :--- | :--- |
 | [`README.md`](../README.md) | Project overview: what Tapisode does, the stack, and local run instructions. |
-| [`CLAUDE.md`](../CLAUDE.md) | Instructions and rules for Claude Code working in this repository. |
+| [`AGENTS.md`](../AGENTS.md) | Instructions and rules for AI agents working in this repository. |
 | [`docs/`](.) | Additional project documentation. |
 | [`.mcp.json`](../.mcp.json) | Project MCP servers for Claude Code (Context7). The API key comes from the container environment. |
 | [`.devcontainer/`](../.devcontainer/) | Dev container configuration and setup scripts. See [Dev environment](dev-environment.md). |
@@ -20,7 +20,7 @@ These exist locally on a development machine but remain out of git.
 
 | Path | What it holds | Why it is ignored |
 | :--- | :--- | :--- |
-| `.claude/plans/` | Task implementation plans, local to one machine. | Machine-local planning. |
+| `plans/` | Task implementation plans, local to one machine. | Machine-local planning. |
 | `dev-only/` | Scratch space for prototypes and experiments. | Not part of the product. |
 | `.env` | Application runtime secrets and database URLs. | Secrets (when added). |
 | `.devcontainer/.env` | Tooling secrets for the dev container (Context7 API key). | Secrets. |

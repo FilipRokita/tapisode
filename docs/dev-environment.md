@@ -29,7 +29,7 @@ starts, otherwise Docker fails to create it.
 
 ## Claude Code and MCP
 
-Claude Code loads project guidelines from [`CLAUDE.md`](../CLAUDE.md), which
+Claude Code reads project guidelines from [`AGENTS.md`](../AGENTS.md), which
 imports the README. MCP servers are declared in [`.mcp.json`](../.mcp.json).
 
 Currently, Context7 is configured as an MCP server to provide up-to-date

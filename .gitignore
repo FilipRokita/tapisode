@@ -21,7 +21,7 @@ npm-debug.log*
 # Hosting
 .vercel
 
-# Local-only folders - not part of the repo, described in CLAUDE.md
+# Local-only folders - not part of the repo, described in AGENTS.md
 dev-only/
 .agents/
-.claude/plans/
+plans/
