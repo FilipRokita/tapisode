@@ -37,7 +37,6 @@ Dark by default, built phone-first, and fully responsive on desktop.
 - [🚀 Run it locally](#-run-it-locally)
 - [☁️ Run it on a host](#️-run-it-on-a-host)
 - [📚 Documentation](#-documentation)
-- [📄 License](#-license)
 
 ## ✨ What it does
 
@@ -133,7 +132,3 @@ The same application and code. Only environment variables differ.
 ## 📚 Documentation
 
 Anything that is not in this file lives in [`docs/`](docs/).
-
-## 📄 License
-
-Released under the [MIT License](LICENSE).
