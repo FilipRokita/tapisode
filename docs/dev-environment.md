@@ -19,7 +19,7 @@ cp .devcontainer/.env.example .devcontainer/.env
 | File | Holds | Read by |
 | :--- | :--- | :--- |
 | `.env` | Database credentials, app secrets | The application runtime |
-| `.devcontainer/.env` | Context7 API key | Claude Code, through `.mcp.json` |
+| `.devcontainer/.env` | Context7 API key | Agent tooling, through `.mcp.json` |
 
 Both files are gitignored, with committed `.env.example` counterparts.
 
@@ -27,14 +27,16 @@ The dev container loads `.devcontainer/.env` into its environment through
 `runArgs` in `devcontainer.json`. The file must exist before the container
 starts, otherwise Docker fails to create it.
 
-## Claude Code and MCP
+## Agents and MCP
 
-Claude Code reads project guidelines from [`AGENTS.md`](../AGENTS.md), which
-imports the README. MCP servers are declared in [`.mcp.json`](../.mcp.json).
+Agent guidelines live in [`AGENTS.md`](../AGENTS.md), the shared standard read by
+most coding agents. It imports the README.
 
-Currently, Context7 is configured as an MCP server to provide up-to-date
-documentation for libraries and tools. Claude Code asks for approval the first
-time it sees a project MCP server.
+MCP servers are declared in [`.mcp.json`](../.mcp.json), the format Claude Code
+reads. Other agents need the same server in their own config. Currently,
+Context7 is configured to provide up-to-date documentation for libraries and
+tools. Claude Code asks for approval the first time it sees a project MCP
+server.
 
 ## The dev container
 

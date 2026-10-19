@@ -7,9 +7,9 @@ What every entry in the repository root is for.
 | Path | What it is |
 | :--- | :--- |
 | [`README.md`](../README.md) | Project overview: what Tapisode does, the stack, and local run instructions. |
-| [`AGENTS.md`](../AGENTS.md) | Instructions and rules for AI agents working in this repository. |
+| [`AGENTS.md`](../AGENTS.md) | Instructions and rules for AI agents working in this repository. Agent-neutral. |
 | [`docs/`](.) | Additional project documentation. |
-| [`.mcp.json`](../.mcp.json) | Project MCP servers for Claude Code (Context7). The API key comes from the container environment. |
+| [`.mcp.json`](../.mcp.json) | Project MCP servers in the format Claude Code reads (Context7). The API key comes from the container environment. |
 | [`.devcontainer/`](../.devcontainer/) | Dev container configuration and setup scripts. See [Dev environment](dev-environment.md). |
 | [`.gitignore`](../.gitignore) | Specifies deliberately untracked files to ignore. |
 | [`package-lock.json`](../package-lock.json) | Dependency lockfile. |
