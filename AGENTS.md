@@ -94,6 +94,13 @@ if a new doc is genuinely needed (keep docs lean; only add docs that are truly
 necessary). This file is part of that rule too: when a workflow, command, path
 or rule it names changes, update `AGENTS.md` in the same change.
 
+## Agent neutrality
+
+Keep the repo usable by any coding agent. When there is an agent-specific
+pattern and an agent-neutral standard for the same thing, use the standard.
+For example, instructions live in `AGENTS.md`, not `CLAUDE.md` or `GEMINI.md`.
+Add agent-specific files or config only when no neutral option exists.
+
 ## Secrets
 
 Treat the repository and its entire history as public. Before every commit:
