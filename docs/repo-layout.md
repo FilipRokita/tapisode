@@ -10,20 +10,19 @@ What every entry in the repository root is for.
 | [`AGENTS.md`](../AGENTS.md) | Instructions and rules for AI agents working in this repository. |
 | [`docs/`](.) | Additional project documentation. |
 | [`.devcontainer/`](../.devcontainer/) | Dev container configuration and setup scripts. See [Dev environment](dev-environment.md). |
+| [`.mcp.example.json`](../.mcp.example.json) | Template for the local `.mcp.json`: MCP servers in the format Claude Code reads (Context7). |
 | [`.env.example`](../.env.example) | Template for the application's `.env`. Copy it before the first run. |
 | [`.gitignore`](../.gitignore) | Specifies deliberately untracked files to ignore. |
 | [`package-lock.json`](../package-lock.json) | Dependency lockfile. |
 
-## Gitignored
+## Files you create yourself
 
-These exist locally on a development machine but remain out of git.
+These are gitignored, so you create each one from its committed template.
 
-| Path | What it holds | Why it is ignored |
+| Path | Created from | What it holds |
 | :--- | :--- | :--- |
-| `plans/` | Task implementation plans, local to one machine. | Machine-local planning. |
-| `dev-only/` | Scratch space for prototypes and experiments. | Not part of the product. |
-| `.env` | Application runtime secrets and database URLs. | Secrets (when added). |
-| `node_modules/` | Installed npm packages. | Reproducible from lockfile. |
+| `.env` | [`.env.example`](../.env.example) | Application secrets and the database URL. |
+| `.mcp.json` | [`.mcp.example.json`](../.mcp.example.json) | MCP server configuration, with an optional Context7 key. |
 
 ## Project structure
 

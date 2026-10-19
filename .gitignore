@@ -25,3 +25,4 @@ npm-debug.log*
 /dev-only/
 /.agents/
 /plans/
+/.mcp.json
