@@ -91,7 +91,7 @@ host machine.
    ```
 
    Fill in the required values (`DATABASE_URL`, `BETTER_AUTH_SECRET`,
-   `TMDB_API_KEY`).
+   `TMDB_API_READ_ACCESS_TOKEN`).
 
 2. **Open the repository in the container.** In VS Code, run *Dev Containers: Reopen in
    Container*.
@@ -122,10 +122,13 @@ The same application and code. Only environment variables differ.
    | Variable | Description |
    | :--- | :--- |
    | `DATABASE_URL` | Pooled PostgreSQL connection string for queries |
-   | `DIRECT_URL` | Direct connection string for Drizzle migrations |
+   | `DATABASE_URL_UNPOOLED` | Direct connection string for Drizzle migrations (set by the Neon and Vercel integration) |
    | `BETTER_AUTH_SECRET` | Secret key for auth tokens (`openssl rand -base64 32`) |
    | `BETTER_AUTH_URL` | Public production URL of the app |
-   | `TMDB_API_KEY` | TMDB API key or read access token |
+   | `TMDB_API_READ_ACCESS_TOKEN` | TMDB API Read Access Token (bearer token) |
+   | `CRON_SECRET` | Protects the cron route (`openssl rand -base64 32`) |
+   | `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` | Encrypts Server Action ids when more than one instance serves traffic |
+   | `MEDIA_PROVIDER` | Optional: `tmdb` (default) or `fake` |
 
 4. **Migrations:** Run migrations as part of the build step: `npm run db:migrate`.
 

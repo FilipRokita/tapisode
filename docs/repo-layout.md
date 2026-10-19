@@ -10,6 +10,7 @@ What every entry in the repository root is for.
 | [`AGENTS.md`](../AGENTS.md) | Instructions and rules for AI agents working in this repository. |
 | [`docs/`](.) | Additional project documentation. |
 | [`.devcontainer/`](../.devcontainer/) | Dev container configuration and setup scripts. See [Dev environment](dev-environment.md). |
+| [`.env.example`](../.env.example) | Template for the application's `.env`. Copy it before the first run. |
 | [`.gitignore`](../.gitignore) | Specifies deliberately untracked files to ignore. |
 | [`package-lock.json`](../package-lock.json) | Dependency lockfile. |
 

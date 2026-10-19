@@ -10,7 +10,7 @@ Everything runs inside a dev container. Open the repo in VS Code and choose
 Create the environment file from its committed template:
 
 ```bash
-# cp .env.example .env   # when the app is initialized
+cp .env.example .env
 ```
 
 ## Configuration and secrets
