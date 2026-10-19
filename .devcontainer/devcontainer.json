@@ -26,6 +26,7 @@
 	"customizations": {
 		"vscode": {
 		"extensions": [
+			"anthropic.claude-code",
 			"google.google-antigravity",
 			"mtxr.sqltools",
 			"mtxr.sqltools-driver-pg",
