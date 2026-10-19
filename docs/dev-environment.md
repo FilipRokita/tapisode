@@ -7,36 +7,21 @@ Everything runs inside a dev container. Open the repo in VS Code and choose
 
 ## Before you start
 
-Create the environment files from their committed templates:
+Create the environment file from its committed template:
 
 ```bash
-# cp .env.example .env                         # when the app is initialized
-cp .devcontainer/.env.example .devcontainer/.env
+# cp .env.example .env   # when the app is initialized
 ```
 
 ## Configuration and secrets
 
-| File | Holds | Read by |
-| :--- | :--- | :--- |
-| `.env` | Database credentials, app secrets | The application runtime |
-| `.devcontainer/.env` | Context7 API key | Agent tooling, through `.mcp.json` |
+`.env` holds database credentials and app secrets. The application reads it
+through Next.js. It is gitignored, with a committed `.env.example` counterpart.
 
-Both files are gitignored, with committed `.env.example` counterparts.
-
-The dev container loads `.devcontainer/.env` into its environment through
-`runArgs` in `devcontainer.json`. The file must exist before the container
-starts, otherwise Docker fails to create it.
-
-## Agents and MCP
+## Agents
 
 Agent guidelines live in [`AGENTS.md`](../AGENTS.md), the shared standard read by
 most coding agents. It imports the README.
-
-MCP servers are declared in [`.mcp.json`](../.mcp.json), the format Claude Code
-reads. Other agents need the same server in their own config. Currently,
-Context7 is configured to provide up-to-date documentation for libraries and
-tools. Claude Code asks for approval the first time it sees a project MCP
-server.
 
 ## The dev container
 

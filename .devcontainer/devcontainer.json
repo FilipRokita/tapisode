@@ -5,9 +5,6 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:5-24-trixie",
 
-	// Pass extra args to docker run. Here we load env vars from .devcontainer/.env.
-	"runArgs": ["--env-file", ".devcontainer/.env"],
-
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
 		"ghcr.io/devcontainers/features/github-cli:1": {}

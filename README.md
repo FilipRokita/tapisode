@@ -85,15 +85,14 @@ the codebase.
 Everything runs inside the dev container; nothing needs to be installed on your
 host machine.
 
-1. **Create the environment files.** Both are gitignored:
+1. **Create the environment file.** It is gitignored:
 
    ```bash
    cp .env.example .env
-   cp .devcontainer/.env.example .devcontainer/.env
    ```
 
    Fill in the required values (`DATABASE_URL`, `BETTER_AUTH_SECRET`,
-   `TMDB_API_KEY` in `.env`, and `CONTEXT7_API_KEY` in `.devcontainer/.env`).
+   `TMDB_API_KEY`).
 
 2. **Open the repository in the container.** In VS Code, run *Dev Containers: Reopen in
    Container*.
