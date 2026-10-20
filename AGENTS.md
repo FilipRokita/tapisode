@@ -1,4 +1,5 @@
 @README.md
+
 If your tool does not expand the import above, read `README.md` first.
 
 # Agent Guidelines & Behavior
