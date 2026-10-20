@@ -3,6 +3,8 @@
 @import "shadcn/tailwind.css";
 @import "../styles/tokens.css";
 
+@theme { --breakpoint-md: 760px; }
+
 @custom-variant dark (&:is(.dark *));
 
 /* Tailwind utilities for our tokens, and the names the shadcn components expect, mapped onto the same tokens. */
@@ -20,6 +22,12 @@
   --color-brand-text: var(--brand-text);
   --color-brand-soft: var(--brand-soft);
   --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-brand-line: var(--brand-line);
+  --color-text-soft: var(--text-soft);
+  --color-poster-bg: var(--poster-bg);
+  --color-poster-fallback-a: var(--poster-fallback-a);
+  --color-poster-fallback-b: var(--poster-fallback-b);
   --color-card: var(--surface);
   --color-card-foreground: var(--foreground);
   --color-popover: var(--surface);
@@ -49,4 +57,28 @@
   html { color-scheme: dark; background: var(--background); scrollbar-gutter: stable; }
   body { @apply bg-background text-foreground font-sans antialiased; overflow-x: hidden; }
   :focus-visible { outline: 2px solid var(--brand-text); outline-offset: 2px; border-radius: 8px; }
+  button { cursor: pointer; touch-action: manipulation; }
+  button:disabled, [aria-disabled="true"] { cursor: default; }
+  ::selection { background: var(--brand-soft); }
 }
+
+/* Motion is off for people who ask for it. Scripted effects check the same preference. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+@keyframes shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pulse-press { 0% { opacity: 0.35; } 100% { opacity: 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes roll-up { from { transform: translateY(100%); } to { transform: none; } }
+
+@utility mono { font-family: var(--font-mono); font-feature-settings: "tnum"; }
+@utility eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+@utility skeleton {
+  background: linear-gradient(100deg, var(--surface-2) 30%, var(--surface-3) 50%, var(--surface-2) 70%);
+  background-size: 300% 100%;
+  animation: shimmer 1.3s linear infinite;
+  border-radius: 12px;
+}
+@utility fade-in { animation: fade-up 0.35s var(--ease) both; }

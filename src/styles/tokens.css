@@ -35,6 +35,28 @@
   --service-hbo: #7b5cff;
   --service-apple: #c8c8cc;
   --service-sky: #f5a524;
+  /* neutral helpers used by cards, posters and effects */
+  --text-soft: #d4d4d8;
+  --on-light-faint: #52525b;
+  --poster-bg: #1b1b20;
+  --poster-fallback-a: #1c1c21;
+  --poster-fallback-b: #121215;
+  --ring-inset: rgb(255 255 255 / 0.08);
+  --spot: rgb(255 255 255 / 0.07);
+  --brand-soft-strong: rgb(139 92 246 / 0.22);
+  --brand-ring: rgb(139 92 246 / 0.1);
+  --brand-edge: rgb(139 92 246 / 0.35);
+  --danger-soft-strong: rgb(248 113 113 / 0.2);
+  --shadow-lift: 0 18px 44px rgb(0 0 0 / 0.5);
+  --shadow-poster: 0 16px 40px rgb(0 0 0 / 0.5);
+  --shadow-sheet: 0 30px 80px rgb(0 0 0 / 0.6);
+  --shadow-toast: 0 12px 40px rgb(0 0 0 / 0.5);
+  --text-shadow: 0 1px 8px rgb(0 0 0 / 0.5);
+  --badge-bg: rgb(9 9 11 / 0.8);
+  --panel-fill: rgb(9 9 11 / 0.45);
+  --sidebar-fade: rgb(255 255 255 / 0.02);
+  --prog-fade-a: rgb(255 255 255 / 0.035);
+  --prog-fade-b: rgb(255 255 255 / 0.01);
   /* shape and motion */
   --radius: 16px;
   --radius-sm: 12px;
@@ -42,4 +64,19 @@
   --ease-out: cubic-bezier(0.2, 0.9, 0.25, 1);
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Colors derived from one hue per element. The hue is set as --h on the element (a poster, the Up next card, the drawer). */
+.hue {
+  --glow: hsl(var(--h) 70% 50% / 0.28);
+  --glow-strong: hsl(var(--h) 70% 50% / 0.32);
+}
+
+/* The poster art for a title without a real image: the gradient and shapes come from --a, --b and the shape variables. */
+.poster-art {
+  --art-1: hsl(var(--a) 62% 38%);
+  --art-2: hsl(var(--b) 58% 14%);
+  --art-3: hsl(var(--a) 70% 62%);
+  --art-4: hsl(var(--b) 80% 66%);
+  --art-5: hsl(var(--a) 55% 10%);
 }
