@@ -10,6 +10,10 @@ node_modules
 out/
 build/
 coverage/
+.lighthouseci/
+playwright-report/
+test-results/
+certificates/
 *.tsbuildinfo
 next-env.d.ts
 

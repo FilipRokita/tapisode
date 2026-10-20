@@ -11,13 +11,15 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [3000],
+
+	"containerEnv": { "TZ": "UTC" },
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "bash .devcontainer/setup.sh",
 
 	// Use 'postStartCommand' to run commands after the container is started.
-	"postStartCommand": "bash .devcontainer/db-start.sh",
+	"postStartCommand": "bash .devcontainer/start.sh",
 
 	// Configure tool-specific properties.
 	"customizations": {

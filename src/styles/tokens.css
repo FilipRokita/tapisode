@@ -1,0 +1,45 @@
+/*
+ * Design tokens: the single source of truth for the look. Components use these names and never raw values.
+ * `npm run check:colors` fails on a hard-coded color anywhere else under src/app, src/components or src/styles.
+ */
+:root {
+  /* surfaces */
+  --background: #09090b;
+  --surface: #111114;
+  --surface-2: #18181b;
+  --surface-3: #202024;
+  --scrim: rgb(0 0 0 / 0.62);
+  --bar: rgb(9 9 11 / 0.86);
+  --bar-strong: rgb(9 9 11 / 0.92);
+  --bezel: #0d0d10;
+  /* lines */
+  --border: #27272a;
+  --border-strong: #3f3f46;
+  /* text */
+  --foreground: #fafafa;
+  --dim: #a1a1aa;
+  --faint: #8b8b95;
+  --on-light: #09090b;
+  --light-hover: #e4e4e7;
+  /* the one accent, flat and sparing */
+  --brand: #8b5cf6;
+  --brand-text: #a78bfa;
+  --brand-soft: rgb(139 92 246 / 0.14);
+  --brand-line: rgb(139 92 246 / 0.28);
+  --danger: #f87171;
+  --danger-soft: rgb(248 113 113 / 0.12);
+  /* streaming services: the dot beside a name */
+  --service-netflix: #e50914;
+  --service-prime: #1fb5e6;
+  --service-disney: #2f6bff;
+  --service-hbo: #7b5cff;
+  --service-apple: #c8c8cc;
+  --service-sky: #f5a524;
+  /* shape and motion */
+  --radius: 16px;
+  --radius-sm: 12px;
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.2, 0.9, 0.25, 1);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
