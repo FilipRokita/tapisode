@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
 import { loadLibrary, regionOf, requirePageUser, sandboxHoursLeft } from "@/actions/queries/library";
 import { AppShell, type ShellUser } from "@/components/app-shell/app-shell";
 import { LibraryProvider } from "@/components/library/library-provider";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await requirePageUser();

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getPageUser } from "@/actions/queries/library";
 import { AuthScreen } from "@/components/auth/auth-screen";
 
-export const metadata: Metadata = { title: "Create account · Tapisode" };
+export const metadata: Metadata = { title: "Create account · Tapisode", robots: { index: false } };
 
 export default async function SignUpPage() {
   if (await getPageUser()) redirect("/app/watching");
