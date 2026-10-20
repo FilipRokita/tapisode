@@ -26,6 +26,7 @@ interface UpNextProps {
 export function UpNext({ view, preview, onPlus, onMarkWatched }: UpNextProps) {
   const shown = preview ? { ...view, state: preview } : view;
   const info = describeTitle(shown);
+  const button = describeTitle(view);
   const hue = useAmbientHue(view.poster?.w185 ?? null);
   const today = useToday();
   const section = useRef<HTMLElement>(null);
@@ -75,9 +76,9 @@ export function UpNext({ view, preview, onPlus, onMarkWatched }: UpNextProps) {
                 <PlusButton
                   tone="white"
                   className="mt-3.5 md:mt-[18px]"
-                  label={info.caughtUp ? "Caught up" : info.finished ? "Finished" : "+1 Episode"}
-                  target={info.caughtUp || info.finished ? null : info.target ? `→ ${info.target}` : null}
-                  caught={info.caughtUp || info.finished}
+                  label={button.caughtUp ? "Caught up" : button.finished ? "Finished" : "+1 Episode"}
+                  target={button.caughtUp || button.finished ? null : info.target ? `→ ${info.target}` : null}
+                  caught={button.caughtUp || button.finished}
                   onPress={onPlus}
                 />
               </>

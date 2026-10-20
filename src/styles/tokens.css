@@ -57,6 +57,11 @@
   --sidebar-fade: rgb(255 255 255 / 0.02);
   --prog-fade-a: rgb(255 255 255 / 0.035);
   --prog-fade-b: rgb(255 255 255 / 0.01);
+  /* landing atmosphere */
+  --atmos-glow: rgb(250 250 250 / 0.075);
+  --atmos-dot: rgb(250 250 250 / 0.3);
+  --atmos-violet: rgb(139 92 246 / 0.26);
+  --atmos-violet-soft: rgb(139 92 246 / 0.08);
   /* shape and motion */
   --radius: 16px;
   --radius-sm: 12px;
