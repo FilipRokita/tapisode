@@ -1,0 +1,7 @@
+{
+  "id": 9004, "name": "Fixture Lanterns", "overview": "Returning, with a new season announced.", "first_air_date": "2022-05-05", "status": "Returning Series",
+  "poster_path": "/fixture-lanterns.jpg", "episode_run_time": [],
+  "seasons": [ { "season_number": 1, "episode_count": 10, "air_date": "2022-05-05" }, { "season_number": 2, "episode_count": 10, "air_date": "2023-05-05" }, { "season_number": 3, "episode_count": 8, "air_date": "2027-01-01" } ],
+  "last_episode_to_air": { "season_number": 2, "episode_number": 10, "runtime": 42 },
+  "next_episode_to_air": { "season_number": 3, "episode_number": 1, "air_date": "2027-01-01" }
+}

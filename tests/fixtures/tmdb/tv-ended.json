@@ -1,0 +1,9 @@
+{
+  "id": 9002, "name": "Fixture Salt", "overview": "An invented ended series.", "first_air_date": "2020-01-10", "status": "Ended",
+  "poster_path": null, "episode_run_time": [47],
+  "seasons": [ { "season_number": 1, "episode_count": 8, "air_date": "2020-01-10" } ],
+  "last_episode_to_air": { "season_number": 1, "episode_number": 8, "runtime": 47, "air_date": "2020-03-01" },
+  "next_episode_to_air": null,
+  "external_ids": { "imdb_id": null },
+  "watch/providers": { "results": {} }
+}

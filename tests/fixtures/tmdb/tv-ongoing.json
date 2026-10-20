@@ -1,0 +1,14 @@
+{
+  "id": 9001, "name": "Fixture Harbor", "overview": "An invented series for tests.", "first_air_date": "2025-03-01", "status": "Returning Series",
+  "poster_path": "/fixture-harbor.jpg", "episode_run_time": [],
+  "seasons": [
+    { "season_number": 0, "episode_count": 3, "air_date": "2025-01-01" },
+    { "season_number": 1, "episode_count": 8, "air_date": "2025-03-01" },
+    { "season_number": 2, "episode_count": 10, "air_date": "2026-09-01" },
+    { "season_number": 3, "episode_count": 0, "air_date": null }
+  ],
+  "last_episode_to_air": { "season_number": 2, "episode_number": 4, "runtime": 52, "air_date": "2026-10-13" },
+  "next_episode_to_air": { "season_number": 2, "episode_number": 5, "runtime": null, "air_date": "2026-10-23" },
+  "external_ids": { "imdb_id": "tt0009001" },
+  "watch/providers": { "results": { "PL": { "link": "https://example.test", "flatrate": [{ "provider_id": 8 }, { "provider_id": 1796 }], "rent": [{ "provider_id": 2 }] }, "US": { "flatrate": [{ "provider_id": 1899 }] } } }
+}
