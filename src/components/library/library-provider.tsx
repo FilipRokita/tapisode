@@ -18,8 +18,13 @@ interface Change {
 interface Library {
   /** The user's titles, newest activity first, already showing a change that is still on its way to the server. */
   readonly titles: readonly TitleView[];
-  /** Applies a command: previews it at once, sends it, and rolls the preview back if the server refuses. */
-  readonly change: (view: TitleView, command: Command, onDone?: (undo: Command) => void) => void;
+  /** Titles whose content is missing right now (purged and not fetched again yet). They are not in `titles`. */
+  readonly pending: number;
+  /**
+   * Applies a command: previews it at once, sends it, and rolls the preview back if the server refuses.
+   * Resolves with true when the server applied it, false when it was refused or never sent.
+   */
+  readonly change: (view: TitleView, command: Command, onDone?: (undo: Command) => void) => Promise<boolean>;
 }
 
 const LibraryContext = createContext<Library | null>(null);
@@ -37,7 +42,7 @@ const withChange = (titles: readonly TitleView[], { view, state }: Change, activ
   return sortByActivity([...titles.filter((t) => t.id !== view.id), next]);
 };
 
-export function LibraryProvider({ initial, children }: { initial: readonly TitleView[]; children: ReactNode }) {
+export function LibraryProvider({ initial, pending = 0, children }: { initial: readonly TitleView[]; pending?: number; children: ReactNode }) {
   const [confirmed, setConfirmed] = useState(initial);
   // The preview is dropped automatically when the transition ends, which is the rollback.
   const [titles, preview] = useOptimistic(confirmed, (list, change: Change) => withChange(list, change, Date.now()));
@@ -45,30 +50,38 @@ export function LibraryProvider({ initial, children }: { initial: readonly Title
   const change = useCallback<Library["change"]>((view, command, onDone) => {
     if (typeof navigator !== "undefined" && !navigator.onLine) {
       toast(OFFLINE_MESSAGE);
-      return;
+      return Promise.resolve(false);
     }
     const result = transition(view.facts, view.state, command);
     if (!result.ok) {
       toast(errorMessage(result.error));
-      return;
+      return Promise.resolve(false);
     }
     const wanted = result.value;
-    startTransition(async () => {
-      preview({ view, state: wanted });
-      const response = await changeTitle({ ref: view.ref, expected: view.state, command });
-      if (response.ok) {
-        setConfirmed((list) => withChange(list, { view, state: response.state }, response.activityAt));
-        onDone?.({ kind: "restore", state: view.state });
-      } else {
-        toast(errorMessage(response.error));
-        if (response.error === "CONFLICT" && response.current !== undefined) {
-          const current = response.current;
-          setConfirmed((list) => withChange(list, { view, state: current }, Date.now()));
+    return new Promise<boolean>((resolve) => {
+      startTransition(async () => {
+        preview({ view, state: wanted });
+        try {
+          const response = await changeTitle({ ref: view.ref, expected: view.state, command });
+          if (response.ok) {
+            setConfirmed((list) => withChange(list, { view, state: response.state }, response.activityAt));
+            onDone?.({ kind: "restore", state: view.state });
+          } else {
+            toast(errorMessage(response.error));
+            if (response.error === "CONFLICT" && response.current !== undefined) {
+              const current = response.current;
+              setConfirmed((list) => withChange(list, { view, state: current }, Date.now()));
+            }
+          }
+          resolve(response.ok);
+        } catch (error) {
+          resolve(false);
+          throw error;
         }
-      }
+      });
     });
   }, [preview]);
 
-  const value = useMemo<Library>(() => ({ titles, change }), [titles, change]);
+  const value = useMemo<Library>(() => ({ titles, pending, change }), [titles, pending, change]);
   return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>;
 }

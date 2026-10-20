@@ -22,6 +22,9 @@
   --color-brand-text: var(--brand-text);
   --color-brand-soft: var(--brand-soft);
   --color-danger: var(--danger);
+  --color-panel-fill: var(--panel-fill);
+  --color-on-light-faint: var(--on-light-faint);
+  --color-brand-soft-strong: var(--brand-soft-strong);
   --color-bar: var(--bar);
   --color-bar-strong: var(--bar-strong);
   --color-sidebar-fade: var(--sidebar-fade);
@@ -88,3 +91,22 @@
   border-radius: 12px;
 }
 @utility fade-in { animation: fade-up 0.35s var(--ease) both; }
+
+/* A soft light that follows the cursor over a card. --mx and --my are set by `spotlightMove`. Only where hover exists. */
+@utility spotlight {
+  position: relative;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.25s;
+    pointer-events: none;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--spot), transparent 60%);
+  }
+  @media (hover: hover) {
+    &:hover::after { opacity: 1; }
+  }
+}

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/app-shell/page-header";
+import { WatchingView } from "@/components/library/watching-view";
 
 export const metadata: Metadata = { title: "Watching · Tapisode" };
 
-export default function Page() {
-  return <PageHeader title="Watching" sub="Nothing in progress yet." />;
+export default function WatchingPage() {
+  return <WatchingView />;
 }

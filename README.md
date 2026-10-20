@@ -75,7 +75,7 @@ the codebase.
 | :--- | :--- |
 | **Provider-agnostic domain (Hexagonal architecture)** | Core business logic and database tables never bind directly to TMDB or third parties. An abstract `MediaProviderService` interface defines ports, implemented by `TmdbAdapter`. [src/domain/](src/domain/) |
 | **Every action authorizes itself** | Server Actions verify the session, validate input with Zod, and ensure user ownership before any mutation. [src/actions/](src/actions/) |
-| **Fast optimistic progress updates** | Episode increments update the interface instantly via `useOptimistic`, syncing in the background with rollbacks on failure. [src/components/](src/components/) |
+| **Fast optimistic progress updates** | The library store applies the same domain function to preview a change, sends it with the state it saw, and rolls the preview back on failure (`useOptimistic`). [src/components/library/](src/components/library/) |
 | **Vendor-neutral data model** | The `user_media` table stores generic `provider` and `externalId` keys, with an optional `imdbId` bridge to prevent lock-in. [src/db/schema.ts](src/db/schema.ts) |
 | **Mobile-first, desktop-ready** | Bottom navigation and thumb-friendly drawers on phones; multi-column grid and filter sidebars on desktop. [src/components/](src/components/) |
 

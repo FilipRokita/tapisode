@@ -9,6 +9,7 @@ import { ChevronRight, Search, WifiOff } from "@/components/primitives/icons";
 import { Logo } from "@/components/primitives/logo";
 import { prefersReducedMotion } from "@/components/primitives/use-reduced-motion";
 import { useOnline } from "@/components/primitives/use-online";
+import { ConfettiHost } from "@/components/confetti-host";
 import { Toaster } from "@/components/ui/sonner";
 import { OFFLINE_MESSAGE } from "@/components/copy";
 import type { Status } from "@/domain/types";
@@ -168,6 +169,7 @@ export function AppShell({ user, overlays, children }: { user: ShellUser; overla
         </main>
       </div>
       <BottomNav />
+      <ConfettiHost />
       <Toaster />
     </OverlaysContext.Provider>
   );
