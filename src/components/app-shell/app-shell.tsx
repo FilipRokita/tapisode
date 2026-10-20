@@ -3,7 +3,7 @@
 import { cn } from "cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { useLibrary } from "@/components/library/library-provider";
 import { ChevronRight, Search, WifiOff } from "@/components/primitives/icons";
 import { Logo } from "@/components/primitives/logo";
@@ -13,6 +13,8 @@ import { TitleDrawerProvider } from "@/components/drawer/drawer-host";
 import { ConfettiHost } from "@/components/confetti-host";
 import { Toaster } from "@/components/ui/sonner";
 import { OFFLINE_MESSAGE } from "@/components/copy";
+import { SearchPalette } from "@/components/search/search-palette";
+import { toast } from "sonner";
 import type { Status } from "@/domain/types";
 import { OverlaysContext, useOverlays, type Overlays } from "./overlays";
 import { TABS, tabIndex } from "./nav";
@@ -153,7 +155,30 @@ export function AppShell({ user, region, overlays, children }: { user: ShellUser
   }, [online]);
   const counts: Record<Status, number> = { watching: 0, watchlist: 0, complete: 0 };
   for (const t of titles) if (t.state) counts[t.state.status] += 1;
-  const value: Overlays = { openSearch: () => {}, openTitle: () => {}, openShareCard: () => {}, ...overlays };
+
+  const [searchOpen, setSearchOpen] = useState(false);
+  const openSearch = useCallback(() => {
+    if (!navigator.onLine) {
+      toast("You're offline. Search needs a connection.");
+      return;
+    }
+    setSearchOpen(true);
+  }, []);
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const typing = /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement?.tagName ?? "");
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        openSearch();
+      } else if (event.key === "/" && !typing && !document.querySelector('[role="dialog"]')) {
+        event.preventDefault();
+        openSearch();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openSearch]);
+  const value: Overlays = { openSearch, openTitle: () => {}, openShareCard: () => {}, ...overlays };
   return (
     <OverlaysContext.Provider value={value}>
       <TitleDrawerProvider region={region}>
@@ -171,6 +196,7 @@ export function AppShell({ user, region, overlays, children }: { user: ShellUser
           </main>
         </div>
         <BottomNav />
+        <SearchPalette open={searchOpen} onOpenChange={setSearchOpen} />
       </TitleDrawerProvider>
       <ConfettiHost />
       <Toaster />
