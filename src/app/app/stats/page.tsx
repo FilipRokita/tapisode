@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/app-shell/page-header";
+import { loadStats, requirePageUser } from "@/actions/queries/library";
+import { StatsView } from "@/components/stats/stats-view";
 
 export const metadata: Metadata = { title: "Stats · Tapisode" };
 
-export default function Page() {
-  return <PageHeader title="Stats" sub="Your viewing at a glance" />;
+export default async function StatsPage() {
+  const user = await requirePageUser();
+  return <StatsView stats={await loadStats(user)} />;
 }

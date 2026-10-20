@@ -178,7 +178,7 @@ export function AppShell({ user, region, overlays, children }: { user: ShellUser
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [openSearch]);
-  const value: Overlays = { openSearch, openTitle: () => {}, openShareCard: () => {}, ...overlays };
+  const value: Overlays = { openSearch, openTitle: () => {}, ...overlays };
   return (
     <OverlaysContext.Provider value={value}>
       <TitleDrawerProvider region={region}>
