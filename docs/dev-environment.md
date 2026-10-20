@@ -45,7 +45,8 @@ The container definition lives in `.devcontainer/`:
   databases: `tapisode` for development and `tapisode_test` for the tests. It is safe to
   run again, which is how a container that is not rebuilt gets the test database.
 - `db-start.sh` starts the PostgreSQL cluster if it is not running.
-- `start.sh` runs on every start (`postStartCommand`) and brings the database back up.
+- `start.sh` runs on every start (`postStartCommand`): it brings the database back up and
+  applies any new migrations.
 
 ## Checks
 
