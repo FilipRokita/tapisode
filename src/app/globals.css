@@ -25,6 +25,8 @@
   --color-panel-fill: var(--panel-fill);
   --color-on-light-faint: var(--on-light-faint);
   --color-brand-soft-strong: var(--brand-soft-strong);
+  --color-prog-fade-a: var(--prog-fade-a);
+  --color-prog-fade-b: var(--prog-fade-b);
   --color-bar: var(--bar);
   --color-bar-strong: var(--bar-strong);
   --color-sidebar-fade: var(--sidebar-fade);
@@ -67,6 +69,8 @@
   button { cursor: pointer; touch-action: manipulation; }
   button:disabled, [aria-disabled="true"] { cursor: default; }
   ::selection { background: var(--brand-soft); }
+  /* A modal sheet makes the page inert, but a toast with Undo must stay pressable above it. */
+  [data-sonner-toaster] { pointer-events: auto; }
   body.offline .needs-net { opacity: 0.45; pointer-events: none; }
   body { overscroll-behavior: none; }
 }
@@ -80,6 +84,7 @@
 @keyframes fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes pulse-press { 0% { opacity: 0.35; } 100% { opacity: 0; } }
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes section-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes roll-up { from { transform: translateY(100%); } to { transform: none; } }
 
 @utility mono { font-family: var(--font-mono); font-feature-settings: "tnum"; }

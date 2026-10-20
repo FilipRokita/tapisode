@@ -11,12 +11,13 @@ interface PlusButtonProps {
   /** The white button of "Up next" or the violet-soft one of a card. */
   tone: "white" | "soft";
   caught?: boolean;
+  disabled?: boolean;
   onPress?: () => void;
   className?: string;
 }
 
 /** The one-tap button. A press scales it and a violet pulse fades out over it. */
-export function PlusButton({ label, target, tone, caught = false, onPress, className }: PlusButtonProps) {
+export function PlusButton({ label, target, tone, caught = false, disabled = false, onPress, className }: PlusButtonProps) {
   const [presses, setPresses] = useState(0);
   const press = () => {
     if (caught) return;
@@ -28,6 +29,7 @@ export function PlusButton({ label, target, tone, caught = false, onPress, class
     <button
       type="button"
       onClick={press}
+      disabled={disabled}
       aria-disabled={caught || undefined}
       tabIndex={caught ? -1 : undefined}
       data-pressed={presses > 0 ? presses : undefined}
@@ -37,6 +39,7 @@ export function PlusButton({ label, target, tone, caught = false, onPress, class
         tone === "soft" && "min-h-11 border border-brand-line bg-brand-soft text-sm text-brand-text hover:bg-brand-soft-strong",
         caught && (tone === "soft" ? "border-border bg-transparent text-faint hover:bg-transparent" : "border border-border bg-surface-2 text-dim hover:bg-surface-2"),
         caught && "pointer-events-none",
+        "disabled:pointer-events-none disabled:opacity-45",
         className,
       )}
     >

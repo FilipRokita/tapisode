@@ -13,7 +13,7 @@ import { TitleCard } from "./title-card";
 import { UpNext } from "./up-next";
 import { useFlipList } from "./use-flip-list";
 import { usePlusOne } from "./use-plus-one";
-import { useMarkWatched } from "./use-set-status";
+import { useSetStatus } from "./use-run-command";
 
 const isTyping = (el: Element | null) => !!el && /^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName);
 
@@ -21,7 +21,7 @@ export function WatchingView() {
   const { titles, pending } = useLibrary();
   const { openSearch } = useOverlays();
   const { plusOne, previews } = usePlusOne();
-  const markWatched = useMarkWatched();
+  const setStatus = useSetStatus();
   const list = useRef<HTMLDivElement>(null);
   useFlipList(list);
 
@@ -59,7 +59,7 @@ export function WatchingView() {
         />
       ) : (
         <div ref={list}>
-          <UpNext view={upNext} preview={previews[upNext.id]} onPlus={() => plusOne(upNext, true)} onMarkWatched={() => markWatched(upNext)} />
+          <UpNext view={upNext} preview={previews[upNext.id]} onPlus={() => plusOne(upNext, true)} onMarkWatched={() => setStatus(upNext, "complete")} />
           {rest.length > 0 && (
             <>
               <div className="mt-[26px] mb-3 flex items-baseline justify-between">
@@ -67,7 +67,7 @@ export function WatchingView() {
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-3">
                 {rest.map((view) => (
-                  <TitleCard key={view.id} view={view} preview={previews[view.id]} onPlus={() => plusOne(view, false)} onMarkWatched={() => markWatched(view)} />
+                  <TitleCard key={view.id} view={view} preview={previews[view.id]} onPlus={() => plusOne(view, false)} onMarkWatched={() => setStatus(view, "complete")} />
                 ))}
               </div>
             </>

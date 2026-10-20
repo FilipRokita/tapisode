@@ -1,4 +1,4 @@
-import { loadLibrary, requirePageUser, sandboxHoursLeft } from "@/actions/queries/library";
+import { loadLibrary, regionOf, requirePageUser, sandboxHoursLeft } from "@/actions/queries/library";
 import { AppShell, type ShellUser } from "@/components/app-shell/app-shell";
 import { LibraryProvider } from "@/components/library/library-provider";
 
@@ -12,7 +12,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     : { name: user.name, caption: user.email, initial: (user.name[0] ?? "?").toUpperCase() };
   return (
     <LibraryProvider initial={titles} pending={pending}>
-      <AppShell user={shellUser}>{children}</AppShell>
+      <AppShell user={shellUser} region={regionOf(user)}>{children}</AppShell>
     </LibraryProvider>
   );
 }

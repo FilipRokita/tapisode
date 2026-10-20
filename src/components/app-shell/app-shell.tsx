@@ -9,6 +9,7 @@ import { ChevronRight, Search, WifiOff } from "@/components/primitives/icons";
 import { Logo } from "@/components/primitives/logo";
 import { prefersReducedMotion } from "@/components/primitives/use-reduced-motion";
 import { useOnline } from "@/components/primitives/use-online";
+import { TitleDrawerProvider } from "@/components/drawer/drawer-host";
 import { ConfettiHost } from "@/components/confetti-host";
 import { Toaster } from "@/components/ui/sonner";
 import { OFFLINE_MESSAGE } from "@/components/copy";
@@ -143,7 +144,7 @@ function PageTransition({ children }: { children: ReactNode }) {
   );
 }
 
-export function AppShell({ user, overlays, children }: { user: ShellUser; overlays?: Partial<Overlays>; children: ReactNode }) {
+export function AppShell({ user, region, overlays, children }: { user: ShellUser; region: string; overlays?: Partial<Overlays>; children: ReactNode }) {
   const { titles } = useLibrary();
   const online = useOnline();
   useEffect(() => {
@@ -155,20 +156,22 @@ export function AppShell({ user, overlays, children }: { user: ShellUser; overla
   const value: Overlays = { openSearch: () => {}, openTitle: () => {}, openShareCard: () => {}, ...overlays };
   return (
     <OverlaysContext.Provider value={value}>
-      <div className="grid min-h-screen md:grid-cols-[260px_1fr]">
-        <Sidebar user={user} counts={counts} />
-        <main id="main" className="min-w-0 px-4 pb-[calc(92px+var(--safe-bottom))] md:mx-auto md:w-full md:max-w-[1180px] md:px-9 md:pt-[calc(36px+var(--safe-top))] md:pb-14">
-          <StickyTop user={user} />
-          {!online && (
-            <div role="status" className="mb-2.5 flex items-center gap-2.5 rounded-[14px] border border-border bg-surface-2 px-3.5 py-2.5 text-[13.5px] text-dim">
-              <WifiOff className="size-5 shrink-0" />
-              <span>{OFFLINE_MESSAGE}</span>
-            </div>
-          )}
-          <PageTransition>{children}</PageTransition>
-        </main>
-      </div>
-      <BottomNav />
+      <TitleDrawerProvider region={region}>
+        <div className="grid min-h-screen md:grid-cols-[260px_1fr]">
+          <Sidebar user={user} counts={counts} />
+          <main id="main" className="min-w-0 px-4 pb-[calc(92px+var(--safe-bottom))] md:mx-auto md:w-full md:max-w-[1180px] md:px-9 md:pt-[calc(36px+var(--safe-top))] md:pb-14">
+            <StickyTop user={user} />
+            {!online && (
+              <div role="status" className="mb-2.5 flex items-center gap-2.5 rounded-[14px] border border-border bg-surface-2 px-3.5 py-2.5 text-[13.5px] text-dim">
+                <WifiOff className="size-5 shrink-0" />
+                <span>{OFFLINE_MESSAGE}</span>
+              </div>
+            )}
+            <PageTransition>{children}</PageTransition>
+          </main>
+        </div>
+        <BottomNav />
+      </TitleDrawerProvider>
       <ConfettiHost />
       <Toaster />
     </OverlaysContext.Provider>
