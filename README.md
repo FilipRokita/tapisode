@@ -96,12 +96,16 @@ host machine.
 2. **Open the repository in the container.** In VS Code, run *Dev Containers: Reopen in
    Container*.
 
-3. **Install dependencies and run migrations:**
+3. **Install dependencies, run migrations and seed the database:**
 
    ```bash
    npm install
    npm run db:migrate
+   npm run db:seed
    ```
+
+   The seed creates the sandbox template and a dev account: `dev@tapisode.test` with the
+   password `tapisode-dev`. The dev container does all of this for you on start.
 
 4. **Start the development server:**
 

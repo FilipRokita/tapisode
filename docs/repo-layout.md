@@ -15,7 +15,9 @@ What every entry in the repository root is for.
 | [`.gitignore`](../.gitignore) | Specifies deliberately untracked files to ignore. |
 | [`package.json`](../package.json) / [`package-lock.json`](../package-lock.json) | Dependencies, pinned versions and the npm scripts. |
 | [`src/`](../src/) | The application: `app/` (routes), `config/`, and, as the stages land, `domain/`, `db/`, `lib/`, `actions/`, `components/`. |
-| [`docs/data-model.md`](data-model.md) | The tables, the relationships and what the database enforces. |
+| [`docs/data-model.md`](data-model.md), [`docs/catalog-data.md`](catalog-data.md), [`docs/extending.md`](extending.md) | The tables, the TMDB rules and the 6-month purge, and how to add a provider or a feature. |
+| [`vercel.json`](../vercel.json) | The host's build command (migrate and seed on production builds only) and the weekly cron. |
+| [`playwright.config.ts`](../playwright.config.ts), [`e2e/`](../e2e/) | End-to-end tests. |
 | [`tests/`](../tests/) | Vitest tests, mirroring `src/`. |
 | [`scripts/`](../scripts/) | Developer scripts run with `tsx`, such as `check-colors.ts`. |
 | [`.github/workflows/`](../.github/workflows/) | CI. |

@@ -45,8 +45,17 @@ The container definition lives in `.devcontainer/`:
   databases: `tapisode` for development and `tapisode_test` for the tests. It is safe to
   run again, which is how a container that is not rebuilt gets the test database.
 - `db-start.sh` starts the PostgreSQL cluster if it is not running.
-- `start.sh` runs on every start (`postStartCommand`): it brings the database back up and
-  applies any new migrations.
+- `start.sh` runs on every start (`postStartCommand`): it brings the database back up,
+  applies any new migrations and seeds the sandbox template and the dev account the first
+  time (`npm run db:seed -- --if-missing`), so a restart leaves your data alone.
+
+## Dev account and seed
+
+`npm run db:seed` fills the sandbox template and creates the dev account
+`dev@tapisode.test` with the password `tapisode-dev`. It follows `MEDIA_PROVIDER`: with
+`fake` it uses invented titles, with `tmdb` it uses TMDB ids. `-- --template-only`
+creates just the template, which is what a host needs, and `-- --if-missing` does
+nothing when the template already exists.
 
 ## Checks
 
@@ -56,7 +65,17 @@ The container definition lives in `.devcontainer/`:
 | `npm run check:colors` | No raw colors outside `src/styles/tokens.css` |
 | `npm run typecheck` | `next typegen` and `tsc --noEmit` |
 | `npm test` | Vitest, run against `tapisode_test` |
+| `npm run test:e2e` | Playwright against the production build, desktop and phone. Needs `npm run build` first |
 | `npm run build` | The production build. It needs `DATABASE_URL`, `BETTER_AUTH_SECRET` (32+ characters) and `BETTER_AUTH_URL` in the environment |
+
+## End-to-end tests
+
+They run against the production build and the **test database**, which is dropped and
+migrated again before every run. Write them with the helpers in `e2e/`:
+
+- Import `test` and `expect` from `e2e/fixtures.ts`. Each test gets its own client IP, so
+  the sandbox limit (5 an hour per IP) never gets in the way.
+- Use `withTestSql` from `e2e/db.ts` for setup the UI cannot do.
 
 CI runs the same commands on every push to `main` and on every pull request.
 

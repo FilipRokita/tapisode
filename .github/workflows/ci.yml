@@ -36,4 +36,8 @@ jobs:
       - run: npm run check:colors
       - run: npm run typecheck
       - run: npm test
+      - run: npm run db:migrate
       - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run db:seed
+      - run: npm run test:e2e

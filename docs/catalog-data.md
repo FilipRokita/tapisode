@@ -54,4 +54,4 @@ the retention of database backups on the host: it must stay under six months.
 ## Kill switch
 
 `npm run catalog:kill -- --yes` deletes all TMDB content and stops every TMDB call. It
-is added together with the scripts in the use-case stage.
+is the script `scripts/kill-switch.ts`.
