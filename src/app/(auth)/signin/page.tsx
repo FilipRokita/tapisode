@@ -1,0 +1,11 @@
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { getPageUser } from "@/actions/queries/library";
+import { AuthScreen } from "@/components/auth/auth-screen";
+
+export const metadata: Metadata = { title: "Sign in · Tapisode" };
+
+export default async function SignInPage() {
+  if (await getPageUser()) redirect("/app/watching");
+  return <AuthScreen initialMode="signin" />;
+}

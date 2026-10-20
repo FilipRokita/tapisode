@@ -1,13 +1,13 @@
 import { defineConfig, devices } from "@playwright/test";
+import { TEST_DATABASE_URL } from "./e2e/db";
 
 const PORT = 3210;
-const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL ?? "postgresql://tapisode:tapisode@localhost:5432/tapisode_test";
 
 export default defineConfig({
   testDir: "e2e",
-  // Runs after the web server starts: drops and re-migrates the test database, so every run
-  // starts with no sandboxes, no limiter counters and no cached titles.
-  globalSetup: "./tests/setup/global.ts",
+  // Runs after the web server starts: drops and re-migrates the test database and seeds the sandbox template,
+  // so every run starts with no accounts, no limiter counters and no cached titles.
+  globalSetup: "./e2e/global-setup.ts",
   reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : "list",
   fullyParallel: false,
   workers: 1,

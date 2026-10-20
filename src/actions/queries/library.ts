@@ -2,6 +2,8 @@ import "server-only";
 import { redirect } from "next/navigation";
 import { DEFAULT_COUNTRY } from "@/config/constants";
 import { getCurrentUser, type CurrentUser } from "@/lib/auth/session";
+import type { Region } from "@/domain/provider";
+import { getProvider } from "@/lib/providers";
 import { countPending, listLibrary, userStats } from "@/lib/library/service";
 
 /** The signed-in user for a page, or null. For pages that look but do not require a session. */
@@ -22,3 +24,18 @@ export async function loadLibrary(user: CurrentUser) {
 }
 
 export const loadStats = (user: CurrentUser) => userStats(user.id);
+
+/** The countries the provider can report availability for. Empty when the provider is unreachable. */
+export async function loadRegions(): Promise<readonly Region[]> {
+  try {
+    return await getProvider().regions();
+  } catch {
+    return [];
+  }
+}
+
+/** Whole hours until a sandbox visitor's session ends, at least 1. Zero for a real account. */
+export function sandboxHoursLeft(user: CurrentUser): number {
+  if (!user.sandboxExpiresAt) return 0;
+  return Math.max(1, Math.ceil((user.sandboxExpiresAt.getTime() - Date.now()) / 3_600_000));
+}

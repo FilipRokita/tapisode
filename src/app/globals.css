@@ -22,6 +22,10 @@
   --color-brand-text: var(--brand-text);
   --color-brand-soft: var(--brand-soft);
   --color-danger: var(--danger);
+  --color-bar: var(--bar);
+  --color-bar-strong: var(--bar-strong);
+  --color-sidebar-fade: var(--sidebar-fade);
+  --ease-out-app: var(--ease-out);
   --color-danger-soft: var(--danger-soft);
   --color-brand-line: var(--brand-line);
   --color-text-soft: var(--text-soft);
@@ -60,6 +64,8 @@
   button { cursor: pointer; touch-action: manipulation; }
   button:disabled, [aria-disabled="true"] { cursor: default; }
   ::selection { background: var(--brand-soft); }
+  body.offline .needs-net { opacity: 0.45; pointer-events: none; }
+  body { overscroll-behavior: none; }
 }
 
 /* Motion is off for people who ask for it. Scripted effects check the same preference. */
