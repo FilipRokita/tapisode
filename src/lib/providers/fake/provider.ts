@@ -16,7 +16,7 @@ const hitOf = (t: FakeTitle): SearchHit => ({
   ref: { provider: "fake", type: t.type, externalId: t.id },
   title: t.title,
   year: t.year,
-  posterPath: fakePosterPath(t.hue, t.id),
+  posterPath: t.noPoster ? null : fakePosterPath(t.hue, t.id),
 });
 
 /** A provider with invented data. It powers tests, the landing demo, screenshots and development without a key. */
@@ -49,7 +49,7 @@ export class FakeProvider implements MediaProvider {
       title: t.title,
       overview: t.overview,
       releaseDate: `${t.year}-01-01`,
-      posterPath: fakePosterPath(t.hue, t.id),
+      posterPath: t.noPoster ? null : fakePosterPath(t.hue, t.id),
       runtimeMinutes: t.runtimeMinutes > 0 ? t.runtimeMinutes : null,
       released: t.type === "movie" ? t.released === true : seasons.some((s) => s.airedCount > 0),
       series: series

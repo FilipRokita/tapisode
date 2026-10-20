@@ -22,6 +22,8 @@ export interface FakeTitle {
   };
   /** Movies only. */
   readonly released?: boolean;
+  /** A title the catalog has no poster for, so the interface shows its fallback. */
+  readonly noPoster?: true;
 }
 
 export const FAKE_TITLES: readonly FakeTitle[] = [
@@ -32,7 +34,7 @@ export const FAKE_TITLES: readonly FakeTitle[] = [
   { id: "marrow", type: "movie", title: "Last Train to Marrow", year: 2026, hue: 215, runtimeMinutes: 124, services: ["prime"], released: true, overview: "One night, one carriage, and a ticket that was never meant to be punched." },
   { id: "ember", type: "tv", title: "Ember Court", year: 2025, hue: 12, runtimeMinutes: 50, services: ["sky"], overview: "A royal house burns its history every spring, and this year someone kept a copy.", series: { state: "ongoing", counts: [10], aired: [10] } },
   { id: "tide", type: "movie", title: "The Long Tide", year: 2025, hue: 190, runtimeMinutes: 109, services: ["netflix"], released: true, overview: "Two sisters row a borrowed boat toward an island that is not on any chart." },
-  { id: "moth", type: "tv", title: "Moth Season", year: 2024, hue: 288, runtimeMinutes: 46, services: ["hbo"], overview: "Every autumn the town goes quiet. This is the story of the last one.", series: { state: "ended", counts: [8, 8], aired: [8, 8] } },
+  { id: "moth", type: "tv", title: "Moth Season", year: 2024, hue: 288, noPoster: true, runtimeMinutes: 46, services: ["hbo"], overview: "Every autumn the town goes quiet. This is the story of the last one.", series: { state: "ended", counts: [8, 8], aired: [8, 8] } },
   { id: "signal", type: "movie", title: "Hollow Signal", year: 2026, hue: 150, runtimeMinutes: 97, services: ["apple"], released: true, overview: "A night-shift operator answers a call from a number that was disconnected years ago." },
   { id: "cartog", type: "tv", title: "Night Cartographers", year: 2023, hue: 305, runtimeMinutes: 55, services: ["netflix", "disney"], overview: "They map the city only after dark, and the map keeps changing.", series: { state: "ended", counts: [6, 6], aired: [6, 6] } },
   { id: "velvet", type: "tv", title: "Velvet Static", year: 2021, hue: 320, runtimeMinutes: 49, services: ["hbo"], overview: "A cult-classic cable channel and the people who still watch it.", series: { state: "ended", counts: [8, 8, 6], aired: [8, 8, 6] } },

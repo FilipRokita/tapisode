@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/app-shell/page-header";
+import { Suspense } from "react";
+import { GridView } from "@/components/library/grid-view";
 
 export const metadata: Metadata = { title: "Watchlist · Tapisode" };
 
-export default function Page() {
-  return <PageHeader title="Watchlist" sub="Titles waiting for you" />;
+export default function WatchlistPage() {
+  return (
+    <Suspense>
+      <GridView status="watchlist" />
+    </Suspense>
+  );
 }
