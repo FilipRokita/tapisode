@@ -75,8 +75,7 @@ flags and APIs against the installed tooling or the official docs before
 stating them. Do not answer from memory.
 
 Before a big or expensive step (subagents, long runs, large builds), say what it
-is and ask. A question is not an order: questions about a plan are conversation,
-so act on an explicit "start".
+is and ask.
 
 Break it up. Short paragraphs, lists, tables. One idea per line. Never a wall of
 text to wade through.
@@ -138,7 +137,9 @@ attachments) when it produces a mock, research or anything else. Name it for the
 work it does, `invite-expiry` rather than `implementation-plan`, so the next plan
 gets its own entry instead of overwriting this one.
 
-Planning is not building: do not write finished code while planning unless asked. A prototype is a guide, not a law: fix
+Planning is not building: do not write finished code while planning unless asked.
+Questions about a plan are conversation, not orders: start executing a plan only
+on an explicit "start". A prototype is a guide, not a law: fix
 flaws as you build and note them in the commit, and ask before changing the product's direction.
 
 Whatever a plan produces stays in its entry. `dev-only/` is scratch space for
