@@ -35,6 +35,8 @@ export function TitleCard({ view, preview, onPlus, onMarkWatched, compact = fals
   const today = useToday();
   const article = useRef<HTMLElement>(null);
   const { openTitle } = useOverlays();
+  // On the landing page the card sits under the page title with no section heading between, so it is not a heading there.
+  const Heading = compact ? "p" : "h3";
   const countdown = today && info.caughtUp ? countdownLabel(view.nextEpisode?.airDate ?? null, today) : null;
   const percent = info.finished ? 100 : info.percent;
   const service = info.firstService ? SERVICE_NAMES[info.firstService] : null;
@@ -49,7 +51,7 @@ export function TitleCard({ view, preview, onPlus, onMarkWatched, compact = fals
       <Poster src={view.poster?.w185 ?? null} title={view.title} className="w-[84px]" />
       <div className="flex min-w-0 flex-1 flex-col gap-2.5">
         <div>
-          <h3 className="text-base leading-[1.2] font-bold tracking-[-0.02em]">
+          <Heading className="text-base leading-[1.2] font-bold tracking-[-0.02em]">
             {compact ? (
               view.title
             ) : (
@@ -58,7 +60,7 @@ export function TitleCard({ view, preview, onPlus, onMarkWatched, compact = fals
                 <span className="sr-only">, open details</span>
               </button>
             )}
-          </h3>
+          </Heading>
           <div className="mono mt-[5px] flex items-center gap-1.5 overflow-hidden whitespace-nowrap text-[12.5px] text-dim">
             {info.isSeries ? <RollingNumber value={info.stamp} /> : <span>{info.runtime}</span>}
             {service && (

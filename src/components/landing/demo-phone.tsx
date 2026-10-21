@@ -72,7 +72,7 @@ export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
             const slot = slots[view.id]!;
             const shown: TitleView = { ...view, state: slot.state };
             return (
-              <TiltBox key={`${view.id}-${slot.deal}`} className={slot.deal > 0 ? "fade-in" : undefined}>
+              <TiltBox key={`${view.id}-${slot.deal}`} className={slot.deal > 0 ? "rise-in" : undefined}>
                 <TitleCard view={shown} preview={slot.preview} compact onPlus={() => plus(shown)} onMarkWatched={() => {}} />
               </TiltBox>
             );

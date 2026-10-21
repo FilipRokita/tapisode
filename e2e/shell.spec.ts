@@ -30,8 +30,7 @@ test.describe("shell", () => {
 
   test("the avatar opens Settings, which has the country, export and delete", async ({ page, isMobile }) => {
     await enterSandbox(page);
-    if (isMobile) await page.getByRole("link", { name: "Account and settings" }).click();
-    else await page.getByRole("link", { name: "Account and settings" }).click();
+    await page.getByRole("link", { name: isMobile ? "Account and settings" : /Demo visitor/ }).click();
     await expect(page).toHaveURL(/\/app\/settings/);
     await expect(page.getByLabel("Country")).toBeVisible();
     await expect(page.getByRole("link", { name: "Export" })).toHaveAttribute("href", "/api/export");

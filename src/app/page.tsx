@@ -27,10 +27,12 @@ export default async function Landing() {
       <Atmosphere />
       <div className="relative mx-auto max-w-[1120px] px-5">
         <LandingNav />
-        <Hero demo={demo} />
-        <Features />
-        <Steps />
-        <Closing />
+        <main>
+          <Hero demo={demo} />
+          <Features />
+          <Steps />
+          <Closing />
+        </main>
         <LandingFooter />
       </div>
       <ConfettiHost />

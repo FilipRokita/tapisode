@@ -66,6 +66,9 @@ nothing when the template already exists.
 | `npm run typecheck` | `next typegen` and `tsc --noEmit` |
 | `npm test` | Vitest, run against `tapisode_test` |
 | `npm run test:e2e` | Playwright against the production build, desktop and phone. Needs `npm run build` first |
+| `npm run assets` | Regenerates the icons, the Open Graph image and the offline page from the design tokens |
+| `npm run screenshots` | Regenerates the README pictures from the built app on the fake provider |
+| `npx lhci autorun` | Lighthouse budgets on `/`, `/signin` and `/privacy` (set `CHROME_PATH` to the Playwright Chromium) |
 | `npm run build` | The production build. It needs `DATABASE_URL`, `BETTER_AUTH_SECRET` (32+ characters) and `BETTER_AUTH_URL` in the environment |
 
 ## End-to-end tests
@@ -76,6 +79,14 @@ migrated again before every run. Write them with the helpers in `e2e/`:
 - Import `test` and `expect` from `e2e/fixtures.ts`. Each test gets its own client IP, so
   the sandbox limit (5 an hour per IP) never gets in the way.
 - Use `withTestSql` from `e2e/db.ts` for setup the UI cannot do.
+
+The end-to-end suite also runs axe on every screen and the responsive and reduced-motion checks.
+
+## Migrations on a host
+
+`vercel.json` runs `npm run db:migrate` and `npm run db:seed -- --template-only --if-missing` before `next build`, but only
+when `VERCEL_ENV=production` (a push to `main`). Preview deployments do not migrate, so give them their own Neon branch and
+migrate that branch by hand with `DATABASE_URL_UNPOOLED=<branch> npm run db:migrate` when a pull request changes the schema.
 
 CI runs the same commands on every push to `main` and on every pull request.
 

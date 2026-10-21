@@ -161,71 +161,73 @@ export function AuthScreen({ initialMode }: { initialMode: Mode }) {
   }
 
   return (
-    <main className="fade-in grid min-h-screen justify-items-center items-start px-5 pb-12 pt-[clamp(24px,calc(100vh-815px),12vh)]">
+    <main className="grid min-h-screen justify-items-center items-start px-5 pb-12 pt-[clamp(24px,calc(100vh-815px),12vh)]">
       <div className="w-full max-w-[400px]">
         <Link href="/" aria-label="Tapisode home">
           <Logo />
         </Link>
-        <Heading mode={mode} />
-        <Segmented
-          kind="tab"
-          label="Sign in or create an account"
-          className="mt-[22px]"
-          value={mode}
-          onChange={switchMode}
-          items={[
-            { value: "signin", label: "Sign in" },
-            { value: "signup", label: "Create account" },
-          ]}
-        />
-        <form onSubmit={submit} noValidate>
-          <Collapse open={signUp}>
-            <Field id="nickname" label="Nickname" error={errors.nickname}>
-              <Input id="nickname" autoComplete="nickname" placeholder="What should we call you?" value={values.nickname} onChange={(e) => edit("nickname", e.target.value)} aria-invalid={!!errors.nickname} aria-describedby="nickname-error" />
+        <div className="rise-in">
+          <Heading mode={mode} />
+          <Segmented
+            kind="tab"
+            label="Sign in or create an account"
+            className="mt-[22px]"
+            value={mode}
+            onChange={switchMode}
+            items={[
+              { value: "signin", label: "Sign in" },
+              { value: "signup", label: "Create account" },
+            ]}
+          />
+          <form onSubmit={submit} noValidate>
+            <Collapse open={signUp}>
+              <Field id="nickname" label="Nickname" error={errors.nickname}>
+                <Input id="nickname" autoComplete="nickname" placeholder="What should we call you?" value={values.nickname} onChange={(e) => edit("nickname", e.target.value)} aria-invalid={!!errors.nickname} aria-describedby="nickname-error" />
+              </Field>
+            </Collapse>
+            <Field id="email" label="Email" error={errors.email}>
+              <Input id="email" type="email" autoComplete="email" placeholder="you@example.com" value={values.email} onChange={(e) => edit("email", e.target.value)} aria-invalid={!!errors.email} aria-describedby="email-error" />
             </Field>
-          </Collapse>
-          <Field id="email" label="Email" error={errors.email}>
-            <Input id="email" type="email" autoComplete="email" placeholder="you@example.com" value={values.email} onChange={(e) => edit("email", e.target.value)} aria-invalid={!!errors.email} aria-describedby="email-error" />
-          </Field>
-          <Field id="password" label="Password" error={errors.password}>
-            <Input id="password" type="password" autoComplete={signUp ? "new-password" : "current-password"} placeholder="At least 8 characters" value={values.password} onChange={(e) => edit("password", e.target.value)} aria-invalid={!!errors.password} aria-describedby="password-error" />
-          </Field>
-          <Collapse open={signUp}>
-            <div className="mt-4 flex gap-2.5 rounded-[14px] border border-border bg-surface p-3 text-[13.5px] text-dim">
-              <Clock className="mt-0.5 size-5 shrink-0" />
-              <span>This is a demo project. Please use a throwaway email address. You must be at least 16 to register.</span>
-            </div>
-          </Collapse>
-          {failure && (
-            <p role="alert" className="mt-4 text-[13.5px] text-danger">
-              {failure.text}{" "}
-              {failure.full && (
-                <Link href="/signup" className="underline">
-                  Create an account
-                </Link>
-              )}
-            </p>
-          )}
-          <Button type="submit" variant="primary" size="lg" className="mt-[18px] w-full" disabled={busy !== null} aria-busy={busy === "form"}>
-            {busy === "form" && <span className="size-4 animate-[spin_0.7s_linear_infinite] rounded-full border-2 border-current border-r-transparent" aria-hidden="true" />}
-            {busy === "form" ? (signUp ? "Creating account…" : "Signing in…") : signUp ? "Create account" : "Sign in"}
+            <Field id="password" label="Password" error={errors.password}>
+              <Input id="password" type="password" autoComplete={signUp ? "new-password" : "current-password"} placeholder="At least 8 characters" value={values.password} onChange={(e) => edit("password", e.target.value)} aria-invalid={!!errors.password} aria-describedby="password-error" />
+            </Field>
+            <Collapse open={signUp}>
+              <div className="mt-4 flex gap-2.5 rounded-[14px] border border-border bg-surface p-3 text-[13.5px] text-dim">
+                <Clock className="mt-0.5 size-5 shrink-0" />
+                <span>This is a demo project. Please use a throwaway email address. You must be at least 16 to register.</span>
+              </div>
+            </Collapse>
+            {failure && (
+              <p role="alert" className="mt-4 text-[13.5px] text-danger">
+                {failure.text}{" "}
+                {failure.full && (
+                  <Link href="/signup" className="underline">
+                    Create an account
+                  </Link>
+                )}
+              </p>
+            )}
+            <Button type="submit" variant="primary" size="lg" className="mt-[18px] w-full" disabled={busy !== null} aria-busy={busy === "form"}>
+              {busy === "form" && <span className="size-4 animate-[spin_0.7s_linear_infinite] rounded-full border-2 border-current border-r-transparent" aria-hidden="true" />}
+              {busy === "form" ? (signUp ? "Creating account…" : "Signing in…") : signUp ? "Create account" : "Sign in"}
+            </Button>
+          </form>
+          <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-[0.08em] text-faint before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">or</div>
+          <Button type="button" size="lg" className="w-full" onClick={trySandbox} disabled={busy !== null}>
+            {busy === "sandbox" ? "Opening the demo…" : "Try without an account"}
           </Button>
-        </form>
-        <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-[0.08em] text-faint before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">or</div>
-        <Button type="button" size="lg" className="w-full" onClick={trySandbox} disabled={busy !== null}>
-          {busy === "sandbox" ? "Opening the demo…" : "Try without an account"}
-        </Button>
-        <p className="mt-[18px] text-[13px] text-dim">
-          By continuing you agree to the{" "}
-          <Link href="/terms" className="underline">
-            terms
-          </Link>{" "}
-          and the{" "}
-          <Link href="/privacy" className="underline">
-            privacy policy
-          </Link>
-          .
-        </p>
+          <p className="mt-[18px] text-[13px] text-dim">
+            By continuing you agree to the{" "}
+            <Link href="/terms" className="underline">
+              terms
+            </Link>{" "}
+            and the{" "}
+            <Link href="/privacy" className="underline">
+              privacy policy
+            </Link>
+            .
+          </p>
+        </div>
       </div>
     </main>
   );

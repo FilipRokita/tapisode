@@ -72,7 +72,7 @@ test.describe("auth", () => {
 
   test("Try without an account lands in the app as a demo visitor", async ({ page, isMobile }) => {
     await enterSandbox(page);
-    if (!isMobile) await expect(page.getByRole("link", { name: "Account and settings" })).toContainText("Demo visitor");
+    if (!isMobile) await expect(page.getByRole("link", { name: /Demo visitor/ })).toBeVisible();
   });
 
   test("a signed-in visitor is sent away from the sign-in page", async ({ page }) => {

@@ -36,7 +36,7 @@ const stateChip = (view: TitleView): { label: string; soft: boolean } => {
 };
 
 const section = (k: number, entering: boolean) => ({
-  className: cn(entering && "animate-[section-in_0.55s_var(--ease)_both] [animation-delay:calc(var(--k)*55ms+140ms)]"),
+  className: cn(entering && "animate-[section-in_0.55s_var(--ease)_backwards] [animation-delay:calc(var(--k)*55ms+140ms)]"),
   style: { "--k": k } as React.CSSProperties,
 });
 

@@ -71,13 +71,13 @@ export function SettingsView({ isSandbox, country, regions }: SettingsViewProps)
       <List>
         {isSandbox ? (
           <Row title="Create account" hint="Keep your lists. Takes a minute.">
-            <Button asChild variant="primary" className="min-h-10">
+            <Button asChild variant="primary" className="min-h-11 md:min-h-10">
               <Link href="/signup">Create account</Link>
             </Button>
           </Row>
         ) : (
           <Row title="Password" hint="Change the password you sign in with">
-            <Button variant="secondary" className="needs-net min-h-10" onClick={() => setPasswordOpen(true)}>
+            <Button variant="secondary" className="needs-net min-h-11 md:min-h-10" onClick={() => setPasswordOpen(true)}>
               Change password
             </Button>
           </Row>
@@ -87,7 +87,7 @@ export function SettingsView({ isSandbox, country, regions }: SettingsViewProps)
             aria-label="Country"
             value={chosen}
             onChange={(e) => changeCountry(e.target.value)}
-            className="needs-net h-10 max-w-[180px] rounded-[12px] border border-border bg-surface-2 px-2.5"
+            className="needs-net h-11 md:h-10 max-w-[180px] rounded-[12px] border border-border bg-surface-2 px-2.5"
           >
             {options.map((r) => (
               <option key={r.code} value={r.code}>
@@ -100,7 +100,7 @@ export function SettingsView({ isSandbox, country, regions }: SettingsViewProps)
       <SectionHead>Your data</SectionHead>
       <List>
         <Row title="Export my data" hint="Download everything as a JSON file">
-          <Button asChild variant="secondary" className="needs-net min-h-10">
+          <Button asChild variant="secondary" className="needs-net min-h-11 md:min-h-10">
             <a href="/api/export" download="tapisode-export.json" onClick={() => toast("Your data was exported as tapisode-export.json")}>
               <Download />
               Export
@@ -108,7 +108,7 @@ export function SettingsView({ isSandbox, country, regions }: SettingsViewProps)
           </Button>
         </Row>
         <Row title="Delete account" hint="Removes your account and all your lists">
-          <Button variant="danger" className="needs-net min-h-10" onClick={() => setDeleteOpen(true)}>
+          <Button variant="danger" className="needs-net min-h-11 md:min-h-10" onClick={() => setDeleteOpen(true)}>
             <Trash2 />
             Delete
           </Button>

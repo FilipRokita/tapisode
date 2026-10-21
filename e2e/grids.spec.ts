@@ -71,14 +71,14 @@ test.describe("grids", () => {
     await enterSandbox(page);
     await page.goto("/app/watchlist");
     await expect(page.getByText("6 titles waiting for you")).toBeVisible();
-    await page.getByRole("button", { name: "Last Train to Marrow, open details" }).click();
+    await page.getByRole("button", { name: /Last Train to Marrow.*open details/ }).click();
     await page.getByRole("dialog").getByRole("button", { name: "Complete", exact: true }).click();
     await page.keyboard.press("Escape");
     await expect(page.getByText("5 titles waiting for you")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Last Train to Marrow, open details" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /Last Train to Marrow.*open details/ })).toHaveCount(0);
     await page.goto("/app/complete");
     await expect(page.getByText("5 finished")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Last Train to Marrow, open details" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Last Train to Marrow.*open details/ })).toBeVisible();
   });
 
   test("two columns on a phone, auto-fill columns on desktop, and no sideways scroll at 320px", async ({ page, isMobile }) => {
@@ -86,7 +86,7 @@ test.describe("grids", () => {
     await page.goto("/app/watchlist");
     const columns = () =>
       page.evaluate(() => {
-        const first = [...document.querySelectorAll<HTMLElement>("button[aria-label$='open details']")];
+        const first = [...document.querySelectorAll<HTMLElement>("[data-flip$='|tile']")];
         return new Set(first.map((el) => Math.round(el.getBoundingClientRect().left))).size;
       });
     if (isMobile) expect(await columns()).toBe(2);

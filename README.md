@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Tapisode: movies & shows tracker</h1>
+  <img src="docs/banner.svg" alt="Tapisode" width="720">
   <p><strong>Fast, phone-first minimalist tracker for movies and TV shows.</strong></p>
 </div>
 
@@ -15,6 +15,14 @@
   <img src="https://img.shields.io/badge/shadcn%2Fui-000000?logo=shadcnui&logoColor=white" alt="shadcn/ui">
   <img src="https://img.shields.io/badge/Zod-3E67B1?logo=zod&logoColor=white" alt="Zod">
   <img src="https://img.shields.io/badge/Vitest-6E9F18?logo=vitest&logoColor=white" alt="Vitest">
+  <img src="https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white" alt="Playwright">
+</div>
+
+<br>
+
+<div align="center">
+  <img src="docs/screenshots/showcase.png" alt="Tapisode on a desktop and on a phone" width="900">
+  <p><sub>Desktop and phone, both on invented demo data.</sub></p>
 </div>
 
 ---
@@ -24,10 +32,12 @@ Keep tabs on what you are watching without social feeds, ratings, or unnecessary
 noise.
 
 Tap `+1 Episode` directly on your active shows to advance your progress
-instantly. Check where a title is currently streaming (Netflix, Max, Disney+,
-Prime Video, and others) across regions without juggling multiple guides.
+instantly. Check where a title is currently streaming (Netflix, HBO Max,
+Disney+, Prime Video, and others) in your country without juggling multiple
+guides.
 
-Dark by default, built phone-first, and fully responsive on desktop.
+Dark by default, built phone-first, installable as an app, and fully responsive
+on desktop.
 
 ## 📖 Table of contents
 
@@ -37,33 +47,43 @@ Dark by default, built phone-first, and fully responsive on desktop.
 - [🚀 Run it locally](#-run-it-locally)
 - [☁️ Run it on a host](#️-run-it-on-a-host)
 - [📚 Documentation](#-documentation)
+- [🎬 Data and attribution](#-data-and-attribution)
 
 ## ✨ What it does
 
 1. **One-tap episode progress.** Advance active shows with a thumb-friendly `+1 Episode`
-   button backed by optimistic UI.
-2. **Track streaming availability.** See active streaming platforms (Netflix,
-   Max, Disney+, SkyShowtime, Prime Video) for your region and catch licensing
-   rotations.
-3. **No bloat.** No reviews, no social feeds, and no algorithmic recommendations.
-   Just a clean, fast personal watchlist.
-4. **Bottom drawer details.** Tap any title for a lightweight drawer with synopsis,
-   episode picker, and streaming badges.
-5. **Responsive desktop layout.** Expands into a multi-column poster grid with hover
-   actions and streaming service filters.
+   button. The change shows at once and can be undone.
+2. **Three states, nothing else.** Watching, Watchlist, Complete. No ratings, no
+   feeds, no recommendations. The rules keep the state and the episode in step: a
+   show still airing never counts as complete.
+3. **Where it streams.** See which of your services carry a title in your country,
+   and filter your lists by service.
+4. **Title drawer.** Tap any title for a bottom sheet (a dialog on desktop) with the
+   synopsis, your progress, an episode picker and streaming availability.
+5. **Search and stats.** Press `Ctrl K` or `⌘K` to search, and see your episode count,
+   hours and a shareable stats image.
+6. **Try it without an account.** A demo session starts with a ready-made list and
+   lasts six hours. Creating an account keeps the list.
+7. **Installable.** A web app manifest, icons and an offline page make it installable
+   on a phone.
+
+<p align="center">
+  <img src="docs/screenshots/desktop.png" alt="The Watching page on a desktop" width="62%">
+  <img src="docs/screenshots/phone.png" alt="The Watching page on a phone" width="25%">
+</p>
 
 ## 🧱 Stack
 
 | Layer | Technology |
 | :--- | :--- |
-| Frontend | Next.js 16 (App Router), Tailwind CSS, shadcn/ui (Radix, Vaul) |
-| Backend | Next.js Server Actions + Route Handlers |
-| Database | PostgreSQL 17 (Neon Serverless with connection pooling) |
+| Frontend | Next.js 16 (App Router), React 19, Tailwind CSS 4, shadcn/ui (Radix, Vaul, cmdk) |
+| Backend | Next.js Server Actions and Route Handlers |
+| Database | PostgreSQL 17 (Neon with connection pooling) |
 | ORM | Drizzle ORM |
-| Auth | Better Auth (clean Drizzle integration) |
+| Auth | Better Auth (email and password, anonymous demo sessions) |
 | Validation | Zod |
-| Testing | Vitest |
-| External APIs | TMDB via hexagonal Media Provider adapter |
+| Testing | Vitest and fast-check, Playwright, axe, Lighthouse CI |
+| External APIs | TMDB behind a replaceable provider port |
 | Dev environment | Dev Container (VS Code) |
 
 ## 🔧 How it's built
@@ -73,11 +93,15 @@ the codebase.
 
 | Claim | Proof |
 | :--- | :--- |
-| **Provider-agnostic domain (Hexagonal architecture)** | Core business logic and database tables never bind directly to TMDB or third parties. An abstract `MediaProviderService` interface defines ports, implemented by `TmdbAdapter`. [src/domain/](src/domain/) |
+| **Provider-agnostic domain (hexagonal architecture)** | The rules are pure functions that import nothing outside the domain. The catalog is reached through the `MediaProvider` port, implemented by `TmdbProvider` and `FakeProvider`, and one file chooses between them. [src/domain/](src/domain/), [src/lib/providers/](src/lib/providers/) |
+| **Layers enforced by lint** | `domain`, `config`, `db`, `lib`, `actions`, `api` and `ui` may only import downward. A violation fails `npm run lint` in CI. [eslint.config.mjs](eslint.config.mjs) |
 | **Every action authorizes itself** | Server Actions verify the session, validate input with Zod, and ensure user ownership before any mutation. [src/actions/](src/actions/) |
+| **One rule for every change, no lost updates** | A single `transition` function decides each change, and each write is a compare-and-set against the state the user saw, so two devices or a double tap cannot overwrite each other. Property tests cover it. [src/domain/transitions.ts](src/domain/transitions.ts), [tests/domain/](tests/domain/) |
 | **Fast optimistic progress updates** | The library store applies the same domain function to preview a change, sends it with the state it saw, and rolls the preview back on failure (`useOptimistic`). [src/components/library/](src/components/library/) |
-| **Vendor-neutral data model** | The `user_media` table stores generic `provider` and `externalId` keys, with an optional `imdbId` bridge to prevent lock-in. [src/db/schema.ts](src/db/schema.ts) |
-| **Mobile-first, desktop-ready** | Bottom navigation and thumb-friendly drawers on phones; multi-column grid and filter sidebars on desktop. [src/components/](src/components/) |
+| **Vendor-neutral data model** | A title is `provider`, `media_type` and `external_id`, with an optional `imdb_id` bridge. TMDB content lives in a separate cache table that can be emptied without touching a list. [src/db/schema/](src/db/schema/) |
+| **Rate limits without extra infrastructure** | Counters and a circuit breaker live in Postgres, so the same code runs on Vercel and in a container. [src/lib/limits/](src/lib/limits/) |
+| **Mobile-first, desktop-ready** | Bottom navigation and thumb-friendly drawers on phones; a sidebar, a dialog and a multi-column grid on desktop. [src/components/](src/components/) |
+| **Accessible and fast, checked in CI** | axe finds no violations on any screen, tap targets are at least 44px on a phone, and Lighthouse scores stay above 0.9. [e2e/](e2e/), [lighthouserc.json](lighthouserc.json) |
 
 ## 🚀 Run it locally
 
@@ -90,37 +114,34 @@ host machine.
    cp .env.example .env
    ```
 
-   Fill in the required values (`DATABASE_URL`, `BETTER_AUTH_SECRET`,
-   `TMDB_API_READ_ACCESS_TOKEN`).
+   Fill in `BETTER_AUTH_SECRET` (`openssl rand -base64 32`) and
+   `TMDB_API_READ_ACCESS_TOKEN`. To try the app without a TMDB token, set
+   `MEDIA_PROVIDER=fake` instead: it uses invented titles.
 
 2. **Open the repository in the container.** In VS Code, run *Dev Containers: Reopen in
-   Container*.
+   Container*. On every start the container brings PostgreSQL up, applies the
+   migrations, and seeds the sandbox template and a dev account the first time.
 
-3. **Install dependencies, run migrations and seed the database:**
-
-   ```bash
-   npm install
-   npm run db:migrate
-   npm run db:seed
-   ```
-
-   The seed creates the sandbox template and a dev account: `dev@tapisode.test` with the
-   password `tapisode-dev`. The dev container does all of this for you on start.
-
-4. **Start the development server:**
+3. **Start the development server:**
 
    ```bash
    npm run dev
    ```
 
-   Open [http://localhost:3000](http://localhost:3000).
+   Open [http://localhost:3000](http://localhost:3000). Sign in with the dev account
+   `dev@tapisode.test` and the password `tapisode-dev`, or choose "Try without an
+   account".
+
+Outside the container the same steps are `npm install`, `npm run db:migrate` and
+`npm run db:seed`. The checks are `npm run lint`, `npm test` and `npm run test:e2e`, and
+[docs/dev-environment.md](docs/dev-environment.md) explains them.
 
 ## ☁️ Run it on a host
 
 The same application and code. Only environment variables differ.
 
-1. **Database:** Set up a PostgreSQL 17 instance (such as Neon Serverless with pooling).
-2. **Deploy:** Deploy to Vercel or any container runtime.
+1. **Database:** Create a PostgreSQL 17 database (such as Neon with pooling).
+2. **Deploy:** Import the repository into Vercel, or run it in any container runtime.
 3. **Set environment variables:**
 
    | Variable | Description |
@@ -134,8 +155,31 @@ The same application and code. Only environment variables differ.
    | `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` | Encrypts Server Action ids when more than one instance serves traffic |
    | `MEDIA_PROVIDER` | Optional: `tmdb` (default) or `fake` |
 
-4. **Migrations:** Run migrations as part of the build step: `npm run db:migrate`.
+4. **Migrations:** The build command in [vercel.json](vercel.json) runs the migrations
+   and creates the sandbox template, but only on production builds
+   (`VERCEL_ENV=production`, which is a push to `main`). Updating the app is a push
+   to `main`.
+   Preview deployments do not migrate. Point them at their own Neon branch, and migrate
+   that branch by hand with `DATABASE_URL_UNPOOLED=<branch> npm run db:migrate` when a
+   pull request changes the schema.
+5. **Weekly job:** `vercel.json` also schedules `/api/cron/maintenance`, which refreshes
+   tracked titles, purges old catalog content and deletes expired demo sessions.
 
 ## 📚 Documentation
 
-Anything that is not in this file lives in [`docs/`](docs/).
+Anything that is not in this file lives in [`docs/`](docs/):
+
+- [Dev environment](docs/dev-environment.md): the container, the checks, end-to-end tests, the installable app and the
+  checklist before release.
+- [Repo layout](docs/repo-layout.md): what every entry in the repository is for.
+- [Data model](docs/data-model.md): the tables and what the database enforces.
+- [Catalog data](docs/catalog-data.md): the TMDB rules we obey, the six-month purge and the kill switch.
+- [Extending](docs/extending.md): how to add a provider or a feature.
+
+## 🎬 Data and attribution
+
+<img src="https://img.shields.io/badge/TMDB-01B4E4?logo=themoviedatabase&logoColor=white" alt="TMDB">
+
+This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming
+availability data by JustWatch. Every screenshot in this repository was taken on invented
+demo data, never on TMDB content.

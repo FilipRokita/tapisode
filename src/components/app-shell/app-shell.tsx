@@ -59,7 +59,6 @@ function Sidebar({ user, counts }: { user: ShellUser; counts: Record<Status, num
       <div className="flex-1" />
       <Link
         href="/app/settings"
-        aria-label="Account and settings"
         aria-current={pathname === "/app/settings" ? "page" : undefined}
         className={cn("flex items-center gap-2.5 rounded-[14px] border p-2.5 text-dim transition-colors hover:border-border-strong hover:bg-surface-2 hover:text-foreground", pathname === "/app/settings" ? "border-border-strong bg-surface-2" : "border-border bg-surface")}
       >
@@ -86,7 +85,7 @@ function StickyTop({ user }: { user: ShellUser }) {
   return (
     <div ref={bar} className="sticky top-0 z-[35] -mx-4 mb-1.5 border-b border-b-transparent bg-bar px-4 pt-[calc(6px+var(--safe-top))] backdrop-blur-[14px] transition-colors duration-200 md:hidden">
       <div className="flex items-center justify-between gap-2.5 pt-1 pb-2.5">
-        <Link href="/" aria-label="Tapisode home">
+        <Link href="/" aria-label="Tapisode home" className="inline-flex min-h-11 items-center">
           <Logo />
         </Link>
         <div className="flex gap-0.5">
@@ -141,7 +140,7 @@ function PageTransition({ children }: { children: ReactNode }) {
     node.current?.animate([{ opacity: 0, transform: `translateX(${dir * 22}px)` }, { opacity: 1, transform: "none" }], { duration: 220, easing: "cubic-bezier(0.2, 0.9, 0.25, 1)" });
   }, [pathname]);
   return (
-    <div ref={node} key={tabIndex(pathname) < 0 ? pathname : undefined} className={tabIndex(pathname) < 0 ? "fade-in" : undefined}>
+    <div ref={node} key={tabIndex(pathname) < 0 ? pathname : undefined} className={tabIndex(pathname) < 0 ? "rise-in" : undefined}>
       {children}
     </div>
   );

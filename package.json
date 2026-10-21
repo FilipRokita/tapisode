@@ -19,6 +19,7 @@
     "db:seed": "tsx --conditions=react-server scripts/seed.ts",
     "check:colors": "tsx scripts/check-colors.ts",
     "assets": "tsx scripts/generate-assets.ts",
+    "screenshots": "tsx scripts/screenshots.ts",
     "catalog:kill": "tsx --conditions=react-server scripts/kill-switch.ts"
   },
   "dependencies": {

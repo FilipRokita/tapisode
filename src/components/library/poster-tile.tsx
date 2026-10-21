@@ -15,7 +15,7 @@ export function PosterTile({ view }: { view: TitleView }) {
   const { openTitle } = useOverlays();
   const done = view.state?.status === "complete";
   return (
-    <button ref={button} type="button" data-flip={`${view.id}|tile`} onClick={() => openTitle(view.ref, button.current)} className="relative block text-left" aria-label={`${view.title}, open details`}>
+    <button ref={button} type="button" data-flip={`${view.id}|tile`} onClick={() => openTitle(view.ref, button.current)} className="relative block text-left">
       <TiltPoster>
         <div className="relative">
           <Poster src={view.poster?.w342 ?? null} title={view.title} className="w-full" />
@@ -36,6 +36,7 @@ export function PosterTile({ view }: { view: TitleView }) {
             ))}
           </div>
         </div>
+        <span className="sr-only">, open details</span>
       </TiltPoster>
     </button>
   );

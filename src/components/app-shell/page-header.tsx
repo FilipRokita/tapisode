@@ -22,7 +22,6 @@ export function PageHeader({ title, sub, children }: { title: string; sub: strin
         <button
           type="button"
           onClick={openSearch}
-          aria-label="Search titles"
           className="needs-net hidden h-11 w-full max-w-[340px] items-center gap-2.5 rounded-[14px] border border-border bg-surface px-3.5 text-sm text-faint transition-colors hover:border-border-strong hover:text-dim md:flex"
         >
           <Search className="size-5" />
