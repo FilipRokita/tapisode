@@ -2,8 +2,8 @@
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/banner-dark.svg">
-    <img src="docs/banner-light.svg" alt="Tapisode" width="420">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/banner-dark.svg">
+    <img src="docs/brand/banner-light.svg" alt="Tapisode" width="420">
   </picture>
 </div>
 
