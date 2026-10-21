@@ -12,6 +12,8 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
+
+	// Run in UTC, like Vercel and Neon. Auth timestamps have no time zone, and the demo session expiry relies on UTC.
 	"containerEnv": { "TZ": "UTC" },
 
 	// Use 'postCreateCommand' to run commands after the container is created.
