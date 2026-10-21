@@ -74,6 +74,10 @@ clear; enumerate alternatives only in the case §1 describes. Verify versions,
 flags and APIs against the installed tooling or the official docs before
 stating them. Do not answer from memory.
 
+Before a big or expensive step (subagents, long runs, large builds), say what it
+is and ask. A question is not an order: questions about a plan are conversation,
+so act on an explicit "start".
+
 Break it up. Short paragraphs, lists, tables. One idea per line. Never a wall of
 text to wade through.
 
@@ -110,7 +114,7 @@ Treat the repository and its entire history as public. Before every commit:
   with credentials, or personal settings files. Only `.env.example` files with
   placeholders belong in git.
 - Check `git status` and `git diff` first. Never run a blind `git add -A`.
-- Do not put secret values in code, docs, tests, logs, commit messages, or chat.
+- Do not put secret values in code, docs, tests, logs, commit messages, or chat. To check one, look at its length or a status code, never print it.
 - Keep personal files ignored: `plans/`, `dev-only/`.
 - If a secret ever leaks, rotate it first. Removing it from git does not undo
   the exposure.
@@ -128,6 +132,9 @@ attachments) when it produces a mock, research or anything else. Name it for the
 work it does, `invite-expiry` rather than `implementation-plan`, so the next plan
 gets its own entry instead of overwriting this one.
 
+Planning is not building: do not write finished code while planning unless asked. A prototype is a guide, not a law: fix
+small flaws as you build and note them in the commit, and ask before changing the product's direction.
+
 Whatever a plan produces stays in its entry. `dev-only/` is scratch space for
 prototypes tied to no plan.
 
@@ -135,3 +142,7 @@ Every plan ends with a review and testing stage: check that it was fully
 implemented, that every rule and acceptance criterion has code and tests, and
 that the app still works as a whole. Fix what is broken or write it down as a
 named limitation.
+
+Verify for real: walk the real flow end to end as a user (green unit tests can
+hide a broken path), measure with tools, and re-run everything on a fresh clone
+at the end. Say plainly what you did not verify.
