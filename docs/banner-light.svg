@@ -1,0 +1,11 @@
+<svg width="168" height="56" viewBox="0 0 168 56" role="img" aria-label="Tapisode" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Mark: same geometry as mark.svg, drawn at 38px -->
+  <g transform="translate(4, 9)">
+    <circle cx="19" cy="19" r="16" stroke="#D4D4D8" stroke-width="3"/>
+    <path d="M 3 19 A 16 16 0 1 1 19 35" stroke="#18181B" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="19" cy="35" r="3" fill="#8B5CF6"/>
+    <polygon points="16,13 25,19 16,25" fill="#18181B"/>
+  </g>
+  <!-- Wordmark: gap to the mark reduced from 24px to 10px -->
+  <text x="52" y="37" fill="#18181B" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="28" letter-spacing="-0.03em">Tap<tspan fill="#71717A" font-weight="500">isode</tspan></text>
+</svg>

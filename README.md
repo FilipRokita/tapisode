@@ -1,7 +1,10 @@
 # Tapisode: movies & shows tracker
 
 <div align="center">
-  <img src="docs/banner.svg" alt="Tapisode" width="720">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/banner-dark.svg">
+    <img src="docs/banner-light.svg" alt="Tapisode" width="320">
+  </picture>
 </div>
 
 <br>
@@ -17,6 +20,8 @@
   <img src="https://img.shields.io/badge/Vitest-6E9F18?logo=vitest&logoColor=white" alt="Vitest">
   <img src="https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white" alt="Playwright">
 </div>
+
+<br>
 
 ---
 
