@@ -23,7 +23,6 @@
 
 <div align="center">
   <img src="docs/screenshots/showcase.png" alt="Tapisode on a desktop and on a phone" width="900">
-  <p><sub>Desktop and phone, both on invented demo data.</sub></p>
 </div>
 
 ---
