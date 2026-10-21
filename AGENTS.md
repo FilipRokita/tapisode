@@ -62,15 +62,15 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 # Project
 
-## Language
+## 1. Language
 
 Reply in the language the prompt is written in. Everything committed to the
 repo, whether code, comments, commit messages, README or docs, is in English.
 
-## Answers
+## 2. Answers
 
 Lead with the answer, and keep it short. Recommend one path once a choice is
-clear; enumerate alternatives only in the case §1 describes. Verify versions,
+clear; enumerate alternatives only in the case "Think Before Coding" describes. Verify versions,
 flags and APIs against the installed tooling or the official docs before
 stating them. Do not answer from memory.
 
@@ -80,13 +80,13 @@ is and ask.
 Break it up. Short paragraphs, lists, tables. One idea per line. Never a wall of
 text to wade through.
 
-## Copy
+## 3. Copy
 
 Never use an em dash in user-facing text (UI labels, headings, landing copy,
 error messages, emails), README.md, or docs. End the sentence and start a new
 one, or use a comma or colon. Anywhere else is fine.
 
-## Documentation
+## 4. Documentation
 
 [`README.md`](README.md) is imported at the top of this file, so it is always in
 context. Keep it current. Everything else lives in [`docs/`](docs/), which is
@@ -98,14 +98,14 @@ if a new doc is genuinely needed (keep docs lean; only add docs that are truly
 necessary). This file is part of that rule too: when a workflow, command, path
 or rule it names changes, update `AGENTS.md` in the same change.
 
-## Agent neutrality
+## 5. Agent neutrality
 
 Keep the repo usable by any coding agent. When there is an agent-specific
 pattern and an agent-neutral standard for the same thing, use the standard.
 For example, instructions live in `AGENTS.md`, not `CLAUDE.md` or `GEMINI.md`.
 Add agent-specific files or config only when no neutral option exists.
 
-## Secrets
+## 6. Secrets
 
 Treat the repository and its entire history as public. Before every commit:
 
@@ -118,12 +118,12 @@ Treat the repository and its entire history as public. Before every commit:
 - If a secret ever leaks, rotate it first. Removing it from git does not undo
   the exposure.
 
-## Dev only
+## 7. Dev only
 
 `dev-only/` is a gitignored scratch space for prototypes, mocks and experiments.
 Nothing in it is part of the product.
 
-## Planning
+## 8. Planning
 
 Plans live in `plans/`, gitignored and local to one machine. One plan is
 one entry: a single `.md` when that's all it needs, a folder (`plan.md` plus its
