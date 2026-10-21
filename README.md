@@ -96,7 +96,7 @@ the codebase.
 | **Vendor-neutral data model** | A title is `provider`, `media_type` and `external_id`, with an optional `imdb_id` bridge. TMDB content lives in a separate cache table that can be emptied without touching a list. [src/db/schema/](src/db/schema/) |
 | **Rate limits without extra infrastructure** | Counters and a circuit breaker live in Postgres, so the same code runs on Vercel and in a container. [src/lib/limits/](src/lib/limits/) |
 | **Mobile-first, desktop-ready** | Bottom navigation and thumb-friendly drawers on phones; a sidebar, a dialog and a multi-column grid on desktop. [src/components/](src/components/) |
-| **Accessible and fast, checked in CI** | axe finds no violations on any screen, tap targets are at least 44px on a phone, and Lighthouse scores stay above 0.9. [e2e/](e2e/), [lighthouserc.json](lighthouserc.json) |
+| **Accessible and fast, checked in CI** | axe finds no violations on any screen, tap targets are at least 44px on a phone, and Lighthouse accessibility, best-practices and SEO scores stay above 0.9 (performance only warns, since CI runners are slow). [e2e/](e2e/), [lighthouserc.json](lighthouserc.json) |
 
 ## 🚀 Run it locally
 
