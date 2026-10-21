@@ -20,6 +20,8 @@
 
 <br>
 
+---
+
 <div align="center">
   <img src="docs/screenshots/showcase.png" alt="Tapisode on a desktop and on a phone" width="900">
 </div>
