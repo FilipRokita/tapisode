@@ -75,8 +75,12 @@ test.describe("auth", () => {
     if (!isMobile) await expect(page.getByRole("link", { name: /Demo visitor/ })).toBeVisible();
   });
 
-  test("a signed-in visitor is sent away from the sign-in page", async ({ page }) => {
+  test("a signed-in account is sent away from the sign-in page, a demo visitor is not", async ({ page }) => {
     await enterSandbox(page);
+    await page.goto("/signin");
+    await expect(page).toHaveURL(/\/signin$/);
+    await page.context().clearCookies();
+    await signUp(page);
     await page.goto("/signin");
     await expect(page).toHaveURL(/\/app\/watching/);
   });

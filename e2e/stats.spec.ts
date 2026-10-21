@@ -79,6 +79,9 @@ test.describe("stats", () => {
     await withTestSql((sql) => sql`DELETE FROM media_content WHERE media_item_id = (SELECT id FROM media_items WHERE external_id = 'salt')`);
     await page.goto("/app/stats");
     await expect(page.getByText("1 title is not counted while it loads.")).toBeVisible();
+    // Opening the title fetches it again, so the cached content is back for the tests that follow.
+    await page.goto("/app/watching?t=fake:tv:salt");
+    await expect(page.getByRole("dialog").getByRole("heading", { name: "Salt & Static" })).toBeVisible();
   });
 
   test("nothing overflows at 320px", async ({ page }) => {
