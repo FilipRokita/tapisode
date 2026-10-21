@@ -46,9 +46,8 @@ responsive on desktop.
 3. [🔧 How it's built](#-how-its-built)
 4. [🚀 Run it locally](#-run-it-locally)
 5. [☁️ Run it on a host](#️-run-it-on-a-host)
-6. [⚠️ Limitations](#️-limitations)
-7. [📚 Documentation](#-documentation)
-8. [🎬 Data and attribution](#-data-and-attribution)
+6. [📚 Documentation](#-documentation)
+7. [🎬 Data and attribution](#-data-and-attribution)
 
 ## ✨ What it does
 
@@ -156,25 +155,6 @@ The same application and code. Only environment variables differ.
    turns off preview deployments), so updating the app is a push to `main`.
 5. **Weekly job:** `vercel.json` also schedules `/api/cron/maintenance`, which refreshes
    tracked titles, purges old catalog content and deletes expired demo sessions.
-
-## ⚠️ Limitations
-
-What is known, and what has not been proven yet:
-
-- **The app was exercised on the fake provider.** The TMDB adapter was also checked once against the live API (search, a series,
-  a movie and the region list), but the whole app has not been clicked through on live TMDB data.
-- **Nothing was run on a live host.** The client IP and country headers, the weekly cron on Vercel, the sign-in limiter behind
-  Vercel's proxy and the Neon pooler with prepared statements off are described and unit tested, but untested in production.
-- **Nothing was run on a real phone.** Installing the app, the home screen launch, the vibration on `+1` and anything iOS-specific
-  need the checklist in [docs/dev-environment.md](docs/dev-environment.md).
-- **A title leaves a list only by undoing its add or by deleting the account.** There is no remove button.
-- **Rewatching is out of scope**, and search results do not show streaming services (the search endpoint does not carry them).
-- **No password reset and no email verification** in this version. Use a throwaway email.
-- **The demo is shared.** At most 100 demo sessions live at once and one address can start five an hour, so a busy hour or a shared
-  network can be turned away with a message.
-- **The privacy policy and the terms are plain-language summaries,** not legal advice. Have a qualified person read them before real
-  users rely on them.
-- **The TMDB mark is a small text tile,** not the official logo. Add the official logo as TMDB's guidelines ask if you publish this.
 
 ## 📚 Documentation
 
