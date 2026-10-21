@@ -7,8 +7,6 @@
   </picture>
 </div>
 
-<br>
-
 <div align="center">
   <img src="https://img.shields.io/badge/Next.js_16-000000?logo=nextdotjs&logoColor=white" alt="Next.js 16">
   <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript">
