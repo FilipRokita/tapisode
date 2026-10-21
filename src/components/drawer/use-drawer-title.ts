@@ -20,11 +20,15 @@ const KNOWN = ["NOT_FOUND", "RATE_LIMITED", "BUSY", "UNAVAILABLE", "UNAUTHORIZED
 export function useDrawerTitle(ref: TitleRef | null): DrawerTitle {
   const { titles } = useLibrary();
   const [fetched, setFetched] = useState<Fetched | null>(null);
+  // The last view seen on the lists. When the title leaves them (an undone add), the sheet keeps showing it with no state.
+  const [seen, setSeen] = useState<{ readonly key: string; readonly view: TitleView } | null>(null);
   const tracked = ref ? titles.find((t) => sameRef(t.ref, ref)) : undefined;
   const key = ref ? refToParam(ref) : null;
+  if (tracked && key && (seen?.key !== key || seen.view !== tracked)) setSeen({ key, view: tracked });
+  const wasTracked = seen !== null && seen.key === key;
 
   useEffect(() => {
-    if (!ref || !key || tracked) return;
+    if (!ref || !key || tracked || wasTracked) return;
     const controller = new AbortController();
     const query = new URLSearchParams({ provider: ref.provider, type: ref.type, id: ref.externalId });
     fetch(`/api/title?${query}`, { signal: controller.signal })
@@ -39,9 +43,10 @@ export function useDrawerTitle(ref: TitleRef | null): DrawerTitle {
         if (next) setFetched(next);
       });
     return () => controller.abort();
-  }, [ref, key, tracked]);
+  }, [ref, key, tracked, wasTracked]);
 
   if (tracked) return { status: "ready", view: tracked };
+  if (seen && seen.key === key) return { status: "ready", view: { ...seen.view, state: null } };
   if (fetched && fetched.key === key) return fetched.result;
   return { status: "loading" };
 }

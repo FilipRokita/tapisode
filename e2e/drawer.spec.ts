@@ -114,6 +114,20 @@ test.describe("title drawer", () => {
     else await expect(page.getByText("5 in progress")).toBeVisible();
   });
 
+  test("undoing the add of a title removes it from the lists", async ({ page }) => {
+    await enterSandbox(page);
+    await page.goto("/app/watching?t=fake:tv:lights");
+    const d = dialog(page);
+    await d.getByRole("button", { name: "Watchlist", exact: true }).click();
+    await expect(d.getByRole("button", { name: "Watchlist", exact: true })).toHaveAttribute("aria-pressed", "true");
+    await page.getByRole("button", { name: "Undo" }).click();
+    await expect(page.getByText("Undone")).toBeVisible();
+    for (const status of ["Watching", "Watchlist", "Complete"]) await expect(d.getByRole("button", { name: status, exact: true })).toHaveAttribute("aria-pressed", "false");
+    await page.keyboard.press("Escape");
+    await page.goto("/app/watchlist");
+    await expect(page.getByText("6 titles waiting for you")).toBeVisible();
+  });
+
   test("a title whose content was purged shows the loading state, then the title", async ({ page }) => {
     await enterSandbox(page);
     await withTestSql((sql) => sql`DELETE FROM media_content WHERE media_item_id = (SELECT id FROM media_items WHERE external_id = 'salt')`);
