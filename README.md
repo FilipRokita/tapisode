@@ -2,7 +2,6 @@
 
 <div align="center">
   <img src="docs/banner.svg" alt="Tapisode" width="720">
-  <p><strong>Fast, phone-first minimalist tracker for movies and TV shows.</strong></p>
 </div>
 
 <br>
