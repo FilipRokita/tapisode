@@ -1,5 +1,6 @@
+# Tapisode: movies & shows tracker
+
 <div align="center">
-  <h1>Tapisode: movies & shows tracker</h1>
   <img src="docs/banner.svg" alt="Tapisode" width="720">
   <p><strong>Fast, phone-first minimalist tracker for movies and TV shows.</strong></p>
 </div>
