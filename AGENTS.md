@@ -98,12 +98,6 @@ if a new doc is genuinely needed (keep docs lean; only add docs that are truly
 necessary). This file is part of that rule too: when a workflow, command, path
 or rule it names changes, update `AGENTS.md` in the same change.
 
-## Verification
-
-Walk the real flow end to end as a user: green unit tests can hide a broken path.
-Measure with tools, and re-run everything on a fresh clone at the end. Say
-plainly what you did not verify.
-
 ## Agent neutrality
 
 Keep the repo usable by any coding agent. When there is an agent-specific
