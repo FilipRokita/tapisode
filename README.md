@@ -18,8 +18,6 @@
   <img src="https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white" alt="Playwright">
 </div>
 
-<br>
-
 ---
 
 <div align="center">
