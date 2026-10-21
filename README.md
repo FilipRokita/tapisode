@@ -3,7 +3,7 @@
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/banner-dark.svg">
-    <img src="docs/banner-light.svg" alt="Tapisode" width="320">
+    <img src="docs/banner-light.svg" alt="Tapisode" width="420">
   </picture>
 </div>
 
