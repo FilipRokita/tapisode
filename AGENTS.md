@@ -99,6 +99,12 @@ if a new doc is genuinely needed (keep docs lean; only add docs that are truly
 necessary). This file is part of that rule too: when a workflow, command, path
 or rule it names changes, update `AGENTS.md` in the same change.
 
+## Verification
+
+Walk the real flow end to end as a user: green unit tests can hide a broken path.
+Measure with tools, and re-run everything on a fresh clone at the end. Say
+plainly what you did not verify.
+
 ## Agent neutrality
 
 Keep the repo usable by any coding agent. When there is an agent-specific
@@ -133,7 +139,7 @@ work it does, `invite-expiry` rather than `implementation-plan`, so the next pla
 gets its own entry instead of overwriting this one.
 
 Planning is not building: do not write finished code while planning unless asked. A prototype is a guide, not a law: fix
-small flaws as you build and note them in the commit, and ask before changing the product's direction.
+flaws as you build and note them in the commit, and ask before changing the product's direction.
 
 Whatever a plan produces stays in its entry. `dev-only/` is scratch space for
 prototypes tied to no plan.
@@ -142,7 +148,3 @@ Every plan ends with a review and testing stage: check that it was fully
 implemented, that every rule and acceptance criterion has code and tests, and
 that the app still works as a whole. Fix what is broken or write it down as a
 named limitation.
-
-Verify for real: walk the real flow end to end as a user (green unit tests can
-hide a broken path), measure with tools, and re-run everything on a fresh clone
-at the end. Say plainly what you did not verify.
