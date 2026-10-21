@@ -87,9 +87,9 @@ describe("rate limit", () => {
   it("allows only a few sandboxes per hour from one IP", async () => {
     await db.delete(user).where(eq(user.isAnonymous, true)); // the cap test above left the sandboxes full
     const codes: number[] = [];
-    for (let i = 0; i < 7; i++) codes.push((await post("/sign-in/anonymous", {}, { "x-forwarded-for": "10.4.0.9" })).status);
-    expect(codes.filter((c) => c === 200)).toHaveLength(5);
-    expect(codes.slice(5)).toEqual([429, 429]);
+    for (let i = 0; i < 5; i++) codes.push((await post("/sign-in/anonymous", {}, { "x-forwarded-for": "10.4.0.9" })).status);
+    expect(codes.filter((c) => c === 200)).toHaveLength(3);
+    expect(codes.slice(3)).toEqual([429, 429]);
   });
 
   it("limits sign-in per IP when it goes through the handler, and counts other IPs separately", async () => {

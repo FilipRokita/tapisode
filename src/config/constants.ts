@@ -1,6 +1,6 @@
 /** Product constants that more than one layer needs. */
 export const SANDBOX_LIFETIME_MS = 6 * 60 * 60 * 1000;
-export const SANDBOX_CAP = 100;
+export const SANDBOX_CAP = 30;
 export const TEMPLATE_USER_EMAIL = "sandbox-template@tapisode.invalid";
 export const DEFAULT_COUNTRY = "US";
 

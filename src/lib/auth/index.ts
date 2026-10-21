@@ -37,7 +37,7 @@ export const auth = betterAuth({
     enabled: true,
     storage: "database",
     // Creating a sandbox needs no login, so it is a public entry point: a few per hour per IP. Sign-up is limited too.
-    customRules: { "/sign-in/anonymous": { window: 3600, max: 5 }, "/sign-up/email": { window: 60, max: 5 } },
+    customRules: { "/sign-in/anonymous": { window: 3600, max: 3 }, "/sign-up/email": { window: 60, max: 5 } },
   },
   databaseHooks: {
     user: {
