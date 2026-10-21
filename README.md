@@ -68,11 +68,6 @@ on desktop.
 7. **Installable.** A web app manifest, icons and an offline page make it installable
    on a phone.
 
-<p align="center">
-  <img src="docs/screenshots/desktop.png" alt="The Watching page on a desktop" width="62%">
-  <img src="docs/screenshots/phone.png" alt="The Watching page on a phone" width="25%">
-</p>
-
 ## 🧱 Stack
 
 | Layer | Technology |
