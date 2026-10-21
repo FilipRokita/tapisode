@@ -41,14 +41,14 @@ on desktop.
 
 ## 📖 Table of contents
 
-- [✨ What it does](#-what-it-does)
-- [🧱 Stack](#-stack)
-- [🔧 How it's built](#-how-its-built)
-- [🚀 Run it locally](#-run-it-locally)
-- [☁️ Run it on a host](#️-run-it-on-a-host)
-- [⚠️ Limitations](#️-limitations)
-- [📚 Documentation](#-documentation)
-- [🎬 Data and attribution](#-data-and-attribution)
+1. [✨ What it does](#-what-it-does)
+2. [🧱 Stack](#-stack)
+3. [🔧 How it's built](#-how-its-built)
+4. [🚀 Run it locally](#-run-it-locally)
+5. [☁️ Run it on a host](#️-run-it-on-a-host)
+6. [⚠️ Limitations](#️-limitations)
+7. [📚 Documentation](#-documentation)
+8. [🎬 Data and attribution](#-data-and-attribution)
 
 ## ✨ What it does
 
