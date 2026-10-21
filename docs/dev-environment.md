@@ -85,8 +85,9 @@ The end-to-end suite also runs axe on every screen and the responsive and reduce
 ## Migrations on a host
 
 `vercel.json` runs `npm run db:migrate` and `npm run db:seed -- --template-only --if-missing` before `next build`, but only
-when `VERCEL_ENV=production` (a push to `main`). Preview deployments do not migrate, so give them their own Neon branch and
-migrate that branch by hand with `DATABASE_URL_UNPOOLED=<branch> npm run db:migrate` when a pull request changes the schema.
+when `VERCEL_ENV=production` (a push to `main`). It also deploys only `main`: preview deployments are off, so nothing but
+production ever touches the database. If you turn previews on, give them their own Neon branch and migrate it by hand with
+`DATABASE_URL_UNPOOLED=<branch> npm run db:migrate`.
 
 CI runs the same commands on every push to `main` and on every pull request.
 

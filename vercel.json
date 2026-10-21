@@ -1,5 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "if [ \"$VERCEL_ENV\" = \"production\" ]; then npm run db:migrate && npm run db:seed -- --template-only --if-missing; fi && next build",
-  "crons": [{ "path": "/api/cron/maintenance", "schedule": "0 4 * * 1" }]
+  "crons": [
+    {
+      "path": "/api/cron/maintenance",
+      "schedule": "0 4 * * 1"
+    }
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "**": false
+    }
+  }
 }

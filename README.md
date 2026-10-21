@@ -152,12 +152,8 @@ The same application and code. Only environment variables differ.
    | `MEDIA_PROVIDER` | Optional: `tmdb` (default) or `fake` |
 
 4. **Migrations:** The build command in [vercel.json](vercel.json) runs the migrations
-   and creates the sandbox template, but only on production builds
-   (`VERCEL_ENV=production`, which is a push to `main`). Updating the app is a push
-   to `main`.
-   Preview deployments do not migrate. Point them at their own Neon branch, and migrate
-   that branch by hand with `DATABASE_URL_UNPOOLED=<branch> npm run db:migrate` when a
-   pull request changes the schema.
+   and creates the sandbox template on every build. Only `main` is deployed (the same file
+   turns off preview deployments), so updating the app is a push to `main`.
 5. **Weekly job:** `vercel.json` also schedules `/api/cron/maintenance`, which refreshes
    tracked titles, purges old catalog content and deletes expired demo sessions.
 
