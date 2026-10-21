@@ -36,7 +36,7 @@ Code asks for approval the first time it sees a project MCP server.
 The container definition lives in `.devcontainer/`:
 
 - `devcontainer.json` configures the image (Node.js 24 on Debian Trixie), features
-  (GitHub CLI), VS Code extensions, port 3000 forwarding and `TZ=UTC`, so dates behave
+  (GitHub CLI), VS Code extensions and `TZ=UTC`, so dates behave
   the same as on a host.
 - `setup.sh` runs once as `postCreateCommand`. It needs `.env` to exist, then installs
   PostgreSQL, the dependencies (`npm ci`), the browser for the end-to-end tests and

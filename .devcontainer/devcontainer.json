@@ -11,8 +11,7 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000],
-
+	// "forwardPorts": [],
 	"containerEnv": { "TZ": "UTC" },
 
 	// Use 'postCreateCommand' to run commands after the container is created.
