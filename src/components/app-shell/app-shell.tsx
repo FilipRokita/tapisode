@@ -12,6 +12,7 @@ import { useOnline } from "@/components/primitives/use-online";
 import { TitleDrawerProvider } from "@/components/drawer/drawer-host";
 import { ConfettiHost } from "@/components/confetti-host";
 import { Toaster } from "@/components/ui/sonner";
+import { InstallHint } from "@/components/pwa/install-hint";
 import { OFFLINE_MESSAGE } from "@/components/copy";
 import { SearchPalette } from "@/components/search/search-palette";
 import { toast } from "sonner";
@@ -186,6 +187,7 @@ export function AppShell({ user, region, overlays, children }: { user: ShellUser
           <Sidebar user={user} counts={counts} />
           <main id="main" className="min-w-0 px-4 pb-[calc(92px+var(--safe-bottom))] md:mx-auto md:w-full md:max-w-[1180px] md:px-9 md:pt-[calc(36px+var(--safe-top))] md:pb-14">
             <StickyTop user={user} />
+            <InstallHint />
             {!online && (
               <div role="status" className="mb-2.5 flex items-center gap-2.5 rounded-[14px] border border-border bg-surface-2 px-3.5 py-2.5 text-[13.5px] text-dim">
                 <WifiOff className="size-5 shrink-0" />

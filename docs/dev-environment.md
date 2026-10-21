@@ -83,3 +83,24 @@ CI runs the same commands on every push to `main` and on every pull request.
 
 If the repository sits on a mounted Windows drive, installs and builds take minutes and
 hot reload does not work. Clone it inside the container's own disk for a fast loop.
+
+## The installable app (PWA)
+
+The manifest, the icons and the offline page are generated from the design tokens by `npm run assets` (it needs the
+Playwright Chromium). The service worker in `public/sw.js` only serves the offline page when a page cannot load, and it
+is registered in production builds only.
+
+To try it locally, run `npm run build` and `npm run start`. `next dev --experimental-https` creates a root CA inside the
+container only, so a real phone needs a real HTTPS deployment.
+
+## Before release
+
+A real phone has things a browser test cannot check. Run this once after the first deployment:
+
+- Install from Chrome on Android and from Safari on iOS.
+- Open from the icon: there is no browser chrome, and the status bar and the splash match the app.
+- Sign in again inside the installed iOS app (it has separate storage).
+- The title drawer closes with the back gesture on Android.
+- Airplane mode shows the offline page.
+- `+1` works, and the phone vibrates on Android.
+- Have a qualified person read the privacy policy and the terms before real users rely on them.

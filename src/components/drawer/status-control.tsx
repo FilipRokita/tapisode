@@ -12,7 +12,7 @@ export function StatusControl({ view, onChange }: { view: TitleView; onChange: (
   const released = isReleased(view.facts);
   const airing = view.facts.type === "tv" && view.facts.state === "ongoing";
   return (
-    <div>
+    <div className="needs-net">
       <div className="eyebrow mb-2.5">Status</div>
       <Segmented label="Status" value={view.state?.status ?? null} onChange={onChange} items={STATUSES.map((value) => ({ value, label: STATUS_LABEL[value] }))} />
       {!released ? (
