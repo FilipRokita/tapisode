@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { authClient } from "@/components/auth/auth-client";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 /** "Try it without an account": opens a demo session and goes straight to the app. */
@@ -12,9 +11,22 @@ export function TryButton({ className }: { className?: string }) {
   const [busy, setBusy] = useState(false);
   const [full, setFull] = useState<string | null>(null);
 
+  // Fetch the auth client while the browser is idle after the page has loaded, so the click does not wait for it.
+  useEffect(() => {
+    const warm = () => void import("@/components/auth/auth-client");
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(warm, { timeout: 4000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = setTimeout(warm, 2000);
+    return () => clearTimeout(id);
+  }, []);
+
   async function go() {
     setBusy(true);
     setFull(null);
+    // Already fetched while idle, so this usually resolves at once.
+    const { authClient } = await import("@/components/auth/auth-client");
     const { error } = await authClient.signIn.anonymous();
     if (error) {
       setBusy(false);

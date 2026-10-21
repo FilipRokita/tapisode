@@ -3,7 +3,7 @@
     "collect": {
       "startServerCommand": "npm run start -- -p 3211",
       "url": ["http://localhost:3211/", "http://localhost:3211/signin", "http://localhost:3211/privacy"],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "settings": { "chromeFlags": "--no-sandbox --headless" }
     },
     "assert": {
