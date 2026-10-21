@@ -27,17 +27,17 @@
 
 ---
 
-**Tapisode** is a fast, phone-first minimalist tracker for movies and TV shows.
-Keep tabs on what you are watching without social feeds, ratings, or unnecessary
-noise.
+**Tapisode** is a **fast, phone-first, minimalist tracker** for movies and TV shows.
+Keep tabs on what you are watching **without social feeds, ratings, or unnecessary
+noise**.
 
-Tap `+1 Episode` directly on your active shows to advance your progress
-instantly. Check where a title is currently streaming (Netflix, HBO Max,
+Tap **`+1 Episode`** directly on your active shows to **advance your progress
+instantly**. Check **where a title is currently streaming** (Netflix, HBO Max,
 Disney+, Prime Video, and others) in your country without juggling multiple
 guides.
 
-Dark by default, built phone-first, installable as an app, and fully responsive
-on desktop.
+**Dark by default**, built **phone-first**, **installable as an app**, and fully
+responsive on desktop.
 
 ## 📖 Table of contents
 
