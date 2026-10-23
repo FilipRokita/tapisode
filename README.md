@@ -46,8 +46,9 @@ responsive on desktop.
 3. [🔧 How it's built](#-how-its-built)
 4. [🚀 Run it locally](#-run-it-locally)
 5. [☁️ Run it on a host](#️-run-it-on-a-host)
-6. [📚 Documentation](#-documentation)
-7. [🎬 Data and attribution](#-data-and-attribution)
+6. [🌐 Live demo infrastructure](#-live-demo-infrastructure)
+7. [📚 Documentation](#-documentation)
+8. [🎬 Data and attribution](#-data-and-attribution)
 
 ## ✨ What it does
 
@@ -159,6 +160,17 @@ The same application and code. Only environment variables differ.
    turns off preview deployments), so updating the app is a push to `main`.
 6. **Weekly job:** `vercel.json` also schedules `/api/cron/maintenance`, which refreshes
    tracked titles, purges old catalog content and deletes expired demo sessions.
+
+## 🌐 Live demo infrastructure
+
+The live demo at [tapisode.vercel.app](https://tapisode.vercel.app) runs on these services:
+
+| Component | Provider | Details |
+| :--- | :--- | :--- |
+| **Application** | [Vercel](https://vercel.com) | Next.js hosting, deployed from `main`, with a weekly maintenance job |
+| **Database** | [Neon](https://neon.com) | Serverless PostgreSQL 17 (AWS Frankfurt `eu-central-1`) |
+| **Catalog data** | [TMDB](https://www.themoviedb.org) | Titles and posters, behind a replaceable provider port |
+| **Source code** | [GitHub](https://github.com) | Repository, version control and CI |
 
 ## 📚 Documentation
 
