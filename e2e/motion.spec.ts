@@ -11,7 +11,7 @@ test.describe("reduced motion", () => {
     await salt.getByRole("button", { name: "+1 Episode" }).click();
     await expect(salt.getByRole("button", { name: "Finished" })).toBeVisible();
     const painted = await page.evaluate(() => {
-      const canvas = document.getElementById("confetti-canvas") as HTMLCanvasElement;
+      const canvas = document.getElementById("demo-confetti") as HTMLCanvasElement;
       return canvas.width === 0 ? false : canvas.getContext("2d")!.getImageData(0, 0, canvas.width, canvas.height).data.some((v, i) => i % 4 === 3 && v > 0);
     });
     expect(painted).toBe(false);
