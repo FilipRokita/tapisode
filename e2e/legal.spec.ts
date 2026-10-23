@@ -9,7 +9,7 @@ test.describe("legal pages and metadata", () => {
       await page.goto(path);
       await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
       await expect(page.getByText("Last updated")).toBeVisible();
-      await expect(page.getByRole("link", { name: "Back" })).toBeVisible();
+      await expect(page.getByRole("link", { name: "Tapisode home" })).toBeVisible();
       const text = await page.locator("main").innerText();
       if (path === "/privacy") {
         expect(text).toMatch(/Contact: \S+@\S+\.\S+/); // the deployer's details come from the environment
