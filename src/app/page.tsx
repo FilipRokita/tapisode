@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { loadDemo } from "@/actions/queries/demo";
-import { ConfettiHost } from "@/components/confetti-host";
 import { Atmosphere } from "@/components/landing/atmosphere";
 import { Closing } from "@/components/landing/closing";
 import { Features } from "@/components/landing/features";
@@ -35,7 +34,6 @@ export default async function Landing() {
         </main>
         <LandingFooter />
       </div>
-      <ConfettiHost />
     </div>
   );
 }

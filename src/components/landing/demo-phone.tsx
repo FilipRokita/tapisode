@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { celebrate } from "@/components/confetti-host";
+import { launchConfetti } from "@/components/confetti";
 import { LogoMark } from "@/components/primitives/logo";
 import { ArrowLeft } from "@/components/primitives/icons";
 import { TiltBox } from "@/components/primitives/tilt-box";
@@ -25,12 +25,20 @@ const REDEAL_DELAY = 4200;
 
 /**
  * The phone on the landing. It uses the same card as the app and the same `transition` function, on copies of two titles,
- * so tapping it never touches real data. The first title is one tap from its end, so the visitor gets the confetti.
+ * so tapping it never touches real data. The first title is one tap from its end, so the visitor gets the confetti, which stays inside the phone.
  */
 export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
   const [slots, setSlots] = useState<Readonly<Record<string, Slot>>>(() => Object.fromEntries(titles.map((t) => [t.id, { state: t.state!, deal: 0 }])));
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const stopConfetti = useRef<() => void>(() => {});
+  useEffect(
+    () => () => {
+      timers.current.forEach(clearTimeout);
+      stopConfetti.current();
+    },
+    [],
+  );
 
   const plus = useCallback(
     (view: TitleView) => {
@@ -46,7 +54,10 @@ export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
         setTimeout(() => {
           setSlots((s) => ({ ...s, [view.id]: { ...slot, state: next } }));
           if (!finishing) return;
-          celebrate();
+          if (canvas.current) {
+            stopConfetti.current();
+            stopConfetti.current = launchConfetti(canvas.current);
+          }
           timers.current.push(setTimeout(() => setSlots((s) => ({ ...s, [view.id]: { state: view.state!, deal: slot.deal + 1 } })), REDEAL_DELAY));
         }, finishing ? FINISH_DELAY : 0),
       );
@@ -57,7 +68,7 @@ export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
   return (
     <div className="relative flex justify-center">
       <div className="relative w-[306px] max-w-full rounded-[40px] border border-border-strong bg-background px-[15px] pt-3.5 pb-4 shadow-[0_0_0_7px_var(--bezel),0_40px_90px_rgb(0_0_0/0.65)]">
-        <div aria-hidden="true" className="mx-auto mb-3 h-[22px] w-[90px] rounded-xl border border-border bg-black" />
+        <div aria-hidden="true" className="relative z-10 mx-auto mb-3 h-[22px] w-[90px] rounded-xl border border-border bg-black" />
         <div className="flex items-center justify-between px-1.5 pt-0.5 pb-2.5">
           <span className="inline-flex items-center gap-2 text-[15px] font-bold tracking-[-0.03em]">
             <LogoMark size={22} />
@@ -78,6 +89,7 @@ export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
             );
           })}
         </div>
+        <canvas ref={canvas} id="demo-confetti" aria-hidden="true" className="pointer-events-none absolute inset-0 size-full rounded-[40px]" />
       </div>
       <div aria-hidden="true" className="absolute top-32 -right-1.5 hidden translate-x-full items-center gap-2 text-[13px] text-dim md:flex">
         <ArrowLeft className="size-[34px]" />

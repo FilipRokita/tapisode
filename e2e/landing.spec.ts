@@ -37,12 +37,14 @@ test.describe("landing", () => {
     await expect(salt).toContainText("100%");
     await expect.poll(() =>
       page.evaluate(() => {
-        const canvas = document.getElementById("confetti-canvas") as HTMLCanvasElement;
+        const canvas = document.getElementById("demo-confetti") as HTMLCanvasElement;
         const data = canvas.getContext("2d")!.getImageData(0, 0, canvas.width, canvas.height).data;
         for (let i = 3; i < data.length; i += 4) if (data[i]! > 0) return true;
         return false;
       }),
     ).toBe(true);
+    // The burst stays inside the phone: there is no full-screen canvas on the landing.
+    await expect(page.locator("#confetti-canvas")).toHaveCount(0);
     await expect(salt.getByRole("button", { name: "Finished" })).toBeVisible();
     await expect(salt).toContainText("S01E07", { timeout: 8000 });
     await expect(salt).toContainText("88%");

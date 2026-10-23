@@ -13,14 +13,14 @@ export const confettiSpread = (width: number): number => (width < 600 ? width * 
 const token = (name: string): string => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
 /**
- * Draws a burst of confetti on the canvas from the bottom center. Time based, so it looks the same at any frame rate.
+ * Draws a burst of confetti on the canvas, sized to its box, from the bottom center. Time based, so it looks the same at any frame rate.
  * Returns a function that stops it. Does nothing when the visitor prefers reduced motion.
  */
 export function launchConfetti(canvas: HTMLCanvasElement): () => void {
   if (prefersReducedMotion()) return () => {};
   if ("vibrate" in navigator) navigator.vibrate([20, 40, 20]);
-  const width = (canvas.width = window.innerWidth);
-  const height = (canvas.height = window.innerHeight);
+  const width = (canvas.width = canvas.clientWidth);
+  const height = (canvas.height = canvas.clientHeight);
   const ctx = canvas.getContext("2d");
   if (!ctx) return () => {};
   const colors = ["--brand", "--brand-text", "--foreground", "--light-hover", "--faint"].map(token);
