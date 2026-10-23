@@ -25,7 +25,7 @@ const REDEAL_DELAY = 4200;
 
 /**
  * The phone on the landing. It uses the same card as the app and the same `transition` function, on copies of two titles,
- * so tapping it never touches real data. The first title is one tap from its end, so the visitor gets the confetti, which stays inside the phone.
+ * so tapping it never touches real data. The first title is one tap from its end, so the visitor gets the confetti, which stays on the screen: inside the frame, fading out toward the notch.
  */
 export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
   const [slots, setSlots] = useState<Readonly<Record<string, Slot>>>(() => Object.fromEntries(titles.map((t) => [t.id, { state: t.state!, deal: 0 }])));
@@ -89,7 +89,7 @@ export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
             );
           })}
         </div>
-        <canvas ref={canvas} id="demo-confetti" aria-hidden="true" className="pointer-events-none absolute inset-0 size-full rounded-[40px]" />
+        <canvas ref={canvas} id="demo-confetti" aria-hidden="true" className="pointer-events-none absolute top-3 left-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] rounded-[28px] [mask-image:linear-gradient(to_bottom,transparent,#000_18%)]" />
       </div>
       <div aria-hidden="true" className="absolute top-32 -right-1.5 hidden translate-x-full items-center gap-2 text-[13px] text-dim md:flex">
         <ArrowLeft className="size-[34px]" />
