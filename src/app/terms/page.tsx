@@ -19,7 +19,7 @@ export default function TermsPage() {
       <h2>Your data</h2>
       <p>You can delete your account and export your data at any time in Settings.</p>
       <h2>Credits</h2>
-      <p>This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming availability data by JustWatch.</p>
+      <p>This product uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB. Streaming availability data by JustWatch.</p>
     </LegalPage>
   );
 }

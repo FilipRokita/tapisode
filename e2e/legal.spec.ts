@@ -1,7 +1,7 @@
 import { expect, test } from "./fixtures";
 import { enterSandbox } from "./helpers";
 
-const NOTICE = "This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming availability data by JustWatch.";
+const NOTICE = "This product uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB. Streaming availability data by JustWatch.";
 
 test.describe("legal pages and metadata", () => {
   for (const [path, heading] of [["/privacy", "Privacy policy"], ["/terms", "Terms"]] as const) {

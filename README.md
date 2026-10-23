@@ -175,6 +175,6 @@ Anything that is not in this file lives in [`docs/`](docs/):
 
 <img src="public/tmdb-logo.svg" alt="TMDB" width="64">
 
-This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming
+This product uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB. Streaming
 availability data by JustWatch. Every screenshot in this repository was taken on invented
 demo data, never on TMDB content.
