@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { loadLibrary, regionOf, requirePageUser, sandboxHoursLeft } from "@/actions/queries/library";
 import { AppShell, type ShellUser } from "@/components/app-shell/app-shell";
+import { SessionMark } from "@/components/landing/session-probe";
 import { LibraryProvider } from "@/components/library/library-provider";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +15,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     : { name: user.name, caption: user.email, initial: (user.name[0] ?? "?").toUpperCase() };
   return (
     <LibraryProvider initial={titles} pending={pending}>
+      <SessionMark />
       <AppShell user={shellUser} region={regionOf(user)}>{children}</AppShell>
     </LibraryProvider>
   );

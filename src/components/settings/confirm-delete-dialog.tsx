@@ -1,5 +1,6 @@
 "use client";
 
+import { setSessionHint } from "@/components/landing/session-hint";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -22,6 +23,7 @@ export function ConfirmDeleteDialog({ open, onOpenChange }: { open: boolean; onO
       return;
     }
     await authClient.signOut().catch(() => {});
+    setSessionHint(false);
     router.push("/");
     router.refresh();
   }

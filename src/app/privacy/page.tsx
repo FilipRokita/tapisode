@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       <ul>
         <li>Your email, nickname and a hashed password.</li>
         <li>Your country and your lists of titles with your progress.</li>
-        <li>A session cookie that keeps you signed in. It is strictly necessary, so there is no cookie banner.</li>
+        <li>A session cookie that keeps you signed in, and a small cookie that lets the home page show the right links. Both are strictly necessary, so there is no cookie banner.</li>
         <li>Your IP address, only briefly, to limit abuse and to guess your country when you sign up.</li>
       </ul>
       <h2>Why and on what basis</h2>

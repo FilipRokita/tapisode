@@ -1,3 +1,4 @@
+import { SESSION_HINT_SCRIPT } from "@/components/landing/session-hint";
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ServiceWorker } from "@/components/pwa/service-worker";
@@ -19,7 +20,10 @@ export const viewport: Viewport = { themeColor: THEME_COLOR, viewportFit: "cover
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${inter.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`dark ${inter.variable} ${jetbrains.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SESSION_HINT_SCRIPT }} />
+      </head>
       <body className="text-[15px] leading-normal">
         {children}
         <ServiceWorker />

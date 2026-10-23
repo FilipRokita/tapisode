@@ -119,3 +119,7 @@
     &:hover::after { opacity: 1; }
   }
 }
+
+/* Which links the landing shows: the ones for a member when the session hint is set, the ones for a guest otherwise. */
+html:not([data-in]) .when-in { display: none; }
+html[data-in] .when-out { display: none; }

@@ -1,5 +1,6 @@
 "use client";
 
+import { setSessionHint } from "@/components/landing/session-hint";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -61,6 +62,7 @@ export function SettingsView({ isSandbox, country, regions }: SettingsViewProps)
 
   async function signOut() {
     await authClient.signOut().catch(() => {});
+    setSessionHint(false);
     router.push("/");
     router.refresh();
   }
