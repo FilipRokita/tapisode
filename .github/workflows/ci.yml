@@ -24,6 +24,8 @@ jobs:
       BETTER_AUTH_SECRET: ci-secret-ci-secret-ci-secret-ci-secret
       BETTER_AUTH_URL: http://localhost:3000
       MEDIA_PROVIDER: fake
+      LEGAL_CONTROLLER_NAME: Test Controller
+      LEGAL_CONTACT_EMAIL: legal@example.test
       CRON_SECRET: ci-cron-secret-ci-cron-secret-ci-1
     steps:
       - uses: actions/checkout@v7

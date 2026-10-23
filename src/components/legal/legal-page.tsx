@@ -22,4 +22,3 @@ export function LegalPage({ title, updated, children }: { title: string; updated
 }
 
 export const LEGAL_UPDATED = "20 October 2026";
-export const CONTACT = "contact@filiprokita.com";

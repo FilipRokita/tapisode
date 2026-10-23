@@ -148,12 +148,16 @@ The same application and code. Only environment variables differ.
    | `TMDB_API_READ_ACCESS_TOKEN` | TMDB API Read Access Token (bearer token) |
    | `CRON_SECRET` | Protects the cron route (`openssl rand -base64 32`) |
    | `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` | Encrypts Server Action ids when more than one instance serves traffic |
+   | `LEGAL_CONTROLLER_NAME` | Your name, as the privacy policy names who is responsible |
+   | `LEGAL_CONTACT_EMAIL` | Where users write about their data. The build stops without these two |
    | `MEDIA_PROVIDER` | Optional: `tmdb` (default) or `fake` |
 
-4. **Migrations:** The build command in [vercel.json](vercel.json) runs the migrations
+4. **Privacy policy:** Read it and adapt it. It describes Vercel, Neon, TMDB and one session
+   cookie, and a different setup needs different text.
+5. **Migrations:** The build command in [vercel.json](vercel.json) runs the migrations
    and creates the sandbox template on every build. Only `main` is deployed (the same file
    turns off preview deployments), so updating the app is a push to `main`.
-5. **Weekly job:** `vercel.json` also schedules `/api/cron/maintenance`, which refreshes
+6. **Weekly job:** `vercel.json` also schedules `/api/cron/maintenance`, which refreshes
    tracked titles, purges old catalog content and deletes expired demo sessions.
 
 ## 📚 Documentation

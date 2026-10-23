@@ -69,7 +69,7 @@ nothing when the template already exists.
 | `npm run assets` | Regenerates the icons, the Open Graph image and the offline page from the design tokens |
 | `npm run screenshots` | Regenerates the README pictures from the built app on the fake provider |
 | `npx lhci autorun` | Lighthouse budgets on `/`, `/signin` and `/privacy` (set `CHROME_PATH` to the Playwright Chromium) |
-| `npm run build` | The production build. It needs `DATABASE_URL`, `BETTER_AUTH_SECRET` (32+ characters) and `BETTER_AUTH_URL` in the environment |
+| `npm run build` | The production build. It needs `DATABASE_URL`, `BETTER_AUTH_SECRET` (32+ characters) and `BETTER_AUTH_URL`, `LEGAL_CONTROLLER_NAME` and `LEGAL_CONTACT_EMAIL` in the environment |
 
 ## End-to-end tests
 

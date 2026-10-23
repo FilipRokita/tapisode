@@ -10,6 +10,8 @@ const schema = z
     MEDIA_PROVIDER: z.enum(["tmdb", "fake"]).default("tmdb"),
     TMDB_API_READ_ACCESS_TOKEN: z.string().optional(),
     CRON_SECRET: z.string().optional(),
+    LEGAL_CONTROLLER_NAME: z.string().trim().min(1),
+    LEGAL_CONTACT_EMAIL: z.email(),
   })
   .refine((e) => e.MEDIA_PROVIDER !== "tmdb" || !!e.TMDB_API_READ_ACCESS_TOKEN, {
     message: "TMDB_API_READ_ACCESS_TOKEN is required when MEDIA_PROVIDER is tmdb",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { CONTACT, LEGAL_UPDATED, LegalPage } from "@/components/legal/legal-page";
+import { LEGAL_UPDATED, LegalPage } from "@/components/legal/legal-page";
+import { getEnv } from "@/config/env";
 
 export const metadata: Metadata = {
   title: "Privacy policy · Tapisode",
@@ -7,11 +8,12 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
+  const { LEGAL_CONTROLLER_NAME: controller, LEGAL_CONTACT_EMAIL: contact } = getEnv();
   return (
     <LegalPage title="Privacy policy" updated={LEGAL_UPDATED}>
       <p>This is a short, plain-language summary of how Tapisode treats your data. Tapisode is a non-commercial learning and portfolio project.</p>
       <h2>Who is responsible</h2>
-      <p>Filip Rokita, the person who runs this project. Contact: {CONTACT}.</p>
+      <p>{controller}, the person who runs this project. Contact: {contact}.</p>
       <h2>What we keep</h2>
       <ul>
         <li>Your email, nickname and a hashed password.</li>
@@ -29,7 +31,7 @@ export default function PrivacyPage() {
       <p>Until you delete your account. Temporary demo sessions expire after 6 hours.</p>
       <h2>Your rights</h2>
       <p>
-        You can access, correct, delete and export your data, and complain to the Polish supervisory authority (UODO). Deleting your account and exporting your data are in Settings. For anything else, write to {CONTACT} and you will get an answer within one month.
+        You can access, correct, delete and export your data, and complain to the Polish supervisory authority (UODO). Deleting your account and exporting your data are in Settings. For anything else, write to {contact} and you will get an answer within one month.
       </p>
     </LegalPage>
   );

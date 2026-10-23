@@ -12,7 +12,7 @@ test.describe("legal pages and metadata", () => {
       await expect(page.getByRole("link", { name: "Back" })).toBeVisible();
       const text = await page.locator("main").innerText();
       if (path === "/privacy") {
-        expect(text).toContain("contact@filiprokita.com");
+        expect(text).toMatch(/Contact: \S+@\S+\.\S+/); // the deployer's details come from the environment
         expect(text).toContain("TMDB can see your IP address");
       } else {
         expect(text).toContain("at least 16");
