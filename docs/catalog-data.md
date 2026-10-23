@@ -9,7 +9,7 @@ mistake here can cost the API key.
 | Topic | What we do |
 | :--- | :--- |
 | License | The free TMDB key is non-commercial only. A portfolio project fits. |
-| Attribution | The TMDB logo and the notice "uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB" appear in the README and the app's footer. |
+| Attribution | The official TMDB logo ([`public/tmdb-logo.svg`](../public/tmdb-logo.svg), unmodified) and the notice "uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB" appear in the README and the app's footer. |
 | Logo prominence | The TMDB logo is always less prominent than Tapisode's own branding. |
 | Streaming data | Availability is credited to JustWatch wherever it is shown. |
 | 6-month rule | TMDB content is never kept longer than six months. We purge at **150 days**, a month inside the limit. |

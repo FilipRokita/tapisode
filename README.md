@@ -173,7 +173,7 @@ Anything that is not in this file lives in [`docs/`](docs/):
 
 ## 🎬 Data and attribution
 
-<img src="https://img.shields.io/badge/TMDB-01B4E4?logo=themoviedatabase&logoColor=white" alt="TMDB">
+<img src="public/tmdb-logo.svg" alt="TMDB" width="64">
 
 This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming
 availability data by JustWatch. Every screenshot in this repository was taken on invented

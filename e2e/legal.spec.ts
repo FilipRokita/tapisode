@@ -24,9 +24,13 @@ test.describe("legal pages and metadata", () => {
   test("the footer on the landing and Settings carry the exact TMDB notice", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByText(NOTICE)).toBeVisible();
+    const logo = page.getByRole("img", { name: "TMDB" });
+    await expect(logo).toBeVisible();
+    expect(await logo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
     await enterSandbox(page);
     await page.goto("/app/settings");
     await expect(page.getByText(NOTICE)).toBeVisible();
+    await expect(page.getByRole("img", { name: "TMDB" })).toBeVisible();
   });
 
   test("the app and the auth screens are not indexed, the landing and legal pages are", async ({ page }) => {
