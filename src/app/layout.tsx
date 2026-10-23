@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Tapisode",
   description: "Movies and shows, minus the noise.",
   appleWebApp: { capable: true, title: "Tapisode", statusBarStyle: "black-translucent" },
-  icons: { apple: "/apple-touch-icon.png" },
+  icons: { icon: "/icon.svg", apple: "/apple-touch-icon.png" },
 };
 export const viewport: Viewport = { themeColor: THEME_COLOR, viewportFit: "cover", width: "device-width", initialScale: 1 };
 
