@@ -91,7 +91,7 @@ function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "ti
           <ProgressPanel view={view} run={command} />
         </div>
         <div className={section(2, entering).className} style={section(2, entering).style}>
-          <StatusControl view={view} onChange={(status) => command({ kind: "setStatus", status })} />
+          <StatusControl view={view} onChange={(status) => command({ kind: "setStatus", status })} onRemove={() => command({ kind: "restore", state: null })} />
         </div>
         {series && (
           <div className={cn("md:col-span-2 md:row-start-3", section(3, entering).className)} style={section(3, entering).style}>

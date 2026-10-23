@@ -7,7 +7,7 @@ import type { TitleView } from "@/domain/view";
 /** What to tell the user after a change went through. Null when the change needs no message. */
 export function changeMessage(view: TitleView, next: UserTitleState | null, command: Command): string | null {
   const before = view.state;
-  if (next === null) return null;
+  if (next === null) return command.kind === "restore" && before !== null ? "Removed from your lists" : null;
   const code = episodeCode(next.position.season, next.position.episode);
   if (command.kind === "plusOne") {
     if (before === null || before.status !== "watching") return `Moved to Watching: ${code}`;

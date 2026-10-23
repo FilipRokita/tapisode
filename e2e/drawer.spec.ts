@@ -56,6 +56,22 @@ test.describe("title drawer", () => {
     await expect(d.locator('[data-episode="2-10"]')).toBeDisabled();
   });
 
+  test("Remove takes a title off every list, Undo puts it back, and Add puts it on the Watchlist", async ({ page }) => {
+    await enterSandbox(page);
+    await open(page, "Paper Kingdoms");
+    const d = dialog(page);
+    await d.getByRole("button", { name: "Remove from my lists" }).click();
+    await expect(page.getByText("Removed from your lists")).toBeVisible();
+    await expect(d.getByRole("button", { name: "Add to my list" })).toBeVisible();
+    await page.getByRole("button", { name: "Undo" }).click();
+    await expect(page.getByText("Undone")).toBeVisible();
+    await expect(d).toContainText("S03E07");
+    await d.getByRole("button", { name: "Remove from my lists" }).click();
+    await d.getByRole("button", { name: "Add to my list" }).click();
+    await expect(page.getByText("Moved to Watchlist")).toBeVisible();
+    await expect(d.getByRole("button", { name: "Remove from my lists" })).toBeVisible();
+  });
+
   test("Watching to Watchlist resets progress, and Undo restores it", async ({ page }) => {
     await enterSandbox(page);
     await open(page, "Paper Kingdoms");
