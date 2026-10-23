@@ -16,19 +16,16 @@ interface Slot {
   readonly state: UserTitleState;
   /** The state it shows for a moment before it counts, so the number rolls and the bar fills first. */
   readonly preview?: UserTitleState;
-  /** Changes when the title is dealt again, so it fades in as a new card. */
-  readonly deal: number;
 }
 
 const FINISH_DELAY = 450;
-const REDEAL_DELAY = 4200;
 
 /**
  * The phone on the landing. It uses the same card as the app and the same `transition` function, on copies of two titles,
  * so tapping it never touches real data. The first title is one tap from its end, so the visitor gets the confetti, which stays on the screen: inside the frame, fading out toward the notch.
  */
 export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
-  const [slots, setSlots] = useState<Readonly<Record<string, Slot>>>(() => Object.fromEntries(titles.map((t) => [t.id, { state: t.state!, deal: 0 }])));
+  const [slots, setSlots] = useState<Readonly<Record<string, Slot>>>(() => Object.fromEntries(titles.map((t) => [t.id, { state: t.state! }])));
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const canvas = useRef<HTMLCanvasElement>(null);
   const stopConfetti = useRef<() => void>(() => {});
@@ -58,7 +55,6 @@ export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
             stopConfetti.current();
             stopConfetti.current = launchConfetti(canvas.current);
           }
-          timers.current.push(setTimeout(() => setSlots((s) => ({ ...s, [view.id]: { state: view.state!, deal: slot.deal + 1 } })), REDEAL_DELAY));
         }, finishing ? FINISH_DELAY : 0),
       );
     },
@@ -83,7 +79,7 @@ export function DemoPhone({ titles }: { titles: readonly TitleView[] }) {
             const slot = slots[view.id]!;
             const shown: TitleView = { ...view, state: slot.state };
             return (
-              <TiltBox key={`${view.id}-${slot.deal}`} className={slot.deal > 0 ? "rise-in" : undefined}>
+              <TiltBox key={view.id}>
                 <TitleCard view={shown} preview={slot.preview} compact onPlus={() => plus(shown)} onMarkWatched={() => {}} />
               </TiltBox>
             );

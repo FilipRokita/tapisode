@@ -27,7 +27,7 @@ test.describe("landing", () => {
     await expect(page.getByRole("link", { name: /Create account|Sign in/ })).toHaveCount(0);
   });
 
-  test("the demo finishes a series with confetti, deals it again, and never touches real data", async ({ page }) => {
+  test("the demo finishes a series with confetti, stays finished, and never touches real data", async ({ page }) => {
     await page.goto("/");
     const salt = demoCard(page, "Salt & Static");
     await expect(salt).toContainText("S01E07");
@@ -46,8 +46,10 @@ test.describe("landing", () => {
     // The burst stays inside the phone: there is no full-screen canvas on the landing.
     await expect(page.locator("#confetti-canvas")).toHaveCount(0);
     await expect(salt.getByRole("button", { name: "Finished" })).toBeVisible();
-    await expect(salt).toContainText("S01E07", { timeout: 8000 });
-    await expect(salt).toContainText("88%");
+    // It stays finished: the demo does not deal the card again.
+    await page.waitForTimeout(5000);
+    await expect(salt).toContainText("S01E08");
+    await expect(salt).toContainText("100%");
     // Real data is untouched: a new demo visitor still finds Salt & Static at S01E07.
     await page.getByRole("button", { name: "Try it without an account" }).first().click();
     await expect(page).toHaveURL(/\/app\/watching/);
