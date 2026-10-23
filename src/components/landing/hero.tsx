@@ -1,8 +1,6 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import type { TitleView } from "@/domain/view";
 import { DemoPhone } from "./demo-phone";
-import { TryButton } from "./try-button";
+import { LandingActions } from "./landing-actions";
 
 export function Hero({ demo }: { demo: readonly TitleView[] }) {
   return (
@@ -15,12 +13,7 @@ export function Hero({ demo }: { demo: readonly TitleView[] }) {
           <em className="not-italic text-dim">One tap at a time.</em>
         </h1>
         <p className="mt-[18px] max-w-[34ch] text-lg text-dim">Tapisode tracks what you are watching, which episode you are on and where to stream it. Nothing else.</p>
-        <div className="mt-7 flex flex-wrap gap-3 max-md:[&>*]:w-full">
-          <TryButton />
-          <Button asChild size="lg">
-            <Link href="/signup">Create account</Link>
-          </Button>
-        </div>
+        <LandingActions className="mt-7 flex flex-wrap gap-3 max-md:[&>*]:w-full" />
         <p className="mt-4 text-[13px] text-faint">Free, no ads. Open it whenever you feel like watching.</p>
       </div>
       <div className="rise-in [animation-delay:.1s]">

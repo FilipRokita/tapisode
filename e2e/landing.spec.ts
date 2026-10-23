@@ -21,7 +21,10 @@ test.describe("landing", () => {
     await page.getByRole("button", { name: "Try it without an account" }).first().click();
     await expect(page).toHaveURL(/\/app\/watching/);
     await page.goto("/");
-    await expect(page.getByRole("link", { name: "Open the app" })).toBeVisible();
+    // Everywhere the page offered a demo or an account, a signed-in visitor gets a way into the app.
+    await expect(page.getByRole("link", { name: "Open the app" })).toHaveCount(4);
+    await expect(page.getByRole("button", { name: "Try it without an account" })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /Create account|Sign in/ })).toHaveCount(0);
   });
 
   test("the demo finishes a series with confetti, deals it again, and never touches real data", async ({ page }) => {

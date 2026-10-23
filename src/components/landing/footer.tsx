@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TmdbAttribution } from "@/components/legal/tmdb-attribution";
+import { FooterAccountLink } from "./footer-account-link";
 import { Reveal } from "./reveal";
 
 export function LandingFooter() {
@@ -14,9 +15,7 @@ export function LandingFooter() {
           <Link href="/terms" className="hover:text-foreground">
             Terms
           </Link>
-          <Link href="/signin" className="hover:text-foreground">
-            Sign in
-          </Link>
+          <FooterAccountLink />
         </nav>
       </footer>
     </Reveal>

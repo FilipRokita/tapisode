@@ -1,20 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Logo } from "@/components/primitives/logo";
 import { Button } from "@/components/ui/button";
+import { useSignedIn } from "./use-signed-in";
 
 /** The logo and the account links. Signed-in visitors are recognized after the page loads, so the page itself stays static. */
 export function LandingNav() {
-  // A plain request after the page has loaded, so the auth client's code is not part of this page.
-  const [signedIn, setSignedIn] = useState(false);
-  useEffect(() => {
-    fetch("/api/auth/get-session")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((body: { session?: unknown } | null) => setSignedIn(Boolean(body?.session)))
-      .catch(() => {});
-  }, []);
+  const signedIn = useSignedIn();
   return (
     <header className="flex items-center justify-between pt-[calc(18px+var(--safe-top))] pb-[18px]">
       <Link href="/" aria-label="Tapisode home">
