@@ -143,3 +143,9 @@ Every plan ends with a review and testing stage: check that it was fully
 implemented, that every rule and acceptance criterion has code and tests, and
 that the app still works as a whole. Fix what is broken or write it down as a
 named limitation.
+
+## 9. Commits
+
+The author of every commit is the user who runs the agent. Never add the agent
+as author or co-author: no `Co-Authored-By` trailer and no "Generated with"
+line, in commits or in pull request descriptions.
