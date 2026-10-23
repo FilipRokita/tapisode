@@ -11,7 +11,7 @@ export function LandingActions({ className, fillText }: { className?: string; fi
   return (
     <div className={className}>
       {signedIn ? (
-        <div className={fillText ? "w-full max-w-[34ch] text-lg" : undefined}>
+        <div className={fillText ? "w-full max-w-[30.5ch] text-lg" : undefined}>
           <Button asChild variant="primary" size="lg" className={fillText ? "w-full" : undefined}>
             <Link href="/app/watching">Open the app</Link>
           </Button>
