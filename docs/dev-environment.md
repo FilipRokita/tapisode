@@ -94,7 +94,9 @@ CI runs the same commands on every push to `main` and on every pull request.
 ## A slow checkout
 
 If the repository sits on a mounted Windows drive, installs and builds take minutes and
-hot reload does not work. Clone it inside the container's own disk for a fast loop.
+hot reload would not work, because that mount does not deliver file change events and Turbopack
+waits for them. `npm run dev` therefore runs webpack with `WATCHPACK_POLLING=true`, which polls for
+changes. Cloning the repository onto the container's own disk gives a faster loop still.
 
 ## The installable app (PWA)
 
