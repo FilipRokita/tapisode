@@ -164,8 +164,8 @@ test.describe("title drawer", () => {
     await page.goto("/app/watching?t=fake:tv:harbor");
     const d = dialog(page);
     await expect(d).toContainText("The Quiet Harbor");
-    // The blurred backdrop bleeds past the edges on purpose, so the sheet clips sideways and nothing can scroll.
-    expect(await d.evaluate((el) => getComputedStyle(el).overflowX)).toBe("hidden");
+    // The blurred backdrop bleeds past the edges on purpose, so the box that scrolls clips sideways and nothing can scroll.
+    expect(await d.evaluate((el) => getComputedStyle([...el.children].find((c) => getComputedStyle(c).overflowY === "auto")!).overflowX)).toBe("hidden");
     expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
   });
 

@@ -118,7 +118,10 @@ export function TitleDrawerProvider({ region, children }: { region: string; chil
         </Dialog>
       ) : (
         <Drawer open={open} onOpenChange={(next) => !next && close()} handleOnly>
-          <DrawerContent aria-describedby={undefined} onInteractOutside={keepOpenForToasts} onCloseAutoFocus={giveFocusBack}>{body(DrawerTitle)}</DrawerContent>
+          {/* Vaul adds a cover below the sheet that scrolls with it, so the sheet itself must not scroll: an inner box does. */}
+          <DrawerContent aria-describedby={undefined} onInteractOutside={keepOpenForToasts} onCloseAutoFocus={giveFocusBack} className="data-[vaul-drawer-direction=bottom]:overflow-visible">
+            <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain">{body(DrawerTitle)}</div>
+          </DrawerContent>
         </Drawer>
       )}
     </OverlaysContext.Provider>

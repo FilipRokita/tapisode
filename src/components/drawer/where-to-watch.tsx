@@ -20,7 +20,6 @@ export function WhereToWatch({ view, region }: { view: TitleView; region: string
           ))}
         </div>
       )}
-      <p className="mt-3 text-xs text-faint">Streaming data by JustWatch. Posters and metadata by TMDB.</p>
     </div>
   );
 }

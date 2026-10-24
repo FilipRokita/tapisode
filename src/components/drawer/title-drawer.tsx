@@ -4,7 +4,7 @@ import { cn } from "cn";
 import type { ElementType } from "react";
 import { useRunCommand } from "@/components/library/use-run-command";
 import { useAmbientHue } from "@/components/library/use-ambient-hue";
-import { X } from "@/components/primitives/icons";
+import { Trash2, X } from "@/components/primitives/icons";
 import { Poster } from "@/components/primitives/poster";
 import { Skeleton } from "@/components/primitives/skeleton";
 import { TiltPoster } from "@/components/primitives/tilt-poster";
@@ -91,16 +91,25 @@ function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "ti
           <ProgressPanel view={view} run={command} />
         </div>
         <div className={section(2, entering).className} style={section(2, entering).style}>
-          <StatusControl view={view} onChange={(status) => command({ kind: "setStatus", status })} onRemove={() => command({ kind: "restore", state: null })} />
+          <StatusControl view={view} onChange={(status) => command({ kind: "setStatus", status })} />
         </div>
         {series && (
           <div className={cn("md:col-span-2 md:row-start-3", section(3, entering).className)} style={section(3, entering).style}>
             <EpisodeStrip facts={series} state={view.state} run={command} />
           </div>
         )}
-        <div className={cn("md:col-start-2 md:row-start-2", section(4, entering).className)} style={section(4, entering).style}>
+        <div className={cn("md:col-start-2 md:row-start-2 md:border-t md:border-border md:pt-5", section(4, entering).className)} style={section(4, entering).style}>
           <WhereToWatch view={view} region={region} />
         </div>
+      </div>
+      <div className={cn("mt-6 flex flex-wrap items-center justify-between gap-x-4 border-t border-border pt-1.5", section(5, entering).className)} style={section(5, entering).style}>
+        {view.state && (
+          <Button variant="ghost" onClick={() => command({ kind: "restore", state: null })} className="needs-net -ml-3 text-[13.5px] hover:text-danger">
+            <Trash2 className="size-4" />
+            Remove from my lists
+          </Button>
+        )}
+        <p className="py-2 text-xs text-faint md:ml-auto md:text-right">Streaming data by JustWatch. Posters and metadata by TMDB.</p>
       </div>
     </div>
   );
