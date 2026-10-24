@@ -36,8 +36,9 @@ See [Data model](data-model.md) for the tables.
 | Ended series and released movies | 14 days | 60 days |
 | Availability for a region | 72 hours | |
 
-The job refreshes oldest first, at most 300 titles per run, then purges everything
-older than 150 days. The numbers live in `FRESHNESS` in `src/config/constants.ts`.
+The job purges everything older than 150 days, then refreshes oldest first, at most 300
+titles per run, five at a time. It stops starting new batches after 40 seconds, and the
+next run continues. The numbers live in `FRESHNESS` in `src/config/constants.ts`.
 
 ## When content is missing
 

@@ -17,4 +17,7 @@ export const FRESHNESS = {
   purgeDays: 150,
   /** How many titles one weekly run may refetch. */
   jobBudget: 300,
+  /** The weekly job refreshes this many titles at once, and stops starting new batches after the time budget, well inside the route's 60 seconds. */
+  jobBatch: 5,
+  jobTimeBudgetMs: 40_000,
 } as const;

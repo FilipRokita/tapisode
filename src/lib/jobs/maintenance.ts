@@ -11,35 +11,47 @@ export interface MaintenanceReport {
   readonly purged: { readonly content: number; readonly availability: number };
   readonly refreshed: number;
   readonly failed: number;
+  /** True when the time budget ran out before every candidate was refreshed. The next run continues, oldest first. */
+  readonly stoppedEarly: boolean;
   readonly sandboxesDeleted: number;
   readonly countersDeleted: number;
 }
 
 /**
  * The weekly job. It purges first, so the 6-month rule holds even if the refresh fails, then refreshes the titles users
- * track within a fixed budget, then cleans up expired sandboxes and spent counters. Running it twice does no harm.
+ * track in small parallel batches within a fixed count and time budget, then cleans up expired sandboxes and spent counters. Running it twice does no harm.
  */
-export async function runMaintenance(now = Date.now(), refreshRegion = DEFAULT_COUNTRY): Promise<MaintenanceReport> {
+export async function runMaintenance(now = Date.now(), refreshRegion = DEFAULT_COUNTRY, budgetMs: number = FRESHNESS.jobTimeBudgetMs): Promise<MaintenanceReport> {
   const purged = await purgeOlderThan(new Date(now - FRESHNESS.purgeDays * 86_400_000));
 
   const provider = getProvider();
+  const deadline = Date.now() + budgetMs;
+  const candidates = await refreshCandidates(FRESHNESS.jobOngoingDays, FRESHNESS.jobStaticDays, FRESHNESS.jobBudget);
   let refreshed = 0;
   let failed = 0;
-  for (const candidate of await refreshCandidates(FRESHNESS.jobOngoingDays, FRESHNESS.jobStaticDays, FRESHNESS.jobBudget)) {
-    try {
-      const title = await provider.getTitle(candidate.ref, refreshRegion);
-      if (title) {
+  let stoppedEarly = false;
+  for (let i = 0; i < candidates.length; i += FRESHNESS.jobBatch) {
+    if (Date.now() >= deadline) {
+      stoppedEarly = true;
+      break;
+    }
+    const results = await Promise.allSettled(
+      candidates.slice(i, i + FRESHNESS.jobBatch).map(async (candidate) => {
+        const title = await provider.getTitle(candidate.ref, refreshRegion);
+        if (!title) return false;
         await persistTitle(title, refreshRegion);
-        refreshed += 1;
-      } else failed += 1;
-    } catch {
-      failed += 1;
+        return true;
+      }),
+    );
+    for (const r of results) {
+      if (r.status === "fulfilled" && r.value) refreshed += 1;
+      else failed += 1;
     }
   }
 
   const sandboxesDeleted = await deleteExpiredSandboxes(new Date(now - SANDBOX_LIFETIME_MS));
   const countersDeleted = await deleteExpiredCounters();
-  const report: MaintenanceReport = { purged, refreshed, failed, sandboxesDeleted, countersDeleted };
+  const report: MaintenanceReport = { purged, refreshed, failed, stoppedEarly, sandboxesDeleted, countersDeleted };
   await recordRun("maintenance", report as unknown as Record<string, unknown>);
   return report;
 }

@@ -124,6 +124,17 @@ describe("the 6-month rule", () => {
   });
 });
 
+describe("the time budget", () => {
+  it("stops refreshing when the budget is spent, and still cleans up", async () => {
+    await db.delete(mediaContent);
+    const [anon] = await db.insert(user).values({ name: "V", email: `v-${crypto.randomUUID()}@example.test`, isAnonymous: true, createdAt: sql`now() - interval '7 hours'` as never }).returning();
+    const report = await runMaintenance(Date.now(), "US", 0);
+    expect(report).toMatchObject({ refreshed: 0, stoppedEarly: true });
+    expect(await db.select().from(user).where(eq(user.id, anon!.id))).toHaveLength(0);
+    expect((await runMaintenance(Date.now())).stoppedEarly).toBe(false); // the next run picks up where this one stopped
+  });
+});
+
 describe("the kill switch", () => {
   it("deletes all provider content, keeps the lists and refuses further provider calls", async () => {
     const before = await db.select().from(userMedia).where(eq(userMedia.userId, userId));
