@@ -46,7 +46,7 @@ test.describe("shell", () => {
     const select = page.getByLabel("Country");
     const target = await select.locator("option").evaluateAll((o) => (o as HTMLOptionElement[]).map((x) => x.value).find((v) => v === "DE") ?? (o as HTMLOptionElement[])[1]!.value);
     await select.selectOption(target);
-    await expect(page.getByText(`Country set to ${target}. Availability reloaded.`)).toBeVisible();
+    await expect(page.getByText(`Country set to ${target}. Availability is loading.`)).toBeVisible();
   });
 
   test("a sandbox visitor sees Create account and no password row", async ({ page }) => {

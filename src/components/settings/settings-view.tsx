@@ -55,7 +55,7 @@ export function SettingsView({ isSandbox, country, regions }: SettingsViewProps)
         toast(errorMessage(result.error));
         return;
       }
-      toast(`Country set to ${next}. Availability reloaded.`);
+      toast(`Country set to ${next}. Availability is loading.`);
       router.refresh();
     });
   }

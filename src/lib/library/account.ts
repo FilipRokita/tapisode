@@ -53,7 +53,6 @@ export async function exportUserData(userId: string) {
 
 export async function updateCountry(userId: string, country: string): Promise<void> {
   await db.update(userTable).set({ country }).where(eq(userTable.id, userId));
-  await setAvailabilityRegion(userId, country);
 }
 
 /** Deletes the user. Their titles and sessions go with them through the foreign keys, and the catalog keys stay. */
