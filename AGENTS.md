@@ -158,6 +158,15 @@ The author of every commit is the user who runs the agent. Never add the agent
 as author or co-author: no `Co-Authored-By` trailer and no "Generated with"
 line, in commits or in pull request descriptions.
 
+## 10. Engineering standards
+
+All work, not only plans, follows industry standards and best practices: DRY,
+SOLID, KISS, YAGNI, clean code, separation of concerns, least privilege and other
+security practices, testability, accessibility and performance, etc. The list is
+examples, not a limit. Do not guess: check the code, the installed tooling or the
+official docs, and ask the user only when the answer would change the product's
+direction or cannot be found.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 ## This is NOT the Next.js you know
