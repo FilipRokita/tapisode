@@ -37,6 +37,7 @@ and statuses, seasons and services use our own vocabulary.
 | `user_media.season`, `episode` | The last watched episode. `0, 0` means not started. A check constraint forces both to be zero or both positive |
 | `user_media.activity_at` | The last change. It orders Watching, so the newest is "Up next" |
 | `user_media.started_at`, `completed_at` | Set on first leaving Watchlist, set on entering Complete and cleared on leaving it |
+| `media_content.poster_path`, `backdrop_path` | Paths only, never URLs, so the provider builds the URL. The backdrop is the wide image behind the title drawer. Both go with the rest of the content when it is purged |
 | `media_content.fetched_at` | Drives refresh and the 150-day purge |
 | `media_content.seasons` | `[{number, episodeCount, airedCount}]`, the basis of every progress number |
 | `media_availability.services` | Our service keys for one region. An empty array means none carry it, a missing row means not fetched |

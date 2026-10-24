@@ -1,5 +1,5 @@
 import type { DateString } from "@/domain/countdown";
-import { ProviderError, type MediaProvider, type PosterSize, type ProviderTitle, type Region, type SearchHit, type SearchPage } from "@/domain/provider";
+import { ProviderError, type BackdropSize, type MediaProvider, type PosterSize, type ProviderTitle, type Region, type SearchHit, type SearchPage } from "@/domain/provider";
 import type { RegionCode } from "@/domain/services";
 import type { TitleRef } from "@/domain/types";
 import type { RequestGate } from "../gate";
@@ -82,7 +82,7 @@ export class TmdbProvider implements MediaProvider {
     return (body?.results ?? []).map((r) => ({ code: r.iso_3166_1, name: r.english_name })).sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  imageUrl(path: string, size: PosterSize): string {
+  imageUrl(path: string, size: PosterSize | BackdropSize): string {
     return `${IMAGES}${size}${path}`;
   }
 }

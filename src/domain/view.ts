@@ -13,6 +13,8 @@ export interface TitleView {
   readonly overview: string;
   readonly year: number | null;
   readonly poster: PosterUrls | null;
+  /** The drawer's background image. Null when the title has none. */
+  readonly backdrop: string | null;
   readonly runtimeMinutes: number | null;
   readonly facts: TitleFacts;
   readonly nextEpisode: { readonly season: number; readonly episode: number; readonly airDate: DateString } | null;

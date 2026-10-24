@@ -31,6 +31,7 @@ describe("applyCommand", () => {
     expect(list).toHaveLength(1);
     expect(list[0]).toMatchObject({ title: "Salt & Static", services: ["hbo"] });
     expect(list[0]!.poster?.w342).toMatch(/^data:image\/svg/);
+    expect(list[0]!.backdrop).toMatch(/^data:image\/svg/); // stored with the content and built from its path
   });
 
   it("applies the same +1 only once when the expected state is stale", async () => {

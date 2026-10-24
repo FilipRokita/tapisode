@@ -30,6 +30,7 @@ export const mediaContent = pgTable(
     overview: text("overview").notNull().default(""),
     releaseDate: date("release_date", { mode: "string" }),
     posterPath: text("poster_path"),
+    backdropPath: text("backdrop_path"),
     /** Minutes per episode for a series, minutes for a movie. */
     runtimeMinutes: integer("runtime_minutes"),
     /** Movies only. */

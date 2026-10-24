@@ -88,7 +88,7 @@ test.describe("title drawer", () => {
     await enterSandbox(page);
     await page.locator("section:not([aria-hidden=true])", { hasText: "Up next" }).getByRole("button", { name: /The Quiet Harbor/ }).click();
     const d = dialog(page);
-    await expect(d).toContainText("Still airing. Stays in Watching.");
+    await expect(d).toContainText("Still airing.");
     await d.getByRole("button", { name: "Complete", exact: true }).click();
     await expect(page.getByText("Still airing. It stays in Watching until the series ends.").last()).toBeVisible();
     await expect(d.getByRole("button", { name: "Watching", exact: true })).toHaveAttribute("aria-pressed", "true");
@@ -156,6 +156,17 @@ test.describe("title drawer", () => {
     await enterSandbox(page);
     await page.goto("/app/watching?t=fake:tv:nope");
     await expect(dialog(page).getByRole("alert")).toContainText("Title not found.");
+  });
+
+  test("a title with a backdrop shows it, and one without keeps the poster background", async ({ page }) => {
+    await enterSandbox(page);
+    await page.goto("/app/watching?t=fake:tv:harbor");
+    const d = dialog(page);
+    await expect(d).toContainText("The Quiet Harbor");
+    await expect(d.locator("[data-backdrop]")).toHaveCSS("opacity", "0.7");
+    await page.goto("/app/watching?t=fake:tv:lanterns");
+    await expect(dialog(page)).toContainText("Lanterns");
+    await expect(dialog(page).locator("[data-backdrop]")).toHaveCount(0);
   });
 
   test("no horizontal scroll at 320px", async ({ page }) => {

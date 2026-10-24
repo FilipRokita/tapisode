@@ -49,7 +49,7 @@ message. A list says how many titles are loading.
 
 ## Where else data can sit
 
-Posters load in the browser straight from the TMDB image CDN and never pass through the
+Posters and backdrops load in the browser straight from the TMDB image CDN and never pass through the
 host's image optimizer, which would copy and cache them. Do not log TMDB content. Check
 the retention of database backups on the host: it must stay under six months.
 

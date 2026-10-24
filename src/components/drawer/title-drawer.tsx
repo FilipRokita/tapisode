@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import type { ElementType } from "react";
+import { useState, type ElementType } from "react";
 import { useRunCommand } from "@/components/library/use-run-command";
 import { useAmbientHue } from "@/components/library/use-ambient-hue";
 import { X } from "@/components/primitives/icons";
@@ -43,6 +43,8 @@ const section = (k: number, entering: boolean) => ({
 function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "title"> & { view: TitleView }) {
   const run = useRunCommand();
   const hue = useAmbientHue(view.poster?.w185 ?? null);
+  const [loadedBackdrop, setLoadedBackdrop] = useState<string | null>(null);
+  const backdropLoaded = view.backdrop !== null && loadedBackdrop === view.backdrop;
   const command = (c: Command) => void run(view, c);
   const series = view.facts.type === "tv" ? view.facts : null;
   const facts = series
@@ -52,10 +54,31 @@ function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "ti
 
   return (
     <div className="hue relative" style={{ "--h": hue } as React.CSSProperties}>
-      <div aria-hidden="true" className="pointer-events-none absolute -top-10 -right-10 -left-10 -z-10 h-[270px] opacity-60 [filter:blur(46px)_saturate(1.5)] [mask-image:linear-gradient(#000_20%,transparent_92%)] md:h-[310px]">
+      {/* Today's background (the blurred poster and the glow) stays until the backdrop has loaded, then gives way to it. */}
+      <div aria-hidden="true" className={cn("pointer-events-none absolute -top-10 -right-10 -left-10 -z-10 h-[270px] opacity-60 transition-opacity duration-500 [filter:blur(46px)_saturate(1.5)] [mask-image:linear-gradient(#000_20%,transparent_92%)] md:h-[310px]", backdropLoaded && "opacity-0")}>
         <Poster src={view.poster?.w342 ?? null} title={view.title} compact className="aspect-auto size-full rounded-none after:hidden" />
       </div>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[260px] bg-[radial-gradient(closest-side_at_30%_0%,var(--glow-strong),transparent_80%)]" />
+      <div aria-hidden="true" className={cn("pointer-events-none absolute inset-x-0 top-0 -z-10 h-[260px] bg-[radial-gradient(closest-side_at_30%_0%,var(--glow-strong),transparent_80%)] transition-opacity duration-500", backdropLoaded && "opacity-0")} />
+      {view.backdrop && (
+        // eslint-disable-next-line @next/next/no-img-element -- backdrops come straight from the provider's CDN, never through the host's optimizer (catalog-data.md)
+        <img
+          key={view.backdrop}
+          ref={(img) => {
+            if (img?.complete && img.naturalWidth > 0) setLoadedBackdrop(view.backdrop);
+          }}
+          src={view.backdrop}
+          alt=""
+          aria-hidden="true"
+          data-backdrop=""
+          decoding="async"
+          onLoad={() => setLoadedBackdrop(view.backdrop)}
+          className={cn("pointer-events-none absolute -top-7 -right-10 -left-10 -z-10 h-[278px] w-[calc(100%+80px)] max-w-none object-cover opacity-0 transition-opacity duration-500 [mask-image:linear-gradient(transparent,#000_20%,#000_34%,transparent)] md:h-[318px]", backdropLoaded && "opacity-60")}
+        />
+      )}
+      {view.backdrop && (
+        // Dark at the top edge, so the drag handle and the label stay visible on a bright image. It is the page colour, so it adds no seam.
+        <div aria-hidden="true" className={cn("pointer-events-none absolute -top-7 -right-10 -left-10 -z-10 h-[138px] bg-[linear-gradient(to_bottom,var(--background)_10%,transparent)] opacity-0 transition-opacity duration-500", backdropLoaded && "opacity-100")} />
+      )}
       <div className="mb-3 flex items-center justify-between">
         <span className="eyebrow">
           {view.facts.type === "tv" ? "Series" : "Movie"}
@@ -86,7 +109,7 @@ function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "ti
           {view.overview}
         </p>
       )}
-      <div className="mt-[18px] grid gap-[22px] md:grid-cols-[1.15fr_1fr] md:content-start md:items-start">
+      <div className="mt-[18px] grid grid-cols-[minmax(0,1fr)] gap-[22px] md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] md:content-start md:items-start">
         <div className={cn("md:row-span-2", section(1, entering).className)} style={section(1, entering).style}>
           <ProgressPanel view={view} run={command} />
         </div>

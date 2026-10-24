@@ -17,6 +17,7 @@ describe("series", () => {
     expect(t.ref).toEqual({ provider: "tmdb", type: "tv", externalId: "9001" });
     expect(t.imdbId).toBe("tt0009001");
     expect(t.series?.state).toBe("ongoing");
+    expect(t.backdropPath).toBe("/fixture-harbor-wide.jpg");
     expect(t.series?.seasons).toEqual([
       { number: 1, episodeCount: 8, airedCount: 8 },
       { number: 2, episodeCount: 10, airedCount: 4 },
@@ -36,6 +37,7 @@ describe("series", () => {
     expect(t.series?.seasons).toEqual([{ number: 1, episodeCount: 8, airedCount: 8 }]);
     expect(t.runtimeMinutes).toBe(47);
     expect(t.imdbId).toBeNull();
+    expect(t.backdropPath).toBeNull(); // the fixture has none
     expect(mapTv({ ...endedJson, status: "Canceled" }, "PL", TODAY).series?.state).toBe("ended");
   });
 
@@ -69,6 +71,7 @@ describe("movies", () => {
     const m = mapMovie(movieJson, "PL");
     expect(m.released).toBe(true);
     expect(m.runtimeMinutes).toBe(118);
+    expect(m.backdropPath).toBe("/fixture-orbit-wide.jpg");
     expect(m.availability).toEqual(["prime"]);
     expect(m.series).toBeNull();
   });

@@ -1,2 +1,2 @@
-{ "id": 9101, "title": "Fixture Orbit", "overview": "An invented film.", "release_date": "2024-06-01", "status": "Released", "poster_path": "/fixture-orbit.jpg", "runtime": 118, "imdb_id": "tt0009101",
+{ "id": 9101, "title": "Fixture Orbit", "overview": "An invented film.", "release_date": "2024-06-01", "status": "Released", "poster_path": "/fixture-orbit.jpg", "backdrop_path": "/fixture-orbit-wide.jpg", "runtime": 118, "imdb_id": "tt0009101",
   "watch/providers": { "results": { "PL": { "flatrate": [{ "provider_id": 119 }] } } } }

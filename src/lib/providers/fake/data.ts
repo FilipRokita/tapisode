@@ -24,6 +24,8 @@ export interface FakeTitle {
   readonly released?: boolean;
   /** A title the catalog has no poster for, so the interface shows its fallback. */
   readonly noPoster?: true;
+  /** A title the catalog has no backdrop for, so the drawer keeps its poster background. */
+  readonly noBackdrop?: true;
 }
 
 export const FAKE_TITLES: readonly FakeTitle[] = [
@@ -40,7 +42,7 @@ export const FAKE_TITLES: readonly FakeTitle[] = [
   { id: "velvet", type: "tv", title: "Velvet Static", year: 2021, hue: 320, runtimeMinutes: 49, services: ["hbo"], overview: "A cult-classic cable channel and the people who still watch it.", series: { state: "ended", counts: [8, 8, 6], aired: [8, 8, 6] } },
   { id: "orbit", type: "movie", title: "Orbit of Two", year: 2024, hue: 232, runtimeMinutes: 118, services: ["prime"], released: true, overview: "Two astronomers, one telescope, and a decade of unanswered messages." },
   { id: "road", type: "movie", title: "The Salt Road", year: 2023, hue: 40, runtimeMinutes: 131, services: ["sky"], released: true, overview: "A salt trader crosses a dry sea to deliver a debt." },
-  { id: "lanterns", type: "tv", title: "Lanterns", year: 2022, hue: 48, runtimeMinutes: 42, services: ["disney"], overview: "A festival town, a lantern maker, and the night everything went dark.", series: { state: "ended", counts: [10, 10], aired: [10, 10] } },
+  { id: "lanterns", type: "tv", title: "Lanterns", year: 2022, hue: 48, runtimeMinutes: 42, services: ["disney"], overview: "A festival town, a lantern maker, and the night everything went dark.", series: { state: "ended", counts: [10, 10], aired: [10, 10] }, noBackdrop: true },
   // Titles that are not in anyone's lists: search and "Popular right now" results.
   { id: "lights", type: "tv", title: "Harbor Lights", year: 2022, hue: 200, runtimeMinutes: 45, services: ["netflix"], overview: "An invented title for the prototype.", series: { state: "ended", counts: [8], aired: [8] } },
   { id: "job", type: "movie", title: "The Harbor Job", year: 2021, hue: 20, runtimeMinutes: 100, services: ["prime"], released: true, overview: "An invented title for the prototype." },

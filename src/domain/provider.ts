@@ -3,6 +3,7 @@ import type { RegionCode, ServiceKey } from "./services";
 import type { MediaType, Season, SeriesState, TitleRef } from "./types";
 
 export type PosterSize = "w92" | "w154" | "w185" | "w342" | "w500";
+export type BackdropSize = "w300" | "w780" | "w1280";
 
 /** One row of search results. Providers do not return availability or seasons for search, so neither is here. */
 export interface SearchHit {
@@ -26,6 +27,8 @@ export interface ProviderTitle {
   readonly overview: string;
   readonly releaseDate: DateString | null;
   readonly posterPath: string | null;
+  /** The wide still the drawer uses as its background. Null when the provider has none. */
+  readonly backdropPath: string | null;
   /** Minutes per episode for a series, minutes for a movie. Null when the provider has none. */
   readonly runtimeMinutes: number | null;
   /** Movies only: the provider reports the title as released. */
@@ -68,7 +71,7 @@ export interface MediaProvider {
   getTitle(ref: TitleRef, region: RegionCode): Promise<ProviderTitle | null>;
   regions(): Promise<readonly Region[]>;
   /** Builds a full image URL from a stored path. The database keeps paths only. */
-  imageUrl(path: string, size: PosterSize): string;
+  imageUrl(path: string, size: PosterSize | BackdropSize): string;
 }
 
 export type { MediaType };

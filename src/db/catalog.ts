@@ -32,6 +32,7 @@ export async function saveContent(itemId: string, t: ProviderTitle): Promise<voi
     overview: t.overview,
     releaseDate: t.releaseDate,
     posterPath: t.posterPath,
+    backdropPath: t.backdropPath,
     runtimeMinutes: t.runtimeMinutes,
     movieReleased: t.series ? null : t.released,
     seriesState: t.series?.state ?? null,

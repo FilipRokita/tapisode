@@ -1,0 +1,1 @@
+ALTER TABLE "media_content" ADD COLUMN "backdrop_path" text;

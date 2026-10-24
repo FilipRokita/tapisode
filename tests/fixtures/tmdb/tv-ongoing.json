@@ -1,6 +1,6 @@
 {
   "id": 9001, "name": "Fixture Harbor", "overview": "An invented series for tests.", "first_air_date": "2025-03-01", "status": "Returning Series",
-  "poster_path": "/fixture-harbor.jpg", "episode_run_time": [],
+  "poster_path": "/fixture-harbor.jpg", "backdrop_path": "/fixture-harbor-wide.jpg", "episode_run_time": [],
   "seasons": [
     { "season_number": 0, "episode_count": 3, "air_date": "2025-01-01" },
     { "season_number": 1, "episode_count": 8, "air_date": "2025-03-01" },

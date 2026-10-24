@@ -1,9 +1,9 @@
 import type { DateString } from "@/domain/countdown";
-import type { MediaProvider, PosterSize, ProviderTitle, Region, SearchHit, SearchPage } from "@/domain/provider";
+import type { BackdropSize, MediaProvider, PosterSize, ProviderTitle, Region, SearchHit, SearchPage } from "@/domain/provider";
 import type { RegionCode } from "@/domain/services";
 import type { TitleRef } from "@/domain/types";
 import { FAKE_POPULAR, FAKE_REGIONS, FAKE_TITLES, type FakeTitle } from "./data";
-import { fakePosterPath, fakePosterUrl } from "./poster";
+import { fakeBackdropPath, fakeBackdropUrl, fakePosterPath, fakePosterUrl, isFakeBackdropPath } from "./poster";
 
 const PAGE_SIZE = 20;
 
@@ -50,6 +50,7 @@ export class FakeProvider implements MediaProvider {
       overview: t.overview,
       releaseDate: `${t.year}-01-01`,
       posterPath: t.noPoster ? null : fakePosterPath(t.hue, t.id),
+      backdropPath: t.noBackdrop || t.noPoster ? null : fakeBackdropPath(t.hue, t.id),
       runtimeMinutes: t.runtimeMinutes > 0 ? t.runtimeMinutes : null,
       released: t.type === "movie" ? t.released === true : seasons.some((s) => s.airedCount > 0),
       series: series
@@ -68,7 +69,7 @@ export class FakeProvider implements MediaProvider {
     return FAKE_REGIONS;
   }
 
-  imageUrl(path: string, _size: PosterSize): string {
-    return fakePosterUrl(path);
+  imageUrl(path: string, _size: PosterSize | BackdropSize): string {
+    return isFakeBackdropPath(path) ? fakeBackdropUrl(path) : fakePosterUrl(path);
   }
 }

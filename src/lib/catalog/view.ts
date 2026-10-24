@@ -1,5 +1,5 @@
 import type { ContentRow } from "@/db/catalog";
-import type { PosterSize, ProviderTitle } from "@/domain/provider";
+import type { BackdropSize, PosterSize, ProviderTitle } from "@/domain/provider";
 import { SERVICE_KEYS, type ServiceKey } from "@/domain/services";
 import type { Season, TitleFacts } from "@/domain/types";
 import type { PosterUrls, TitleView } from "@/domain/view";
@@ -30,7 +30,7 @@ export function toTitleView(
   services: readonly string[] | undefined,
   state: UserTitleState | null,
   activityAt: number,
-  imageUrl: (path: string, size: PosterSize) => string,
+  imageUrl: (path: string, size: PosterSize | BackdropSize) => string,
 ): TitleView {
   return {
     id,
@@ -39,6 +39,7 @@ export function toTitleView(
     overview: c.overview,
     year: c.releaseDate ? Number(c.releaseDate.slice(0, 4)) : null,
     poster: posterUrls(c.posterPath, imageUrl),
+    backdrop: c.backdropPath ? imageUrl(c.backdropPath, "w780") : null,
     runtimeMinutes: c.runtimeMinutes,
     facts: factsOf(c),
     nextEpisode: c.nextEpisode,

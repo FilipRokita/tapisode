@@ -74,6 +74,22 @@ describe.each(cases)("provider contract: $name", ({ make, series, movie, searchT
     const t = await p.getTitle(series, "PL");
     if (t?.posterPath) expect(p.imageUrl(t.posterPath, "w342")).toMatch(/^(https:\/\/|data:)/);
   });
+
+  it("builds an image URL from a stored backdrop path", async () => {
+    const p = make();
+    const t = await p.getTitle(series, "PL");
+    expect(t?.backdropPath).toEqual(expect.any(String));
+    expect(p.imageUrl(t!.backdropPath!, "w780")).toMatch(/^(https:\/\/|data:)/);
+  });
+});
+
+describe("the fake provider's backdrops", () => {
+  it("has none for a title marked as having none, and a different image than the poster for the rest", async () => {
+    const p = new FakeProvider(() => "2026-10-20");
+    expect((await p.getTitle({ provider: "fake", type: "tv", externalId: "lanterns" }, "PL"))?.backdropPath).toBeNull();
+    const t = await p.getTitle({ provider: "fake", type: "tv", externalId: "harbor" }, "PL");
+    expect(p.imageUrl(t!.backdropPath!, "w780")).not.toBe(p.imageUrl(t!.posterPath!, "w342"));
+  });
 });
 
 describe("tmdb failures", () => {

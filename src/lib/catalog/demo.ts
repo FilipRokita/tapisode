@@ -22,6 +22,7 @@ export async function demoTitles(): Promise<TitleView[]> {
         overview: t.overview,
         year: t.releaseDate ? Number(t.releaseDate.slice(0, 4)) : null,
         poster: posterUrls(t.posterPath, (p, s) => provider.imageUrl(p, s)),
+        backdrop: null,
         runtimeMinutes: t.runtimeMinutes,
         facts: factsFrom(t),
         nextEpisode: t.series.nextEpisode,
