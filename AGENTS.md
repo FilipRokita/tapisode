@@ -1,7 +1,3 @@
-@README.md
-
-If your tool does not expand the import above, read `README.md` first.
-
 # General Coding Principles
 
 ## 1. Think Before Coding
@@ -88,9 +84,10 @@ one, or use a comma or colon. Anywhere else is fine.
 
 ## 4. Documentation
 
-[`README.md`](README.md) is imported at the top of this file, so it is always in
-context. Keep it current. Everything else lives in [`docs/`](docs/), which is
-**not** loaded automatically: read what is relevant before acting there.
+[`README.md`](README.md) (overview, stack, architecture principles) and
+[`docs/`](docs/) are **not** loaded automatically: read the README when you need
+the overview or before touching architecture, and read the relevant docs before
+acting there. Keep both current.
 
 Whichever one a change makes stale, update it in the same change rather than
 later. When code or architecture changes, check if existing docs need updates or
