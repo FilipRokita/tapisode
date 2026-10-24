@@ -136,6 +136,12 @@ Questions about a plan are conversation, not orders: start executing a plan only
 on an explicit "start". A prototype is a guide, not a law: fix
 flaws as you build and note them in the commit, and ask before changing the product's direction.
 
+A plan is exact and backed by analysis and research. Do not guess: what you do not
+know, you check in the code, the installed tooling or the official docs. Ask the
+user only when the answer would change the product's or a feature's direction, or
+cannot be found in the code or on the internet. A plan follows industry standards
+and best practices: DRY, SOLID, clean code and security practices.
+
 Whatever a plan produces stays in its entry. `dev-only/` is scratch space for
 prototypes tied to no plan.
 
