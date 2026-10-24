@@ -66,9 +66,9 @@ repo, whether code, comments, commit messages, README or docs, is in English.
 ## 2. Answers
 
 Lead with the answer, and keep it short. Recommend one path once a choice is
-clear; enumerate alternatives only in the case "Think Before Coding" describes. Verify versions,
-flags and APIs against the installed tooling or the official docs before
-stating them. Do not answer from memory.
+clear; enumerate alternatives only in the case "Think Before Coding" describes. If
+you are not sure of a version, flag or API, verify it against the installed
+tooling or the official docs before stating it.
 
 Before a big or expensive step (subagents, long runs, large builds), say what it
 is and ask.
@@ -90,9 +90,8 @@ the overview or before touching architecture, and read the relevant docs before
 acting there. Keep both current.
 
 Whichever one a change makes stale, update it in the same change rather than
-later. When code or architecture changes, check if existing docs need updates or
-if a new doc is genuinely needed (keep docs lean; only add docs that are truly
-necessary). This file is part of that rule too: when a workflow, command, path
+later. When a change touches something the docs describe, update them. Add a new
+doc only when it is genuinely needed (keep docs lean). This file is part of that rule too: when a workflow, command, path
 or rule it names changes, update `AGENTS.md` in the same change.
 
 ## 5. Agent neutrality
@@ -136,10 +135,8 @@ flaws as you build and note them in the commit, and ask before changing the prod
 A plan is exact and backed by analysis and research. Do not guess: what you do not
 know, you check in the code, the installed tooling or the official docs. Ask the
 user only when the answer would change the product's or a feature's direction, or
-cannot be found in the code or on the internet. A plan follows industry standards
-and best practices in general, not only a fixed list. For example: DRY, SOLID, KISS,
-YAGNI, clean code, separation of concerns, least privilege and other security
-practices, testability, accessibility and performance, etc.
+cannot be found in the code or on the internet. A plan follows the engineering
+standards in rule 10.
 
 Whatever a plan produces stays in its entry. `dev-only/` is scratch space for
 prototypes tied to no plan.
@@ -160,6 +157,6 @@ line, in commits or in pull request descriptions.
 All work, not only plans, follows industry standards and best practices: DRY,
 SOLID, KISS, YAGNI, clean code, separation of concerns, least privilege and other
 security practices, testability, accessibility and performance, etc. The list is
-examples, not a limit. Do not guess: check the code, the installed tooling or the
-official docs, and ask the user only when the answer would change the product's
-direction or cannot be found.
+examples, not a limit. Check the code, the installed tooling or the official docs
+rather than guessing, and ask the user only when the answer would change the
+product's direction or cannot be found.
