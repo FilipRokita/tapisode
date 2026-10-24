@@ -41,7 +41,7 @@ test.describe("search", () => {
     await expect(palette(page).getByText("No matches")).toBeVisible();
   });
 
-  test("Enter opens the title with no status chosen, and picking Watchlist adds it", async ({ page, isMobile }) => {
+  test("Enter opens the title with no list chosen, and Add to Watchlist adds it", async ({ page, isMobile }) => {
     await enterSandbox(page);
     await page.keyboard.press("Control+k");
     await input(page).fill("harbor lights");
@@ -49,8 +49,8 @@ test.describe("search", () => {
     await page.keyboard.press("Enter");
     const dialog = page.getByRole("dialog").filter({ hasText: "Harbor Lights" });
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByRole("button", { name: "Watchlist", exact: true })).toHaveAttribute("aria-pressed", "false");
-    await dialog.getByRole("button", { name: "Watchlist", exact: true }).click();
+    await expect(dialog.getByRole("button", { name: "Add to Watchlist" })).toHaveCSS("opacity", "1");
+    await dialog.getByRole("button", { name: "Add to Watchlist" }).click();
     await expect(dialog.getByRole("button", { name: "Watchlist", exact: true })).toHaveAttribute("aria-pressed", "true");
     if (!isMobile) {
       await page.keyboard.press("Escape");

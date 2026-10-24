@@ -22,7 +22,7 @@ export function StatusControl({ view, onChange, onRemove }: { view: TitleView; o
     <div className="needs-net">
       <div className="eyebrow mb-2.5">My list</div>
       <div className="relative">
-        <div inert={!tracked} className={cn("flex gap-2 transition-[opacity,transform] duration-300 ease-app", !tracked && "pointer-events-none scale-[.97] opacity-0")}>
+        <div data-status-row="" inert={!tracked} className={cn("flex gap-2 transition-[opacity,transform] duration-300 ease-app", !tracked && "pointer-events-none scale-[.97] opacity-0")}>
           <Segmented className="flex-1" label="Status" value={view.state?.status ?? null} onChange={onChange} items={STATUSES.map((value) => ({ value, label: STATUS_LABEL[value] }))} />
           <Button variant="ghost" aria-label="Remove from my lists" title="Remove from my lists" onClick={onRemove} className="h-auto w-11 shrink-0 self-stretch border border-border bg-surface-2 hover:border-danger/40 hover:bg-danger-soft hover:text-danger">
             <Trash2 />

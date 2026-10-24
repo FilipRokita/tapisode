@@ -117,28 +117,36 @@ test.describe("title drawer", () => {
     await expect(d.getByRole("button", { name: "Mark as not watched" })).toBeVisible();
   });
 
-  test("an untracked title opened from a link shows no status, and picking Watching adds it", async ({ page, isMobile }) => {
+  test("an untracked title opened from a link shows only Add to Watchlist, and adding it shows the lists", async ({ page }) => {
     await enterSandbox(page);
     await page.goto("/app/watching?t=fake:tv:lights");
     const d = dialog(page);
     await expect(d).toContainText("Harbor Lights");
-    for (const status of ["Watching", "Watchlist", "Complete"]) await expect(d.getByRole("button", { name: status, exact: true })).toHaveAttribute("aria-pressed", "false");
-    await d.getByRole("button", { name: "Watching", exact: true }).click();
-    await expect(d.getByRole("button", { name: "Watching", exact: true })).toHaveAttribute("aria-pressed", "true");
+    // Until the title is on a list, the lists and the remove button are hidden and inert, and one button adds it.
+    await expect(d.getByRole("button", { name: "Add to Watchlist" })).toHaveCSS("opacity", "1");
+    await expect(d.locator("[data-status-row]")).toHaveCSS("opacity", "0");
+    await expect(d.locator("[data-status-row]")).toHaveAttribute("inert", "");
+    await d.getByRole("button", { name: "Add to Watchlist" }).click();
+    await expect(page.getByText("Moved to Watchlist")).toBeVisible();
+    await expect(d.locator("[data-status-row]")).toHaveCSS("opacity", "1");
+    await expect(d.getByRole("button", { name: "Watchlist", exact: true })).toHaveAttribute("aria-pressed", "true");
+    await expect(d.getByRole("button", { name: "Remove from my lists" })).toBeVisible();
+    await expect(d.getByRole("button", { name: "Add to Watchlist" })).toHaveCSS("opacity", "0");
     await page.keyboard.press("Escape");
-    if (!isMobile) await expect.poll(async () => (await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: /Watching/ }).textContent())?.replace(/\D/g, "")).toBe("5");
-    else await expect(page.getByText("5 in progress")).toBeVisible();
+    await page.goto("/app/watchlist");
+    await expect(page.getByText("7 titles waiting for you")).toBeVisible();
   });
 
   test("undoing the add of a title removes it from the lists", async ({ page }) => {
     await enterSandbox(page);
     await page.goto("/app/watching?t=fake:tv:lights");
     const d = dialog(page);
-    await d.getByRole("button", { name: "Watchlist", exact: true }).click();
+    await d.getByRole("button", { name: "Add to Watchlist" }).click();
     await expect(d.getByRole("button", { name: "Watchlist", exact: true })).toHaveAttribute("aria-pressed", "true");
     await page.getByRole("button", { name: "Undo" }).click();
     await expect(page.getByText("Undone")).toBeVisible();
-    for (const status of ["Watching", "Watchlist", "Complete"]) await expect(d.getByRole("button", { name: status, exact: true })).toHaveAttribute("aria-pressed", "false");
+    await expect(d.getByRole("button", { name: "Add to Watchlist" })).toHaveCSS("opacity", "1");
+    await expect(d.locator("[data-status-row]")).toHaveCSS("opacity", "0");
     await page.keyboard.press("Escape");
     await page.goto("/app/watchlist");
     await expect(page.getByText("6 titles waiting for you")).toBeVisible();
@@ -163,7 +171,8 @@ test.describe("title drawer", () => {
     await page.goto("/app/watching?t=fake:tv:harbor");
     const d = dialog(page);
     await expect(d).toContainText("The Quiet Harbor");
-    await expect(d.locator("[data-backdrop]")).toHaveCSS("opacity", "0.7");
+    const backdrop = d.locator("[data-backdrop]");
+    await expect.poll(async () => Number(await backdrop.evaluate((el) => getComputedStyle(el).opacity))).toBeGreaterThan(0.5); // faded in once loaded
     await page.goto("/app/watching?t=fake:tv:lanterns");
     await expect(dialog(page)).toContainText("Lanterns");
     await expect(dialog(page).locator("[data-backdrop]")).toHaveCount(0);
