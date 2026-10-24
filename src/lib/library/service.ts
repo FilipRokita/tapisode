@@ -10,7 +10,7 @@ import { transition, type Command, type TransitionError } from "@/domain/transit
 import type { TitleRef, UserTitleState } from "@/domain/types";
 import { ensureTitle, factsFor } from "@/lib/catalog/service";
 import type { TitleView } from "@/domain/view";
-import { factsOf, posterUrls, serviceKeys } from "@/lib/catalog/view";
+import { factsOf, toTitleView } from "@/lib/catalog/view";
 import { getProvider } from "@/lib/providers";
 
 export type CommandResult =
@@ -59,22 +59,7 @@ export async function listLibrary(userId: string, region: RegionCode): Promise<T
   return rows.flatMap(({ row, item }): TitleView[] => {
     const c = content.get(item.id);
     if (!c) return []; // content purged and not fetched again yet: left out, and counted as pending by the caller
-    return [
-      {
-        id: item.id,
-        ref: { provider: item.provider, type: item.mediaType, externalId: item.externalId },
-        title: c.title,
-        overview: c.overview,
-        year: c.releaseDate ? Number(c.releaseDate.slice(0, 4)) : null,
-        poster: posterUrls(c.posterPath, (p, s) => provider.imageUrl(p, s)),
-        runtimeMinutes: c.runtimeMinutes,
-        facts: factsOf(c),
-        nextEpisode: c.nextEpisode,
-        services: availability.has(item.id) ? serviceKeys(availability.get(item.id)!.services) : null,
-        state: toState(row),
-        activityAt: row.activityAt.getTime(),
-      },
-    ];
+    return [toTitleView(item.id, { provider: item.provider, type: item.mediaType, externalId: item.externalId }, c, availability.get(item.id)?.services, toState(row), row.activityAt.getTime(), (p, size) => provider.imageUrl(p, size))];
   });
 }
 
@@ -105,18 +90,5 @@ export async function getTitleView(userId: string, region: RegionCode, ref: Titl
   if (!c) return null;
   const [activity] = await db.select({ at: userMedia.activityAt }).from(userMedia).where(and(eq(userMedia.userId, userId), eq(userMedia.mediaItemId, ensured.itemId)));
   const provider = getProvider();
-  return {
-    id: ensured.itemId,
-    ref,
-    title: c.title,
-    overview: c.overview,
-    year: c.releaseDate ? Number(c.releaseDate.slice(0, 4)) : null,
-    poster: posterUrls(c.posterPath, (p, s) => provider.imageUrl(p, s)),
-    runtimeMinutes: c.runtimeMinutes,
-    facts: factsOf(c),
-    nextEpisode: c.nextEpisode,
-    services: availability.has(ensured.itemId) ? serviceKeys(availability.get(ensured.itemId)!.services) : null,
-    state: tracked.get(`${ref.provider}:${ref.type}:${ref.externalId}`) ?? null,
-    activityAt: activity?.at.getTime() ?? 0,
-  };
+  return toTitleView(ensured.itemId, ref, c, availability.get(ensured.itemId)?.services, tracked.get(`${ref.provider}:${ref.type}:${ref.externalId}`) ?? null, activity?.at.getTime() ?? 0, (p, size) => provider.imageUrl(p, size));
 }
