@@ -62,12 +62,12 @@ test.describe("title drawer", () => {
     const d = dialog(page);
     await d.getByRole("button", { name: "Remove from my lists" }).click();
     await expect(page.getByText("Removed from your lists")).toBeVisible();
-    await expect(d.getByRole("button", { name: "Add to my list" })).toBeVisible();
+    await expect(d.getByRole("button", { name: "Add to Watchlist" })).toBeVisible();
     await page.getByRole("button", { name: "Undo" }).click();
     await expect(page.getByText("Undone")).toBeVisible();
     await expect(d).toContainText("S03E07");
     await d.getByRole("button", { name: "Remove from my lists" }).click();
-    await d.getByRole("button", { name: "Add to my list" }).click();
+    await d.getByRole("button", { name: "Add to Watchlist" }).click();
     await expect(page.getByText("Moved to Watchlist")).toBeVisible();
     await expect(d.getByRole("button", { name: "Remove from my lists" })).toBeVisible();
   });
@@ -88,7 +88,7 @@ test.describe("title drawer", () => {
     await enterSandbox(page);
     await page.locator("section:not([aria-hidden=true])", { hasText: "Up next" }).getByRole("button", { name: /The Quiet Harbor/ }).click();
     const d = dialog(page);
-    await expect(d).toContainText("Still airing. It stays in Watching until the series ends.");
+    await expect(d).toContainText("Still airing. Stays in Watching.");
     await d.getByRole("button", { name: "Complete", exact: true }).click();
     await expect(page.getByText("Still airing. It stays in Watching until the series ends.").last()).toBeVisible();
     await expect(d.getByRole("button", { name: "Watching", exact: true })).toHaveAttribute("aria-pressed", "true");
