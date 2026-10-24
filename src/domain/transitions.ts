@@ -76,8 +76,10 @@ function jumpTo(title: TitleFacts, position: Position): Result<UserTitleState, T
   return ok(atPosition(title, position));
 }
 
-/** The one place that decides what a user's action does. The client previews it, the server applies it. */
-/** A null result means the title is no longer tracked, which is what undoing an add does. */
+/**
+ * The one place that decides what a user's action does. The client previews it, the server applies it.
+ * A null result means the title is no longer tracked, which is what undoing an add does.
+ */
 export function transition(title: TitleFacts, current: UserTitleState | null, command: Command): Result<UserTitleState | null, TransitionError> {
   switch (command.kind) {
     case "plusOne":

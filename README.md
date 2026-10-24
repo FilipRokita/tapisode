@@ -153,12 +153,15 @@ The same application and code. Only environment variables differ.
    | `LEGAL_CONTACT_EMAIL` | Where users write about their data. The build stops without these two |
    | `MEDIA_PROVIDER` | Optional: `tmdb` (default) or `fake` |
 
-4. **Privacy policy:** Read it and adapt it. It describes Vercel, Neon, TMDB and one session
+4. **Client IP:** The per-IP request limits read the first `x-forwarded-for` address, which is
+   only trustworthy where the host sets it itself (Vercel does). Behind any other proxy, make sure
+   it overwrites that header, or a client can pick its own address.
+5. **Privacy policy:** Read it and adapt it. It describes Vercel, Neon, TMDB and one session
    cookie, and a different setup needs different text.
-5. **Migrations:** The build command in [vercel.json](vercel.json) runs the migrations
+6. **Migrations:** The build command in [vercel.json](vercel.json) runs the migrations
    and creates the sandbox template on every build. Only `main` is deployed (the same file
    turns off preview deployments), so updating the app is a push to `main`.
-6. **Weekly job:** `vercel.json` also schedules `/api/cron/maintenance`, which refreshes
+7. **Weekly job:** `vercel.json` also schedules `/api/cron/maintenance`, which refreshes
    tracked titles, purges old catalog content and deletes expired demo sessions.
 
 ## 🌐 Live demo infrastructure

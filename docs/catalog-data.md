@@ -38,7 +38,8 @@ See [Data model](data-model.md) for the tables.
 
 The job purges everything older than 150 days, then refreshes oldest first, at most 300
 titles per run, five at a time. It stops starting new batches after 40 seconds, and the
-next run continues. The numbers live in `FRESHNESS` in `src/config/constants.ts`.
+next run continues. It refreshes availability for the default region (US) only, so other
+regions are refreshed when someone opens the title. The numbers live in `FRESHNESS` in `src/config/constants.ts`.
 
 ## When content is missing
 
