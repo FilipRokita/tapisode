@@ -41,7 +41,7 @@ export function StatusControl({ view, onChange, onRemove }: { view: TitleView; o
       ) : airing ? (
         <p className="mt-2.5 flex items-center gap-2 text-[13px] text-dim">
           <Clock className="size-4" aria-hidden="true" />
-          Still airing. Stays in Watching.
+          Still airing.
         </p>
       ) : null}
     </div>

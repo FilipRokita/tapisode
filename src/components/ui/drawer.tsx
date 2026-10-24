@@ -60,7 +60,7 @@ function DrawerContent({
         )}
         {...props}
       >
-        <DrawerPrimitive.Handle className="!mx-auto !mb-3.5 !h-1 !w-10 shrink-0 !rounded-sm !bg-border-strong !opacity-100" />
+        <DrawerPrimitive.Handle className="relative z-10 !mx-auto !mb-3.5 !h-1 !w-10 shrink-0 !rounded-sm !bg-border-strong !opacity-100" />
         {children}
       </DrawerPrimitive.Content>
     </DrawerPortal>
