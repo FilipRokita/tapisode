@@ -11,7 +11,6 @@ import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import type { TitleRef } from "@/domain/types";
 import { paramToRef, refToParam, TITLE_PARAM } from "./title-ref";
 import { TitleDrawerBody } from "./title-drawer";
-import { ScrollFade } from "./scroll-fade";
 import { useDrawerTitle } from "./use-drawer-title";
 
 interface HostState {
@@ -114,14 +113,14 @@ export function TitleDrawerProvider({ region, children }: { region: string; chil
         <Dialog open={open} onOpenChange={(next) => !next && close()}>
           <DialogContent showCloseButton={false} aria-describedby={undefined} onInteractOutside={keepOpenForToasts} onCloseAutoFocus={giveFocusBack} className="flex max-h-[86%] w-[min(720px,calc(100%-48px))] max-w-none flex-col gap-0 overflow-hidden rounded-[26px] p-0 sm:max-w-[720px]">
             {/* The window clips and rounds, the inner box scrolls, so the scrollbar follows the corners. */}
-            <ScrollFade className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-[26px] pt-3.5 pb-[26px]">{body(DialogTitle)}</ScrollFade>
+            <div className="scroll-fade min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-[26px] pt-6 pb-[26px]">{body(DialogTitle)}</div>
           </DialogContent>
         </Dialog>
       ) : (
         <Drawer open={open} onOpenChange={(next) => !next && close()} handleOnly>
           {/* Vaul adds a cover below the sheet that scrolls with it, so the sheet itself must not scroll: an inner box does. The box starts under the handle, so the background reaches the top edge, and the sheet clips it to its rounded corners. */}
           <DrawerContent aria-describedby={undefined} onInteractOutside={keepOpenForToasts} onCloseAutoFocus={giveFocusBack} className="data-[vaul-drawer-direction=bottom]:overflow-hidden data-[vaul-drawer-direction=bottom]:px-0">
-            <ScrollFade className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-[18px] pt-7 -mt-7">{body(DrawerTitle)}</ScrollFade>
+            <div className="scroll-fade min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-[18px] pt-7 pb-6 -mt-7">{body(DrawerTitle)}</div>
           </DrawerContent>
         </Drawer>
       )}

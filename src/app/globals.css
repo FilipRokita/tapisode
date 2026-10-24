@@ -99,6 +99,8 @@
   animation: shimmer 1.3s linear infinite;
   border-radius: 12px;
 }
+/* Fades the top and bottom 24px of a scrolling box, always, so content never meets a hard line. Give the box 24px of padding on those sides so text at rest sits clear of the fade. */
+@utility scroll-fade { mask-image: linear-gradient(to bottom, transparent, var(--background) 24px, var(--background) calc(100% - 24px), transparent); }
 @utility rise-in { animation: rise-up 0.35s var(--ease) backwards; }
 
 /* A soft light that follows the cursor over a card. --mx and --my are set by `spotlightMove`. Only where hover exists. */
