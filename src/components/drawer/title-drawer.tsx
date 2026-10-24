@@ -86,7 +86,7 @@ function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "ti
           {view.overview}
         </p>
       )}
-      <div className="mt-[18px] grid gap-[22px] md:grid-cols-[1.15fr_1fr] md:items-start">
+      <div className="mt-[18px] grid gap-[22px] md:grid-cols-[1.15fr_1fr] md:content-start md:items-start">
         <div className={cn("md:row-span-2", section(1, entering).className)} style={section(1, entering).style}>
           <ProgressPanel view={view} run={command} />
         </div>
@@ -98,7 +98,7 @@ function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "ti
             <EpisodeStrip facts={series} state={view.state} run={command} />
           </div>
         )}
-        <div className={cn("md:col-start-2 md:row-start-2 md:border-t md:border-border md:pt-5", section(4, entering).className)} style={section(4, entering).style}>
+        <div className={cn("md:col-start-2 md:row-start-2 md:border-t md:border-border md:pt-[22px]", section(4, entering).className)} style={section(4, entering).style}>
           <WhereToWatch view={view} region={region} />
         </div>
       </div>

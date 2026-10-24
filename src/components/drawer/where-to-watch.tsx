@@ -15,7 +15,6 @@ export function WhereToWatch({ view, region }: { view: TitleView; region: string
             <span key={s} className="inline-flex items-center gap-[9px] rounded-[14px] border border-border bg-surface-2 py-[9px] pr-3.5 pl-3 text-sm font-semibold">
               <ServiceDot service={s} className="size-[9px]" />
               {SERVICE_NAMES[s]}
-              <small className="text-xs font-medium text-faint">Stream</small>
             </span>
           ))}
         </div>
