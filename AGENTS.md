@@ -140,7 +140,9 @@ A plan is exact and backed by analysis and research. Do not guess: what you do n
 know, you check in the code, the installed tooling or the official docs. Ask the
 user only when the answer would change the product's or a feature's direction, or
 cannot be found in the code or on the internet. A plan follows industry standards
-and best practices: DRY, SOLID, clean code and security practices.
+and best practices in general, not only a fixed list. For example: DRY, SOLID, KISS,
+YAGNI, clean code, separation of concerns, least privilege and other security
+practices, testability, accessibility and performance, etc.
 
 Whatever a plan produces stays in its entry. `dev-only/` is scratch space for
 prototypes tied to no plan.
