@@ -111,8 +111,9 @@ export function TitleDrawerProvider({ region, children }: { region: string; chil
       {children}
       {isDesktop ? (
         <Dialog open={open} onOpenChange={(next) => !next && close()}>
-          <DialogContent showCloseButton={false} aria-describedby={undefined} onInteractOutside={keepOpenForToasts} onCloseAutoFocus={giveFocusBack} className="block max-h-[86%] w-[min(720px,calc(100%-48px))] max-w-none overflow-x-hidden overflow-y-auto rounded-[26px] px-[26px] pt-3.5 pb-[26px] sm:max-w-[720px]">
-            {body(DialogTitle)}
+          <DialogContent showCloseButton={false} aria-describedby={undefined} onInteractOutside={keepOpenForToasts} onCloseAutoFocus={giveFocusBack} className="flex max-h-[86%] w-[min(720px,calc(100%-48px))] max-w-none flex-col gap-0 overflow-hidden rounded-[26px] p-0 sm:max-w-[720px]">
+            {/* The window clips and rounds, the inner box scrolls, so the scrollbar follows the corners. */}
+            <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-[26px] pt-3.5 pb-[26px]">{body(DialogTitle)}</div>
           </DialogContent>
         </Dialog>
       ) : (
