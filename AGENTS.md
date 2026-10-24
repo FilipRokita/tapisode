@@ -2,7 +2,7 @@
 
 If your tool does not expand the import above, read `README.md` first.
 
-# Agent Guidelines & Behavior
+# General Coding Principles
 
 ## 1. Think Before Coding
 
@@ -60,7 +60,7 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-# Project
+# Project Rules
 
 ## 1. Language
 
