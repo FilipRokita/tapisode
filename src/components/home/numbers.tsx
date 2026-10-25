@@ -97,7 +97,7 @@ export function Numbers({ backlog, items, finished, tracked }: NumbersProps) {
             </div>
             {items.length > 0 && (
               <ul className={cn("grid gap-3.5 md:mt-5", "max-md:mt-0")}>
-                {items.slice(0, 4).map((item, i) => (
+                {items.slice(0, 3).map((item, i) => (
                   <ShowBar key={item.view.id} item={item} index={i} ready={ready} />
                 ))}
               </ul>
