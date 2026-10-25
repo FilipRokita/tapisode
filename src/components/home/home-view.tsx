@@ -13,13 +13,11 @@ import { useAmbientHue } from "@/components/library/use-ambient-hue";
 import { useToday } from "@/components/library/use-today";
 import { Reveal } from "@/components/landing/reveal";
 import { airDateLabel } from "@/domain/countdown";
-import { isReleased } from "@/domain/progress";
 import { backlog, catchUp, greetingFor, nextAiring, weekAgenda } from "@/domain/home";
 import type { TitleView } from "@/domain/view";
 import { Hero } from "./hero";
 import { HeroSwitcher } from "./hero-switcher";
 import { Numbers } from "./numbers";
-import { WatchlistBanner } from "./watchlist-banner";
 import { WeekAgenda } from "./week-agenda";
 
 /** How far ahead Coming up looks: about two months. */
@@ -48,9 +46,6 @@ export function HomeView({ name, rows }: HomeViewProps) {
   const [chosenId, setChosenId] = useState<string | null>(null);
   // The title the user picked under the hero, or the newest one when none is picked or the pick left Watching.
   const upNext = watching.find((t) => t.id === chosenId) ?? watching[0];
-  const watchlist = titles.filter((t) => t.state?.status === "watchlist");
-  // The title that has waited longest is first, and one that is not out yet cannot be started.
-  const suggestions = watchlist.filter((t) => isReleased(t.facts)).sort((a, b) => a.activityAt - b.activityAt);
   const hue = useAmbientHue(upNext?.poster?.w185 ?? null);
   const finished = titles.filter((t) => t.state?.status === "complete").length;
   const greeting = hour === null ? "Welcome back" : greetingFor(hour);
@@ -90,16 +85,6 @@ export function HomeView({ name, rows }: HomeViewProps) {
         <>
           <Reveal>
             <WeekAgenda days={weekAgenda(titles, today, AGENDA_DAYS)} next={nextAiring(titles, today, AGENDA_DAYS)} today={today} />
-          </Reveal>
-          <Reveal>
-            <WatchlistBanner
-              titles={suggestions}
-              total={watchlist.length}
-              onStart={(view) => {
-                // Started titles move to Watching, and the hero shows the one the user just started.
-                void setStatus(view, "watching").then((ok) => ok && setChosenId(view.id));
-              }}
-            />
           </Reveal>
           <Reveal>
             <Numbers backlog={backlog(titles)} items={catchUp(titles)} finished={finished} tracked={titles.length} />
