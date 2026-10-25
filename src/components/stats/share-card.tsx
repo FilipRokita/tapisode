@@ -3,9 +3,10 @@
 import { cn } from "cn";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Download, X } from "@/components/primitives/icons";
+import { Download } from "@/components/primitives/icons";
 import { Segmented } from "@/components/primitives/segmented";
 import { Button } from "@/components/ui/button";
+import { CloseButton } from "@/components/ui/close-button";
 import { ResponsiveSheet } from "@/components/ui/responsive-sheet";
 import type { Stats } from "@/domain/stats";
 import { readCardPalette } from "./card-palette";
@@ -64,9 +65,7 @@ export function ShareCard({ stats, open, onOpenChange }: { stats: Stats; open: b
     <ResponsiveSheet open={open} onOpenChange={onOpenChange} title="Share your stats" description="A picture of your stats to save or share.">
       <div className="mb-3 flex items-center justify-between">
         <b className="text-[17px] tracking-[-0.02em]">Share your stats</b>
-        <Button variant="ghost" size="icon" aria-label="Close" onClick={() => onOpenChange(false)} className="-my-2 -mr-2">
-          <X />
-        </Button>
+        <CloseButton onClick={() => onOpenChange(false)} className="relative -my-1" />
       </div>
       <Segmented
         kind="tab"

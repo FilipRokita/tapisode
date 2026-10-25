@@ -64,9 +64,14 @@ export function ChangePasswordDialog({ open, onOpenChange }: { open: boolean; on
             <Input id="new-password" type="password" autoComplete="new-password" placeholder="At least 8 characters" value={next} onChange={(e) => { setNext(e.target.value); setErrors((x) => ({ ...x, next: undefined })); }} aria-invalid={!!errors.next} aria-describedby="new-password-error" />
             <p id="new-password-error" className="text-[12.5px] text-danger empty:hidden">{errors.next}</p>
           </div>
-          <Button type="submit" variant="primary" className="mt-1.5 w-full" disabled={busy}>
-            {busy ? "Updating…" : "Update password"}
-          </Button>
+          <div className="mt-1.5 flex gap-2.5">
+            <Button type="button" variant="secondary" className="flex-1" onClick={() => close(false)} disabled={busy}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="primary" className="flex-1" disabled={busy}>
+              {busy ? "Updating…" : "Update password"}
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
