@@ -43,6 +43,9 @@ interface WeekAgendaProps {
   today: string;
 }
 
+/** How many dots fit across the axis before it scrolls. */
+const VISIBLE = 6;
+
 type Segment = { readonly kind: "day"; readonly day: AgendaDay<TitleView> } | { readonly kind: "gap"; readonly key: string; readonly count: number };
 
 /** Today and the days with an episode stay as they are. Every run of empty days between them, even one day, becomes one gap. */
@@ -76,6 +79,11 @@ const FADE = "before:bg-[linear-gradient(90deg,var(--brand-soft),var(--home-line
 export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
   const { openTitle } = useOverlays();
   const empty = days.every((d) => d.entries.length === 0);
+  const segs = segments(days);
+  // With few dots the axis stretches over the whole width, the last column keeping the room its poster needs. With more, six
+  // fit across and the rest is scrolled to.
+  const stretch = segs.length <= VISIBLE;
+  const widthOf = (index: number) => (!stretch ? "md:w-auto md:basis-[calc((100%-60px)/6)]" : index === segs.length - 1 ? "md:w-[124px]" : "md:w-auto md:min-w-0 md:flex-1 md:shrink");
   return (
     <section aria-labelledby="coming-up" className="mt-10 md:mt-12">
       <SectionHeading id="coming-up">
@@ -93,10 +101,10 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
       ) : (
         <ScrollRail always arrows className="-mx-4 -mt-1 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pt-3 pb-2 md:-mx-9 md:scroll-px-9 md:px-9">
           <ol className="flex gap-3">
-            {segments(days).map((segment, index) => {
+            {segs.map((segment, index) => {
               if (segment.kind === "gap") {
                 return (
-                  <li key={segment.key} aria-hidden="true" className={cn(LINE, "relative w-[112px] shrink-0 pt-7", index === 1 ? FADE : "before:bg-[var(--home-line)]")}>
+                  <li key={segment.key} aria-hidden="true" className={cn(LINE, "relative w-[112px] shrink-0 pt-7", widthOf(index), index === 1 ? FADE : "before:bg-[var(--home-line)]")}>
                     <i className="absolute top-0 left-0 block size-[11px] rounded-full border-2 border-border-strong bg-background" />
                     <span className="mono block pl-5 text-[12px] leading-[26px] text-faint">{segment.count === 1 ? "1 day" : `${segment.count} days`}</span>
                   </li>
@@ -110,7 +118,8 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
                 <li
                   key={day.date}
                   className={cn(
-                    "relative w-[124px] shrink-0 snap-start pt-7 md:w-auto md:basis-[calc((100%-72px)/7)]",
+                    "relative w-[124px] shrink-0 snap-start pt-7",
+                    widthOf(index),
                     LINE,
                     // Today's dot casts its violet onto the line, and it fades into the line's own color over the next day.
                     isToday ? "before:bg-[linear-gradient(90deg,var(--brand),var(--brand-line)_55%,var(--brand-soft))] before:shadow-[0_0_8px_var(--brand-ring)]" : index === 1 ? FADE : "before:bg-[var(--home-line)]",
@@ -125,7 +134,7 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
                     {first && <span className="eyebrow whitespace-nowrap text-brand-text">{month}</span>}
                   </div>
                   {day.entries.length > 0 && (
-                    <ul className="grid gap-3.5">
+                    <ul className="grid w-[124px] max-w-full gap-3.5">
                       {day.entries.map((e) => (
                         <Entry key={e.view.id} entry={e} daysAway={day.daysAway} open={openTitle} />
                       ))}
