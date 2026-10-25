@@ -75,6 +75,8 @@
   [data-sonner-toaster] { pointer-events: auto; }
   body.offline .needs-net { opacity: 0.45; pointer-events: none; }
   body { overscroll-behavior: none; }
+  /* A modal locks the page scroll and pads the body by the scrollbar's width. The gutter above already keeps that space, so the padding would only shift the page. */
+  html body[data-scroll-locked] { margin-right: 0 !important; }
   [role="dialog"] { overscroll-behavior: none; }
   button { -webkit-user-select: none; user-select: none; }
 }

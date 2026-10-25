@@ -83,8 +83,12 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
       ref={card}
       onPointerMove={parallax}
       onPointerLeave={rest}
+      onClick={(event) => {
+        // A tap anywhere on the card opens the title, which is how a phone gets there. The buttons keep their own job.
+        if (!(event.target as HTMLElement).closest("button, a")) open();
+      }}
       aria-label="Up next"
-      className={cn("hue relative isolate flex min-h-[430px] flex-col justify-end overflow-hidden rounded-[28px] border border-border-strong bg-surface md:min-h-[470px] md:flex-row md:items-end md:justify-between md:gap-8", className)}
+      className={cn("hue relative isolate flex min-h-[430px] cursor-pointer flex-col justify-end overflow-hidden rounded-[28px] border border-border-strong bg-surface md:min-h-[470px] md:flex-row md:items-end md:justify-between md:gap-8", className)}
       style={{ "--h": hue, "--px": 0, "--py": 0, "--sp": 0, opacity: "calc(1 - var(--sp) * 0.5)", transform: "scale(calc(1 - var(--sp) * 0.04))", transformOrigin: "50% 0" } as CSSProperties}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
