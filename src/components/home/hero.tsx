@@ -120,12 +120,14 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
 
       <div className="relative z-10 flex min-w-0 flex-1 flex-col justify-end gap-3 p-5 pb-7 [transform:translate3d(0,calc(var(--sp)*-30px),0)] md:max-w-[640px] md:gap-4 md:p-9 md:pb-10">
         <div className="flex flex-wrap items-center gap-2 animate-[blur-in_0.7s_var(--ease)_0.1s_backwards]">
-          <span className="eyebrow inline-flex items-center gap-2 rounded-full border border-brand-edge bg-brand-soft px-3 py-1 text-brand-text">
+          <span className="eyebrow inline-flex items-center gap-2 rounded-full border border-brand-edge bg-badge-bg px-3 py-1 text-brand-text backdrop-blur-md">
             <i aria-hidden="true" className="block size-1.5 rounded-full bg-brand-text motion-safe:animate-pulse" />
             Up next
           </span>
           {(view.services ?? []).slice(0, 2).map((s) => (
-            <ServiceChip key={s} service={s} />
+            <span key={s} className="rounded-full bg-badge-bg backdrop-blur-md">
+              <ServiceChip service={s} />
+            </span>
           ))}
         </div>
         <h2 className="animate-[blur-in_0.8s_var(--ease)_0.2s_backwards] text-[44px] leading-[0.95] font-extrabold tracking-[-0.05em] [text-shadow:var(--text-shadow)] [text-wrap:balance] md:text-[68px]">
