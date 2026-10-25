@@ -26,8 +26,8 @@ import { WeekAgenda } from "./week-agenda";
 const ROTATE_MS = 7000;
 const IDLE_AFTER_PICK_MS = 15000;
 
-/** How far ahead Coming up looks: about two months. */
-const AGENDA_DAYS = 60;
+/** How far ahead Coming up looks: eight weeks. */
+const AGENDA_DAYS = 56;
 
 const noSubscribe = () => () => {};
 /** The visitor's local hour, or null during the server render. */
