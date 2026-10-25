@@ -63,7 +63,7 @@ export function UpNext({ view, preview, onPlus, onMarkWatched, backdrop }: UpNex
             {info.isSeries ? (
               <>
                 <div className="mono flex flex-wrap items-center gap-1.5 text-sm text-dim md:gap-y-1 md:text-2xl md:text-foreground" title="Last watched">
-                  <Check className="size-5 md:text-dim" aria-hidden="true" />
+                  <Check className="size-5 text-brand-text" aria-hidden="true" />
                   <RollingNumber value={info.stamp} />
                   <span className="hidden basis-full font-sans text-[13px] text-faint md:block">
                     {info.watched} of {info.aired} episodes watched
