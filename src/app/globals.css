@@ -95,6 +95,7 @@
 @keyframes aurora { from { transform: translate3d(-3%, 0, 0) scale(1); } to { transform: translate3d(3%, 2%, 0) scale(1.08); } }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes section-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes week-in { from { opacity: 0; transform: translateX(var(--from, 18px)); } to { opacity: 1; transform: none; } }
 @keyframes roll-up { from { transform: translateY(100%); } to { transform: none; } }
 
 @utility mono { font-family: var(--font-mono); font-feature-settings: "tnum"; }

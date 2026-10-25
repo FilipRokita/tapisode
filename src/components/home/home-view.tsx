@@ -19,8 +19,8 @@ import { Hero } from "./hero";
 import { Numbers } from "./numbers";
 import { WeekAgenda } from "./week-agenda";
 
-/** How far ahead Coming up looks: about two months. */
-const AGENDA_DAYS = 60;
+/** How far ahead Coming up looks: eight weeks. */
+const AGENDA_DAYS = 56;
 
 const noSubscribe = () => () => {};
 /** The visitor's local hour, or null during the server render. */
