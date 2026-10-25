@@ -20,9 +20,9 @@ function Entry({ entry, daysAway, open }: { entry: AgendaEntry<TitleView>; daysA
   const { view } = entry;
   return (
     <li>
-      <button ref={button} type="button" onClick={() => open(view.ref, button.current!)} className="group block w-full text-left">
-        <TiltPoster perspective={500} degrees={9} className="transition-transform duration-300 ease-app md:group-hover:-translate-y-1">
-          <Poster src={view.poster?.w185 ?? null} title={view.title} compact className="w-full shadow-[var(--shadow-poster)]">
+      <button ref={button} type="button" onClick={() => open(view.ref, button.current!)} className="block w-full text-left">
+        <TiltPoster>
+          <Poster src={view.poster?.w185 ?? null} title={view.title} compact className="w-full">
             <span className="mono absolute inset-x-0 bottom-0 bg-[linear-gradient(to_top,var(--background),transparent)] px-2 pt-6 pb-1.5 text-[11.5px] font-semibold">
               <span className="sr-only">Episode </span>
               {episodeCode(entry.season, entry.episode)}

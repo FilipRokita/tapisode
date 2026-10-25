@@ -13,8 +13,8 @@ function Tile({ row, index }: { row: BrowseRow; index: number }) {
   const button = useRef<HTMLButtonElement>(null);
   return (
     <li className="w-[140px] shrink-0 snap-start md:w-auto md:basis-[calc((100%-100px)/6)]">
-      <button ref={button} type="button" onClick={() => openTitle(row.ref, button.current)} className="group block w-full text-left">
-        <TiltPoster className="transition-transform duration-300 ease-app md:group-hover:-translate-y-1.5 [&_[data-poster]]:shadow-[var(--shadow-poster)] md:[&_[data-poster]]:group-hover:shadow-[var(--shadow-lift)]">
+      <button ref={button} type="button" onClick={() => openTitle(row.ref, button.current)} className="block w-full text-left">
+        <TiltPoster>
           <Poster src={row.poster?.w185 ?? null} title={row.title} className="w-full">
             <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(to_top,var(--background),transparent)] opacity-90" />
             <span aria-hidden="true" className="mono pointer-events-none absolute -bottom-1.5 left-1.5 bg-[linear-gradient(to_bottom,var(--foreground),var(--home-numeral))] bg-clip-text text-[84px] leading-[0.85] font-black tracking-[-0.06em] text-transparent">
