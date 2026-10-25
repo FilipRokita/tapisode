@@ -26,8 +26,8 @@ export async function loadLibrary(user: CurrentUser) {
   return { titles, pending };
 }
 
-/** What is trending, in cinemas and coming soon, in the user's country. Titles they already track are left out. */
-export const loadBrowse = (user: CurrentUser) => browseLists(user.id, regionOf(user));
+/** What is trending, in cinemas and coming soon, in the user's country. */
+export const loadBrowse = (user: CurrentUser) => browseLists(regionOf(user));
 
 export const loadStats = (user: CurrentUser) => userStats(user.id);
 

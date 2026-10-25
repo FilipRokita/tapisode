@@ -39,7 +39,7 @@ test.describe("home", () => {
     await expect.poll(() => numbers(page)).toBe("11");
   });
 
-  test("the lists show titles nobody on the demo tracks, and a tap opens one where it can be added", async ({ page }) => {
+  test("the lists show the titles on offer, and a tap opens one where it can be added", async ({ page }) => {
     await enterSandbox(page, "/app");
     const trending = section(page, "Trending this week");
     await expect(trending.getByRole("button")).toHaveCount(4);

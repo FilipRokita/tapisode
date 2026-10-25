@@ -37,8 +37,8 @@ Home shows three lists from the provider: trending this week, in cinemas now and
   each answer for one hour, so they never get near the six-month limit.
 - Because of that cache a page reload costs no provider call, so these calls have no per-user limit of their own.
   They still go through the shared gate.
-- A title the user already tracks is left out. A list the provider cannot give right now is not shown, and the rest of
-  Home still renders.
+- The lists are the same for everyone in a country, tracked titles included. A list the provider cannot give right now
+  is not shown, and the rest of Home still renders.
 
 ## Freshness
 

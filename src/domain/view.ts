@@ -34,7 +34,7 @@ export interface SearchRow {
   readonly state: UserTitleState | null;
 }
 
-/** One title in a list on Home. Not on any of the user's lists. */
+/** One title in a list on Home. */
 export interface BrowseRow {
   readonly ref: TitleRef;
   readonly title: string;
