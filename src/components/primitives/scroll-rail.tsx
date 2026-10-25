@@ -61,6 +61,7 @@ export function ScrollRail({ className, children, always = false, arrows = false
   );
 }
 
+/** A tall dark panel at the edge of the row with a bare chevron, the way a streaming app does it. It shows while the pointer is over the row. */
 function Arrow({ side, shown, onClick }: { side: "left" | "right"; shown: boolean; onClick: () => void }) {
   const Icon = side === "left" ? ChevronLeft : ChevronRight;
   return (
@@ -70,12 +71,12 @@ function Arrow({ side, shown, onClick }: { side: "left" | "right"; shown: boolea
       onClick={onClick}
       tabIndex={shown ? 0 : -1}
       className={cn(
-        "absolute top-[38%] z-10 hidden size-11 -translate-y-1/2 place-items-center rounded-[14px] border border-border-strong bg-background/80 text-foreground backdrop-blur-md transition-[opacity,transform,background-color] duration-200 ease-app hover:bg-surface-2 active:scale-95 md:grid",
-        side === "left" ? "-left-3" : "-right-3",
+        "group/arrow absolute top-1.5 bottom-[4.75rem] z-10 hidden w-[72px] items-center text-foreground transition-opacity duration-200 ease-app md:flex",
+        side === "left" ? "left-0 justify-start bg-[linear-gradient(to_right,var(--background)_15%,transparent)] pl-2" : "right-0 justify-end bg-[linear-gradient(to_left,var(--background)_15%,transparent)] pr-2",
         shown ? "opacity-0 group-focus-within/rail:opacity-100 group-hover/rail:opacity-100" : "pointer-events-none opacity-0",
       )}
     >
-      <Icon className="size-5" />
+      <Icon className="size-10 drop-shadow-[0_2px_8px_rgb(0_0_0/0.6)] transition-transform duration-200 ease-app group-hover/arrow:scale-125" strokeWidth={2} />
     </button>
   );
 }
