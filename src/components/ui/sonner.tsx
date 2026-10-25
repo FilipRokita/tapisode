@@ -1,13 +1,16 @@
 "use client";
 
 import { Toaster as Sonner, type ToasterProps } from "sonner";
+import { useIsDesktop } from "@/components/primitives/use-media-query";
 
-/** The app's toast host. Dark only, so there is no theme switch. Look and copy: design.md sections 8 and 12. */
+/** The app's toast host: bottom right on a desktop, at the top on a phone. Dark only, so there is no theme switch. Look and copy: design.md sections 8 and 12. */
 export function Toaster(props: ToasterProps) {
+  const desktop = useIsDesktop();
   return (
     <Sonner
       theme="dark"
-      position="bottom-center"
+      position={desktop ? "bottom-right" : "top-center"}
+      mobileOffset={{ top: "calc(var(--safe-top, 0px) + 12px)", left: 16, right: 16 }}
       duration={5000}
       style={
         {

@@ -69,7 +69,7 @@ export function SettingsView({ isSandbox, country, regions }: SettingsViewProps)
 
   return (
     <>
-      <PageHeader title="Settings" sub="Account and preferences" />
+      <PageHeader search={false} title="Settings" sub="Account and preferences" />
       <List>
         {isSandbox ? (
           <Row title="Create account" hint="Keep your lists. Takes a minute.">
