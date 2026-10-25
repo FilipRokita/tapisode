@@ -17,14 +17,13 @@ export function PosterTile({ view }: { view: TitleView }) {
   return (
     <button ref={button} type="button" data-flip={`${view.id}|tile`} onClick={() => openTitle(view.ref, button.current)} className="relative block text-left">
       <TiltPoster>
-        <div className="relative">
-          <Poster src={view.poster?.w342 ?? null} title={view.title} className="w-full" />
+        <Poster src={view.poster?.w342 ?? null} title={view.title} className="w-full">
           {done && (
             <span aria-hidden="true" className="absolute top-2 right-2 grid size-[26px] place-items-center rounded-full border border-border-strong bg-badge-bg text-brand-text">
               <Check className="size-[15px]" strokeWidth={2.4} />
             </span>
           )}
-        </div>
+        </Poster>
         <div className="px-0.5 pt-2.5">
           <div className="line-clamp-2 text-sm leading-tight font-semibold tracking-[-0.01em]">{view.title}</div>
           <div className="mt-1 flex flex-wrap items-center gap-x-2 text-[12.5px] text-faint">

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Film } from "./icons";
 
 interface PosterProps {
@@ -12,10 +12,12 @@ interface PosterProps {
   compact?: boolean;
   /** Load straight away, for the poster the visitor is looking at. */
   eager?: boolean;
+  /** Laid over the poster, so it moves with it (a badge on a tilting tile). */
+  children?: ReactNode;
 }
 
 /** A 2:3 poster. It shimmers while the image loads and fades in. Without an image it shows a film icon and the title. */
-export function Poster({ src, title, className, compact = false, eager = false }: PosterProps) {
+export function Poster({ src, title, className, compact = false, eager = false, children }: PosterProps) {
   const [loaded, setLoaded] = useState(false);
   return (
     <div
@@ -54,6 +56,7 @@ export function Poster({ src, title, className, compact = false, eager = false }
           </>
         )
       )}
+      {children}
     </div>
   );
 }
