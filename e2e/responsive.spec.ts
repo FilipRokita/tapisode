@@ -3,7 +3,7 @@ import { enterSandbox } from "./helpers";
 
 const WIDTHS = [320, 360, 390, 768, 1024, 1440, 1894];
 const PUBLIC = ["/", "/signin", "/signup", "/privacy", "/terms"];
-const APP = ["/app/watching", "/app/watchlist", "/app/complete", "/app/stats", "/app/settings"];
+const APP = ["/app", "/app/watching", "/app/watchlist", "/app/complete", "/app/stats", "/app/settings"];
 
 test.describe("responsive", () => {
   test("no page scrolls sideways at any width", async ({ page }) => {

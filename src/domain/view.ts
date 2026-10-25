@@ -33,3 +33,21 @@ export interface SearchRow {
   /** The user's state when the title is already on a list. */
   readonly state: UserTitleState | null;
 }
+
+/** One title in a list on Home. */
+export interface BrowseRow {
+  readonly ref: TitleRef;
+  readonly title: string;
+  readonly year: number | null;
+  readonly poster: Pick<PosterUrls, "w185"> | null;
+  /** The wide still, or null. */
+  readonly backdrop: string | null;
+  /** When it came out, or comes out. */
+  readonly releaseDate: DateString | null;
+}
+
+export interface BrowseLists {
+  readonly trending: readonly BrowseRow[];
+  readonly inCinemas: readonly BrowseRow[];
+  readonly comingSoon: readonly BrowseRow[];
+}

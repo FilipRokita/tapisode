@@ -28,6 +28,18 @@ mistake here can cost the API key.
 
 See [Data model](data-model.md) for the tables.
 
+## Home's lists
+
+Home shows three lists from the provider: trending this week, in cinemas now and coming soon. They come from TMDB's
+`/trending/all/week`, `/movie/now_playing` and `/movie/upcoming` (the last two for the user's country).
+
+- Nothing in them is stored. They are fetched on the server and kept only in the host's data cache, which holds
+  each answer for one hour, so they never get near the six-month limit.
+- Because of that cache a page reload costs no provider call, so these calls have no per-user limit of their own.
+  They still go through the shared gate.
+- The lists are the same for everyone in a country, tracked titles included. A list the provider cannot give right now
+  is not shown, and the rest of Home still renders.
+
 ## Freshness
 
 | Content | Refetched when opened if older than | Refreshed by the weekly job if older than |

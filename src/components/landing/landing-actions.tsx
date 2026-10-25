@@ -8,7 +8,7 @@ export function LandingActions({ className, fillText }: { className?: string; fi
     <div className={className}>
       <div className={fillText ? "when-in w-full max-w-[30.5ch] text-lg" : "when-in"}>
         <Button asChild variant="primary" size="lg" className={fillText ? "w-full" : undefined}>
-          <Link href="/app/watching">Open the app</Link>
+          <Link href="/app">Open the app</Link>
         </Button>
       </div>
       <TryButton className="when-out" />

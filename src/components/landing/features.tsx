@@ -7,7 +7,7 @@ import { Reveal } from "./reveal";
 const FEATURES: readonly { icon: LucideIcon; title: string; text: string; accent?: boolean }[] = [
   { icon: Zap, title: "One-tap progress", text: "Advance an episode instantly, roll over to the next season, and undo a mistake in one tap.", accent: true },
   { icon: Tv, title: "See where it streams", text: "Pick your country and filter your list by the services that carry each title there." },
-  { icon: Layers, title: "Three states, no clutter", text: "Watching, Watchlist, Complete. No ratings, no feeds, no recommendations." },
+  { icon: Layers, title: "Three states, no clutter", text: "Watching, Watchlist, Complete. No ratings and no social feed. Home shows what airs this week." },
 ];
 
 export function Features() {

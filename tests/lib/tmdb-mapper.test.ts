@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { ProviderError } from "@/domain/provider";
-import { mapMovie, mapSearch, mapTv } from "@/lib/providers/tmdb/mapper";
+import { mapBrowse, mapMovie, mapSearch, mapTv } from "@/lib/providers/tmdb/mapper";
 import movieJson from "../fixtures/tmdb/movie-released.json";
 import plannedJson from "../fixtures/tmdb/movie-planned.json";
 import announcedJson from "../fixtures/tmdb/tv-announced.json";
 import endedJson from "../fixtures/tmdb/tv-ended.json";
 import newSeasonJson from "../fixtures/tmdb/tv-new-season.json";
 import ongoingJson from "../fixtures/tmdb/tv-ongoing.json";
+import nowPlayingJson from "../fixtures/tmdb/now-playing.json";
 import searchJson from "../fixtures/tmdb/search.json";
 
 const TODAY = "2026-10-20";
@@ -90,5 +91,25 @@ describe("search", () => {
     expect(page.hits.map((h) => `${h.ref.type}:${h.ref.externalId}`)).toEqual(["tv:9001", "movie:9101", "tv:9003"]);
     expect(page.hits.map((h) => h.year)).toEqual([2025, 2024, null]);
     expect(page.totalPages).toBe(500);
+  });
+});
+
+describe("browse lists", () => {
+  it("takes the type from the list when the results carry none, and drops untitled ones", () => {
+    expect(mapBrowse(nowPlayingJson, "movie")).toEqual([
+      { ref: { provider: "tmdb", type: "movie", externalId: "9201" }, title: "Fixture Lantern", year: 2026, posterPath: "/fixture-lantern.jpg", releaseDate: "2026-10-10", backdropPath: "/fixture-lantern-wide.jpg" },
+      { ref: { provider: "tmdb", type: "movie", externalId: "9202" }, title: "Fixture Tram", year: 2026, posterPath: null, releaseDate: "2026-09-26", backdropPath: null },
+    ]);
+  });
+
+  it("reads the type of a mixed list from each result, and skips people", () => {
+    const hits = mapBrowse(searchJson, null);
+    expect(hits.map((h) => h.ref.type)).toEqual(["tv", "movie", "tv"]);
+    expect(hits[0]!.releaseDate).toBe("2025-03-01");
+    expect(hits[2]!.releaseDate).toBeNull();
+  });
+
+  it("rejects a body that is not a list", () => {
+    expect(() => mapBrowse({ nope: true }, null)).toThrow(ProviderError);
   });
 });

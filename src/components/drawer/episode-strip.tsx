@@ -85,7 +85,7 @@ export function EpisodeStrip({ facts, state, run }: EpisodeStripProps) {
           role="tablist"
           aria-label="Season"
           className="mb-3 flex gap-1.5 overflow-x-auto"
-          style={{ maskImage: `linear-gradient(to right, ${edges.start ? "transparent" : "#000"}, #000 32px, #000 calc(100% - 32px), ${edges.end ? "transparent" : "#000"})` }}
+          style={{ maskImage: `linear-gradient(to right, ${edges.start ? "transparent" : "var(--background)"}, var(--background) 32px, var(--background) calc(100% - 32px), ${edges.end ? "transparent" : "var(--background)"})` }}
         >
           {facts.seasons.map((s) => (
             <button

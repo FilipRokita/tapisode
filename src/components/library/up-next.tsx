@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { countdownLabel } from "@/domain/countdown";
 import type { UserTitleState } from "@/domain/types";
 import type { TitleView } from "@/domain/view";
@@ -20,10 +20,12 @@ interface UpNextProps {
   preview?: UserTitleState;
   onPlus: () => void;
   onMarkWatched: () => void;
+  /** A picture behind the card (Home). It must sit at `-z-10` inside the card. */
+  backdrop?: ReactNode;
 }
 
 /** The title with the newest activity, as a large card. The glow behind it takes its color from the poster. */
-export function UpNext({ view, preview, onPlus, onMarkWatched }: UpNextProps) {
+export function UpNext({ view, preview, onPlus, onMarkWatched, backdrop }: UpNextProps) {
   const shown = preview ? { ...view, state: preview } : view;
   const info = describeTitle(shown);
   const button = describeTitle(view);
@@ -41,6 +43,7 @@ export function UpNext({ view, preview, onPlus, onMarkWatched }: UpNextProps) {
       className="hue relative isolate mt-1.5 overflow-hidden rounded-[22px] border border-border bg-surface p-4 md:p-6"
       style={{ "--h": hue } as React.CSSProperties}
     >
+      {backdrop}
       <div aria-hidden="true" className="pointer-events-none absolute -top-[40%] -right-[20%] -z-10 h-[120%] w-4/5 bg-[radial-gradient(closest-side,var(--glow),transparent_70%)]" />
       <div className="eyebrow mb-3">Up next</div>
       <div className="flex gap-3.5 md:grid md:grid-cols-[150px_minmax(0,1fr)_minmax(280px,340px)] md:items-center md:gap-7">
@@ -60,7 +63,7 @@ export function UpNext({ view, preview, onPlus, onMarkWatched }: UpNextProps) {
             {info.isSeries ? (
               <>
                 <div className="mono flex flex-wrap items-center gap-1.5 text-sm text-dim md:gap-y-1 md:text-2xl md:text-foreground" title="Last watched">
-                  <Check className="size-5 md:text-dim" aria-hidden="true" />
+                  <Check className="size-5 text-brand-text" aria-hidden="true" />
                   <RollingNumber value={info.stamp} />
                   <span className="hidden basis-full font-sans text-[13px] text-faint md:block">
                     {info.watched} of {info.aired} episodes watched

@@ -22,6 +22,8 @@ export interface FakeTitle {
   };
   /** Movies only. */
   readonly released?: boolean;
+  /** Movies only: days from today until the release, for the "coming soon" list. */
+  readonly comingInDays?: number;
   /** A title the catalog has no poster for, so the interface shows its fallback. */
   readonly noPoster?: true;
   /** A title the catalog has no backdrop for, so the drawer keeps its poster background. */
@@ -48,12 +50,19 @@ export const FAKE_TITLES: readonly FakeTitle[] = [
   { id: "job", type: "movie", title: "The Harbor Job", year: 2021, hue: 20, runtimeMinutes: 100, services: ["prime"], released: true, overview: "An invented title for the prototype." },
   { id: "hours", type: "tv", title: "Quiet Hours", year: 2025, hue: 280, runtimeMinutes: 40, services: ["apple"], overview: "An invented title for the prototype.", series: { state: "ongoing", counts: [8], aired: [5], nextInDays: 6 } },
   { id: "rooms", type: "movie", title: "Quiet Rooms", year: 2019, hue: 310, runtimeMinutes: 100, services: ["hbo"], released: true, overview: "An invented title for the prototype." },
+  // In cinemas and coming soon: Home's lists. None is in anyone's lists.
+  { id: "vesper", type: "movie", title: "Neon Vesper", year: 2026, hue: 300, runtimeMinutes: 112, services: ["netflix"], released: true, overview: "An invented title for the home page." },
+  { id: "ferry", type: "movie", title: "The Last Ferry", year: 2026, hue: 205, runtimeMinutes: 104, services: ["prime"], released: true, overview: "An invented title for the home page." },
+  { id: "copper", type: "movie", title: "Copper Sky", year: 2026, hue: 28, runtimeMinutes: 0, services: [], released: false, comingInDays: 12, overview: "An invented title for the home page." },
+  { id: "winterline", type: "movie", title: "Winterline", year: 2026, hue: 215, runtimeMinutes: 0, services: [], released: false, comingInDays: 26, overview: "An invented title for the home page." },
   // Unreleased: they can only go on the Watchlist.
   { id: "aurora", type: "movie", title: "Aurora Gate", year: 2027, hue: 170, runtimeMinutes: 0, services: [], released: false, overview: "An announced film with no release date yet." },
   { id: "tidewater", type: "tv", title: "Tidewater", year: 2027, hue: 205, runtimeMinutes: 0, services: [], overview: "An announced series. Nothing has aired.", series: { state: "upcoming", counts: [6], aired: [0] } },
 ];
 
 export const FAKE_POPULAR: readonly string[] = ["lights", "job", "hours", "rooms"];
+/** Home's "in cinemas" list: released movies, the two nobody tracks first. */
+export const FAKE_IN_CINEMAS: readonly string[] = ["vesper", "ferry", "job", "rooms"];
 export const FAKE_REGIONS: readonly { code: string; name: string }[] = [
   { code: "DE", name: "Germany" },
   { code: "FR", name: "France" },

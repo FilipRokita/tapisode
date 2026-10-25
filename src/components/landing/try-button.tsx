@@ -33,7 +33,7 @@ export function TryButton({ className }: { className?: string }) {
       setFull(error.status === 429 ? "Too many attempts. Wait a moment." : "The demo is full right now. Try again later, or create an account.");
       return;
     }
-    router.push("/app/watching");
+    router.push("/app");
     router.refresh();
   }
 

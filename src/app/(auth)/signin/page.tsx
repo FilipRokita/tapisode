@@ -8,6 +8,6 @@ export const metadata: Metadata = { title: "Sign in · Tapisode", robots: { inde
 export default async function SignInPage() {
   const user = await getPageUser();
   // A demo visitor may land here to turn the session into an account, so only a real account is sent away.
-  if (user && !user.isSandbox) redirect("/app/watching");
+  if (user && !user.isSandbox) redirect("/app");
   return <AuthScreen initialMode="signin" />;
 }
