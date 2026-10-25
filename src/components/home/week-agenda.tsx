@@ -74,7 +74,7 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
   const empty = days.every((d) => d.entries.length === 0);
   return (
     <section aria-labelledby="coming-up" className="mt-10 md:mt-12">
-      <SectionHeading id="coming-up" aside={`Next ${days.length} days`}>
+      <SectionHeading id="coming-up" aside={`Next ${days.length} days`} rule={false}>
         Coming up
       </SectionHeading>
       {empty ? (
