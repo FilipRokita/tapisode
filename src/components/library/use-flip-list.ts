@@ -11,10 +11,14 @@ interface Entry {
 const EASE = "cubic-bezier(0.2, 0.9, 0.25, 1)";
 const idOf = (key: string) => key.split("|")[0]!;
 
-const measure = (el: HTMLElement) => {
+/**
+ * Where an element is inside the list. Measured from the list's own corner, so neither a scroll nor a transform on a parent
+ * (the slide of a page that is arriving) between two renders looks like movement.
+ */
+const measure = (el: HTMLElement, root: HTMLElement) => {
   const r = el.getBoundingClientRect();
-  // Page coordinates, so a scroll between two renders does not look like movement.
-  return { left: r.left + window.scrollX, top: r.top + window.scrollY, width: r.width, height: r.height };
+  const o = root.getBoundingClientRect();
+  return { left: r.left - o.left, top: r.top - o.top, width: r.width, height: r.height };
 };
 
 /**
@@ -43,7 +47,7 @@ export function useFlipList(containerRef: RefObject<HTMLElement | null>): void {
       });
       now.set(el.dataset.flip!, el);
     });
-    const rects = new Map([...now].map(([key, el]) => [key, measure(el)]));
+    const rects = new Map([...now].map(([key, el]) => [key, root ? measure(el, root) : { left: 0, top: 0, width: 0, height: 0 }]));
     running.forEach(({ animation, time }) => {
       animation.play();
       animation.currentTime = time;
@@ -60,7 +64,9 @@ export function useFlipList(containerRef: RefObject<HTMLElement | null>): void {
       g.setAttribute("aria-hidden", "true");
       g.querySelectorAll("[id]").forEach((n) => n.removeAttribute("id"));
       g.querySelectorAll("button, a, [tabindex]").forEach((n) => n.setAttribute("tabindex", "-1"));
-      g.style.cssText += `;position:absolute;left:${entry.rect.left}px;top:${entry.rect.top}px;width:${entry.rect.width}px;height:${entry.rect.height}px;margin:0;z-index:5;pointer-events:none;transform-origin:top left`;
+      // The ghost lives on the body, so the list-relative position is turned back into a page position.
+      const o = root!.getBoundingClientRect();
+      g.style.cssText += `;position:absolute;left:${entry.rect.left + o.left + window.scrollX}px;top:${entry.rect.top + o.top + window.scrollY}px;width:${entry.rect.width}px;height:${entry.rect.height}px;margin:0;z-index:5;pointer-events:none;transform-origin:top left`;
       document.body.appendChild(g);
       return g;
     };
