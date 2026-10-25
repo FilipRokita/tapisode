@@ -19,11 +19,11 @@ function Card({ row, index }: { row: BrowseRow; index: number }) {
         ref={button}
         type="button"
         onClick={() => openTitle(row.ref, button.current)}
-        className="group relative block aspect-[16/10] w-full overflow-hidden rounded-[20px] border border-border bg-surface text-left shadow-[var(--shadow-poster)] transition-[transform,box-shadow,border-color] duration-300 ease-app hover:border-border-strong md:hover:-translate-y-1 md:hover:shadow-[var(--shadow-lift)]"
+        className="relative block aspect-[16/10] w-full overflow-hidden rounded-[20px] border border-border bg-surface text-left shadow-[var(--shadow-poster)] transition-[transform,border-color] duration-[250ms] ease-app hover:border-border-strong md:hover:scale-[1.03] active:scale-[0.98]"
       >
         {row.backdrop ? (
           // eslint-disable-next-line @next/next/no-img-element -- backdrops come straight from the provider's CDN, never through the host's optimizer (catalog-data.md)
-          <img src={row.backdrop} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-app group-hover:scale-[1.06]" />
+          <img src={row.backdrop} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" className="absolute inset-0 size-full object-cover" />
         ) : (
           <Poster src={row.poster?.w185 ?? null} title={row.title} compact className="absolute inset-0 aspect-auto size-full rounded-none opacity-60 [filter:blur(18px)] after:hidden" />
         )}
