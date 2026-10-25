@@ -7,7 +7,7 @@ export function FooterAccountLink() {
       <Link href="/signin" className="when-out hover:text-foreground">
         Sign in
       </Link>
-      <Link href="/app/watching" className="when-in hover:text-foreground">
+      <Link href="/app" className="when-in hover:text-foreground">
         Open the app
       </Link>
     </>

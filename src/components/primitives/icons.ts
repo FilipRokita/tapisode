@@ -9,6 +9,7 @@ export {
   Download,
   Film,
   Globe,
+  House,
   Layers,
   LogOut,
   Play,

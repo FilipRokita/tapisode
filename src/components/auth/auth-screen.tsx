@@ -122,7 +122,7 @@ export function AuthScreen({ initialMode }: { initialMode: Mode }) {
   };
 
   const enter = () => {
-    router.push("/app/watching");
+    router.push("/app");
     router.refresh();
   };
 

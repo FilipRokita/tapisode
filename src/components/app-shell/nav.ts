@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
-import { BarChart3, Bookmark, CircleCheck, Tv } from "@/components/primitives/icons";
+import { BarChart3, Bookmark, CircleCheck, House, Tv } from "@/components/primitives/icons";
 
-export type TabKey = "watching" | "watchlist" | "complete" | "stats";
+export type TabKey = "home" | "watching" | "watchlist" | "complete" | "stats";
 
 export interface Tab {
   readonly key: TabKey;
@@ -10,8 +10,9 @@ export interface Tab {
   readonly icon: LucideIcon;
 }
 
-/** The four tabs, in the order the pill and the slide direction use. */
+/** The five tabs, in the order the pill and the slide direction use. */
 export const TABS: readonly Tab[] = [
+  { key: "home", label: "Home", href: "/app", icon: House },
   { key: "watching", label: "Watching", href: "/app/watching", icon: Tv },
   { key: "watchlist", label: "Watchlist", href: "/app/watchlist", icon: Bookmark },
   { key: "complete", label: "Complete", href: "/app/complete", icon: CircleCheck },

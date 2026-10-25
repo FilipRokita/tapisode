@@ -46,7 +46,7 @@ test.describe("auth", () => {
     await page.getByLabel("Email").fill(email);
     await page.getByLabel("Password").fill(PASSWORD);
     await page.getByRole("button", { name: "Sign in", exact: true }).last().click();
-    await expect(page).toHaveURL(/\/app\/watching/);
+    await expect(page).toHaveURL(/\/app$/);
   });
 
   test("a wrong password shows the form-level message", async ({ page }) => {
@@ -82,6 +82,6 @@ test.describe("auth", () => {
     await page.context().clearCookies();
     await signUp(page);
     await page.goto("/signin");
-    await expect(page).toHaveURL(/\/app\/watching/);
+    await expect(page).toHaveURL(/\/app$/);
   });
 });

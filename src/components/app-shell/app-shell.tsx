@@ -41,7 +41,7 @@ function Sidebar({ user, counts }: { user: ShellUser; counts: Record<Status, num
       <nav aria-label="Main" className="grid gap-0.5">
         {TABS.map((tab) => {
           const current = pathname === tab.href;
-          const count = tab.key === "stats" ? null : counts[tab.key];
+          const count = tab.key === "stats" || tab.key === "home" ? null : counts[tab.key];
           return (
             <Link
               key={tab.key}
@@ -105,10 +105,10 @@ function BottomNav() {
   const pathname = usePathname();
   const active = tabIndex(pathname);
   return (
-    <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-border bg-bar-strong px-2 pt-1.5 pb-[calc(6px+var(--safe-bottom))] backdrop-blur-[14px] md:hidden">
+    <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-border bg-bar-strong px-2 pt-1.5 pb-[calc(6px+var(--safe-bottom))] backdrop-blur-[14px] md:hidden">
       <span
         aria-hidden="true"
-        className={cn("pointer-events-none absolute top-1.5 bottom-[calc(6px+var(--safe-bottom))] left-2 w-[calc((100%-16px)/4)] rounded-[14px] bg-surface-2 transition-[transform,opacity] duration-[240ms] ease-out-app", active < 0 && "opacity-0")}
+        className={cn("pointer-events-none absolute top-1.5 bottom-[calc(6px+var(--safe-bottom))] left-2 w-[calc((100%-16px)/5)] rounded-[14px] bg-surface-2 transition-[transform,opacity] duration-[240ms] ease-out-app", active < 0 && "opacity-0")}
         style={{ transform: `translateX(${Math.max(0, active) * 100}%)` }}
       />
       {TABS.map((tab, i) => (

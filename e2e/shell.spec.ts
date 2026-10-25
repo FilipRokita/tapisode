@@ -13,10 +13,10 @@ test.describe("shell", () => {
     await expect(page.getByRole("link", { name: "Back to Tapisode" })).toBeVisible();
   });
 
-  test("the navigation has four items and shows the sandbox counts", async ({ page, isMobile }) => {
+  test("the navigation has five items and shows the sandbox counts", async ({ page, isMobile }) => {
     await enterSandbox(page);
     const nav = page.getByRole("navigation", { name: "Main" });
-    await expect(nav.getByRole("link")).toHaveCount(4);
+    await expect(nav.getByRole("link")).toHaveCount(5);
     await expect(nav.getByRole("link", { name: /Watching/ })).toHaveAttribute("aria-current", "page");
     if (!isMobile) {
       await expect(nav.getByRole("link", { name: /Watching/ })).toContainText("4");
@@ -81,6 +81,6 @@ test.describe("shell", () => {
     await expect(page.getByText("Wrong email or password.")).toBeVisible();
     await page.getByLabel("Password").fill("a brand new one");
     await page.getByRole("button", { name: "Sign in", exact: true }).last().click();
-    await expect(page).toHaveURL(/\/app\/watching/);
+    await expect(page).toHaveURL(/\/app$/);
   });
 });

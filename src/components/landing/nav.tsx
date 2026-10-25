@@ -15,7 +15,7 @@ export function LandingNav() {
       </Link>
       <nav aria-label="Account" className="flex items-center gap-1.5 max-[480px]:gap-0.5">
         <Button asChild variant="secondary" className={`when-in ${compact}`}>
-          <Link href="/app/watching">Open the app</Link>
+          <Link href="/app">Open the app</Link>
         </Button>
         <Button asChild variant="ghost" className={`when-out ${compact} max-[360px]:px-[9px] max-[360px]:text-[13px]`}>
           <Link href="/signin">Sign in</Link>

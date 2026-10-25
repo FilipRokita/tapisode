@@ -50,7 +50,7 @@ test.describe("account lifecycle", () => {
     await page.getByLabel("Email").fill(freshEmail());
     await page.getByLabel("Password").fill(PASSWORD);
     await page.getByRole("button", { name: "Create account", exact: true }).last().click();
-    await expect(page).toHaveURL(/\/app\/watching/);
+    await expect(page).toHaveURL(/\/app$/);
     expect((await (await page.request.get("/api/export")).json()).titles).toHaveLength(14);
     await page.goto("/app/settings");
     await expect(page.getByRole("button", { name: "Change password" })).toBeVisible();

@@ -21,7 +21,7 @@ test.describe("accessibility", () => {
 
   test("the app pages have no violations", async ({ page }) => {
     await enterSandbox(page);
-    for (const path of ["/app/watching", "/app/watchlist", "/app/complete", "/app/stats", "/app/settings"]) {
+    for (const path of ["/app", "/app/watching", "/app/watchlist", "/app/complete", "/app/stats", "/app/settings"]) {
       await page.goto(path);
       await page.waitForTimeout(1200);
       await check(page, path);

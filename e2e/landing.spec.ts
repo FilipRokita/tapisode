@@ -19,7 +19,7 @@ test.describe("landing", () => {
     await expect(page).toHaveURL(/\/signup$/);
     await page.goto("/");
     await page.getByRole("button", { name: "Try it without an account" }).first().click();
-    await expect(page).toHaveURL(/\/app\/watching/);
+    await expect(page).toHaveURL(/\/app$/);
     await page.goto("/");
     // Everywhere the page offered a demo or an account, a signed-in visitor gets a way into the app.
     await expect(page.getByRole("link", { name: "Open the app" })).toHaveCount(4);
@@ -52,7 +52,7 @@ test.describe("landing", () => {
     await expect(salt).toContainText("100%");
     // Real data is untouched: a new demo visitor still finds Salt & Static at S01E07.
     await page.getByRole("button", { name: "Try it without an account" }).first().click();
-    await expect(page).toHaveURL(/\/app\/watching/);
+    await expect(page).toHaveURL(/\/app$/);
     await expect(page.locator("article", { hasText: "Salt & Static" })).toContainText("S01E07");
   });
 

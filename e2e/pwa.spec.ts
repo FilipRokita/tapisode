@@ -8,7 +8,7 @@ test.describe("installable app", () => {
     test.skip(isMobile, "the files are the same on every device");
     await page.goto("/");
     const manifest = await (await request.get("/manifest.webmanifest")).json();
-    expect(manifest).toMatchObject({ display: "standalone", start_url: "/app/watching", background_color: "#09090b", theme_color: "#09090b" });
+    expect(manifest).toMatchObject({ display: "standalone", start_url: "/app", background_color: "#09090b", theme_color: "#09090b" });
     const wanted = [
       { src: "/icon-192.png", size: 192 },
       { src: "/icon-512.png", size: 512 },

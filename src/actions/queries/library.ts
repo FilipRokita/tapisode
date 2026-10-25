@@ -7,6 +7,8 @@ import { getProvider } from "@/lib/providers";
 import { browseLists } from "@/lib/catalog/browse";
 import { countPending, listLibrary, userStats } from "@/lib/library/service";
 
+export type { CurrentUser };
+
 /** The signed-in user for a page, or null. For pages that look but do not require a session. */
 export const getPageUser = (): Promise<CurrentUser | null> => getCurrentUser();
 

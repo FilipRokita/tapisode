@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Tapisode",
     short_name: "Tapisode",
     description: "Movies and shows, minus the noise.",
-    start_url: "/app/watching",
+    start_url: "/app",
     display: "standalone",
     background_color: THEME_COLOR,
     theme_color: THEME_COLOR,
