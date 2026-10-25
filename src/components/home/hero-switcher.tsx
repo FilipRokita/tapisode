@@ -9,9 +9,9 @@ import { describeTitle } from "@/components/library/title-info";
 import type { TitleView } from "@/domain/view";
 
 /** How many titles the strip shows before it points to the whole Watching list. */
-const SHOWN = 6;
+const SHOWN = 4;
 
-/** The titles in Watching as small posters under the hero. Choosing one puts it in the hero. The last tile leads to the list. */
+/** The titles in Watching as small posters under the hero. Choosing one puts it in the hero. The last tile, the same size as the others, leads to the whole list. */
 export function HeroSwitcher({ titles, selectedId, onSelect }: { titles: readonly TitleView[]; selectedId: string; onSelect: (id: string) => void }) {
   if (titles.length < 2) return null;
   return (
@@ -36,10 +36,14 @@ export function HeroSwitcher({ titles, selectedId, onSelect }: { titles: readonl
             </li>
           );
         })}
-        <li className="shrink-0 self-stretch">
-          <Link href="/app/watching" className="flex h-full min-h-11 items-center gap-1 rounded-[14px] px-3 text-[13px] font-semibold whitespace-nowrap text-dim transition-colors hover:bg-surface-2 hover:text-foreground">
-            All {titles.length}
-            <ChevronRight className="size-4" />
+        <li className="shrink-0">
+          <Link href="/app/watching" aria-label={`All ${titles.length} in Watching`} className="group block w-[58px] md:w-[64px]">
+            <span className="grid aspect-[2/3] w-full place-content-center justify-items-center gap-0.5 rounded-[12px] border border-dashed border-border-strong bg-surface text-dim transition-colors group-hover:border-brand-edge group-hover:bg-brand-soft group-hover:text-foreground">
+              <span className="text-[11px] font-semibold tracking-[0.08em] uppercase">All</span>
+              <b className="mono text-[20px] leading-none font-bold tracking-[-0.04em] text-foreground">{titles.length}</b>
+              <ChevronRight className="size-4" />
+            </span>
+            <span aria-hidden="true" className="mt-1.5 block h-[3px]" />
           </Link>
         </li>
       </ul>
