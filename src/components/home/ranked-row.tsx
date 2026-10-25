@@ -8,14 +8,11 @@ import { TiltPoster } from "@/components/primitives/tilt-poster";
 import type { BrowseRow } from "@/domain/view";
 import { SectionHeading } from "./section-heading";
 
-/** How many titles the row shows from `md` up, where it is a grid and does not scroll. */
-const DESKTOP_COUNT = 6;
-
 function Tile({ row, index }: { row: BrowseRow; index: number }) {
   const { openTitle } = useOverlays();
   const button = useRef<HTMLButtonElement>(null);
   return (
-    <li className={index >= DESKTOP_COUNT ? "w-[140px] shrink-0 snap-start md:hidden" : "w-[140px] shrink-0 snap-start md:w-auto"}>
+    <li className="w-[140px] shrink-0 snap-start md:w-auto md:basis-[calc((100%-100px)/6)]">
       <button ref={button} type="button" onClick={() => openTitle(row.ref, button.current)} className="group block w-full text-left">
         <TiltPoster className="transition-transform duration-300 ease-app md:group-hover:-translate-y-1.5 [&_[data-poster]]:shadow-[var(--shadow-poster)] md:[&_[data-poster]]:group-hover:shadow-[var(--shadow-lift)]">
           <Poster src={row.poster?.w185 ?? null} title={row.title} className="w-full">
@@ -32,14 +29,14 @@ function Tile({ row, index }: { row: BrowseRow; index: number }) {
   );
 }
 
-/** Posters with big rank numbers. A rail on a phone, a grid of six from `md` up. A tap opens the title's drawer. */
+/** Posters with big rank numbers, in a row you scroll: by swipe on a phone, by the arrows on a desktop, six in view. A tap opens the title's drawer. */
 export function RankedRow({ id, title, rows }: { id: string; title: string; rows: readonly BrowseRow[] }) {
   if (rows.length === 0) return null;
   return (
     <section aria-labelledby={id} className="mt-10 md:mt-12">
       <SectionHeading id={id}>{title}</SectionHeading>
-      <ScrollRail className="-mx-4 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pt-1.5 pb-3 md:mx-0 md:overflow-visible md:px-0">
-        <ul className="flex w-max gap-3.5 md:grid md:w-auto md:grid-cols-6 md:gap-5">
+      <ScrollRail always arrows className="-mx-4 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pt-1.5 pb-3 md:mx-0 md:scroll-px-0 md:px-0">
+        <ul className="flex gap-3.5 md:gap-5">
           {rows.map((row, i) => (
             <Tile key={`${row.ref.type}:${row.ref.externalId}`} row={row} index={i} />
           ))}

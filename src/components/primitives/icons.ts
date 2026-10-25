@@ -3,6 +3,7 @@ export {
   BarChart3,
   Bookmark,
   Check,
+  ChevronLeft,
   ChevronRight,
   CircleCheck,
   Clock,
