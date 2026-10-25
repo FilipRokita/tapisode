@@ -19,7 +19,17 @@
   <img src="https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white" alt="Playwright">
 </div>
 
-<br>
+---
+
+<div align="center">
+  <a href="https://tapisode.vercel.app">
+    <img src="https://img.shields.io/badge/LIVE_PREVIEW-Click_Here-green?style=for-the-badge" alt="Live preview">
+  </a>
+  <br>
+  <i>(Note: This is a live preview deployment and may be taken down or disabled at any time.)</i>
+</div>
+
+---
 
 <div align="center">
   <img src="docs/screenshots/showcase.png" alt="Tapisode on a desktop and on a phone" width="900">
