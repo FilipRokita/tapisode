@@ -137,17 +137,17 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
           </button>
         </h2>
         {info.isSeries ? (
-          <div className="mono flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[15px] text-text-soft animate-[blur-in_0.8s_var(--ease)_0.3s_backwards]" title="Last watched">
-            <span className="inline-flex items-baseline gap-1.5 text-foreground">
-              <Check className="size-5 self-center text-brand-text" aria-hidden="true" />
+          <div className="mono flex flex-wrap items-center gap-x-3 gap-y-1 text-[15px] leading-5 text-text-soft animate-[blur-in_0.8s_var(--ease)_0.3s_backwards]" title="Last watched">
+            <span className="inline-flex items-center gap-1.5 text-foreground">
+              <Check className="size-5 text-brand-text" aria-hidden="true" />
               <RollingNumber value={info.stamp} />
             </span>
-            <span className="font-sans text-[14px] text-dim">
+            <span className="font-sans text-[14px] leading-5 text-dim">
               {info.watched} of {info.aired} episodes watched
             </span>
             {countdown && (
-              <span className="inline-flex items-baseline gap-1.5 font-sans text-[13px] text-brand-text">
-                <Clock className="size-4 self-center" aria-hidden="true" />
+              <span className="inline-flex items-center gap-1.5 font-sans text-[13px] leading-5 text-brand-text">
+                <Clock className="size-4" aria-hidden="true" />
                 {countdown}
               </span>
             )}
