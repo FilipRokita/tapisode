@@ -4,11 +4,9 @@ import { cn } from "cn";
 import { useState, type ElementType } from "react";
 import { useRunCommand } from "@/components/library/use-run-command";
 import { useAmbientHue } from "@/components/library/use-ambient-hue";
-import { X } from "@/components/primitives/icons";
 import { Poster } from "@/components/primitives/poster";
 import { Skeleton } from "@/components/primitives/skeleton";
 import { TiltPoster } from "@/components/primitives/tilt-poster";
-import { Button } from "@/components/ui/button";
 import { isReleased } from "@/domain/progress";
 import type { Command } from "@/domain/transitions";
 import type { TitleView } from "@/domain/view";
@@ -21,7 +19,6 @@ import { WhereToWatch } from "./where-to-watch";
 interface BodyProps {
   title: DrawerTitle;
   region: string;
-  onClose: () => void;
   /** The dialog title component of the surface the body sits in (Radix Dialog or vaul). */
   Heading: ElementType;
   /** True for the first moment after opening, while the sections stagger in. */
@@ -40,7 +37,7 @@ const section = (k: number, entering: boolean) => ({
   style: { "--k": k } as React.CSSProperties,
 });
 
-function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "title"> & { view: TitleView }) {
+function Ready({ view, region, Heading, entering }: Omit<BodyProps, "title"> & { view: TitleView }) {
   const run = useRunCommand();
   const hue = useAmbientHue(view.poster?.w185 ?? null);
   const [loadedBackdrop, setLoadedBackdrop] = useState<string | null>(null);
@@ -79,14 +76,11 @@ function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "ti
         // Dark at the top edge, so the drag handle and the label stay visible on a bright image. It is the page colour, so it adds no seam.
         <div aria-hidden="true" className={cn("pointer-events-none absolute -top-7 -right-10 -left-10 -z-10 h-[138px] bg-[linear-gradient(to_bottom,var(--background)_10%,transparent)] opacity-0 transition-opacity duration-500", backdropLoaded && "opacity-100")} />
       )}
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-3 flex items-center">
         <span className="eyebrow">
           {view.facts.type === "tv" ? "Series" : "Movie"}
           {view.year ? ` · ${view.year}` : ""}
         </span>
-        <Button variant="ghost" size="icon" aria-label="Close" onClick={onClose} className="-my-2 -mr-2.5">
-          <X />
-        </Button>
       </div>
       <div className={cn("flex items-end gap-[18px]", section(0, entering).className)} style={section(0, entering).style}>
         <TiltPoster className="w-[116px] shrink-0 drop-shadow-[0_18px_30px_rgb(0_0_0/0.55)] md:w-[176px]">
@@ -132,15 +126,12 @@ function Ready({ view, region, onClose, Heading, entering }: Omit<BodyProps, "ti
   );
 }
 
-export function TitleDrawerBody({ title, region, onClose, Heading, entering }: BodyProps) {
-  if (title.status === "ready") return <Ready view={title.view} region={region} onClose={onClose} Heading={Heading} entering={entering} />;
+export function TitleDrawerBody({ title, region, Heading, entering }: BodyProps) {
+  if (title.status === "ready") return <Ready view={title.view} region={region} Heading={Heading} entering={entering} />;
   return (
     <div className="grid gap-4">
       <div className="flex items-center justify-between">
         <Heading className="eyebrow">{title.status === "loading" ? "Loading" : "Title"}</Heading>
-        <Button variant="ghost" size="icon" aria-label="Close" onClick={onClose} className="-my-2 -mr-2.5">
-          <X />
-        </Button>
       </div>
       {title.status === "loading" ? (
         <div aria-busy="true" className="grid gap-3.5">

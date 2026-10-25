@@ -4,8 +4,10 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { flushSync } from "react-dom";
 import { OverlaysContext, useOverlays, type Overlays } from "@/components/app-shell/overlays";
+import { X } from "@/components/primitives/icons";
 import { useIsDesktop } from "@/components/primitives/use-media-query";
 import { prefersReducedMotion } from "@/components/primitives/use-reduced-motion";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import type { TitleRef } from "@/domain/types";
@@ -104,7 +106,7 @@ export function TitleDrawerProvider({ region, children }: { region: string; chil
     event.preventDefault();
     if (returnFocus.current?.isConnected) returnFocus.current.focus();
   };
-  const body = (Heading: typeof DialogTitle | typeof DrawerTitle) => <TitleDrawerBody title={title} region={region} onClose={close} Heading={Heading} entering={entering} />;
+  const body = (Heading: typeof DialogTitle | typeof DrawerTitle) => <TitleDrawerBody title={title} region={region} Heading={Heading} entering={entering} />;
 
   return (
     <OverlaysContext.Provider value={value}>
@@ -114,6 +116,7 @@ export function TitleDrawerProvider({ region, children }: { region: string; chil
           <DialogContent showCloseButton={false} aria-describedby={undefined} onInteractOutside={keepOpenForToasts} onCloseAutoFocus={giveFocusBack} className="flex max-h-[86%] w-[min(720px,calc(100%-48px))] max-w-none flex-col gap-0 overflow-hidden rounded-[26px] p-0 sm:max-w-[720px]">
             {/* The window clips and rounds, the inner box scrolls, so the scrollbar follows the corners. */}
             <div className="scroll-fade min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-[26px] pt-6 pb-[26px]">{body(DialogTitle)}</div>
+            <CloseButton onClick={close} />
           </DialogContent>
         </Dialog>
       ) : (
@@ -121,9 +124,19 @@ export function TitleDrawerProvider({ region, children }: { region: string; chil
           {/* Vaul adds a cover below the sheet that scrolls with it, so the sheet itself must not scroll: an inner box does. The box starts under the handle, so the background reaches the top edge, and the sheet clips it to its rounded corners. */}
           <DrawerContent aria-describedby={undefined} onInteractOutside={keepOpenForToasts} onCloseAutoFocus={giveFocusBack} className="data-[vaul-drawer-direction=bottom]:overflow-hidden data-[vaul-drawer-direction=bottom]:px-0">
             <div className="scroll-fade min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-[18px] pt-7 pb-6 -mt-7">{body(DrawerTitle)}</div>
+            <CloseButton onClick={close} />
           </DrawerContent>
         </Drawer>
       )}
     </OverlaysContext.Provider>
+  );
+}
+
+/** Outside the scrolling box, so it stays put, the same distance from the top and the right edge. */
+function CloseButton({ onClick }: { onClick: () => void }) {
+  return (
+    <Button variant="secondary" size="icon" aria-label="Close" onClick={onClick} className="absolute top-3 right-3 z-20 size-9 before:absolute before:-inset-1 before:content-[''] md:before:hidden border-border-strong/60 bg-background/55 text-text-soft backdrop-blur-md hover:bg-background/75 hover:text-foreground">
+      <X />
+    </Button>
   );
 }
