@@ -93,7 +93,7 @@ export function SettingsView({ isSandbox, country, regions }: SettingsViewProps)
           >
             {options.map((r) => (
               <option key={r.code} value={r.code}>
-                {r.code} · {r.name}
+                {r.name}
               </option>
             ))}
           </select>
