@@ -20,7 +20,7 @@ export function ResponsiveSheet({ open, onOpenChange, title, description, childr
   if (desktop) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent showCloseButton={false} className="flex max-h-[86%] w-[min(460px,calc(100%-48px))] max-w-none flex-col gap-0 overflow-hidden rounded-[26px] p-0 sm:max-w-[460px]">
+        <DialogContent showCloseButton={false} className="flex max-h-[94%] w-[min(460px,calc(100%-48px))] max-w-none flex-col gap-0 overflow-hidden rounded-[26px] p-0 sm:max-w-[460px]">
           <DialogTitle className="sr-only">{title}</DialogTitle>
           <DialogDescription className="sr-only">{description}</DialogDescription>
           {/* The content scrolls and the close button stays outside it, so it is always in reach. */}
