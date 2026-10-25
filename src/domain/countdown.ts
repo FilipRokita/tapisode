@@ -10,6 +10,9 @@ function toDay(d: DateString): number {
   return Date.UTC(y ?? 1970, (m ?? 1) - 1, day ?? 1) / DAY_MS;
 }
 
+/** The date `days` days after `date`. Negative `days` go back. */
+export const addDays = (date: DateString, days: number): DateString => new Date((toDay(date) + days) * DAY_MS).toISOString().slice(0, 10);
+
 export const daysUntil = (airDate: DateString, today: DateString): number => toDay(airDate) - toDay(today);
 
 /** The text under a caught-up series. Null once the date has passed or when there is none. */
