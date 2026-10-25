@@ -1,0 +1,4 @@
+{ "dates": { "minimum": "2026-10-01", "maximum": "2026-10-22" }, "page": 1, "total_pages": 1, "results": [
+  { "id": 9201, "title": "Fixture Lantern", "release_date": "2026-10-10", "poster_path": "/fixture-lantern.jpg" },
+  { "id": 9202, "title": "Fixture Tram", "release_date": "2026-09-26", "poster_path": null },
+  { "id": 9203, "title": "", "release_date": "2026-10-01", "poster_path": null } ] }

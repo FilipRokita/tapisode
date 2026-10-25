@@ -1,8 +1,8 @@
 import { z } from "zod";
 import type { DateString } from "@/domain/countdown";
-import { ProviderError, type ProviderTitle, type SearchHit, type SearchPage } from "@/domain/provider";
+import { ProviderError, type BrowseHit, type ProviderTitle, type SearchHit, type SearchPage } from "@/domain/provider";
 import type { RegionCode, ServiceKey } from "@/domain/services";
-import type { Season, SeriesState, TitleRef } from "@/domain/types";
+import type { MediaType, Season, SeriesState, TitleRef } from "@/domain/types";
 
 /** Which TMDB provider ids stand for each of our services. Variants such as "with ads" count as the same service. */
 export const TMDB_SERVICE_IDS: Readonly<Record<ServiceKey, readonly number[]>> = {
@@ -150,4 +150,17 @@ export function mapSearch(json: unknown): SearchPage {
     return [{ ref, title, year: yearOf(r.media_type === "tv" ? r.first_air_date : r.release_date), posterPath: r.poster_path ?? null }];
   });
   return { hits, page: page.page, totalPages: Math.min(page.total_pages, 500) };
+}
+
+/** A list that is not a search: `type` is set when the list holds one kind and its results carry no `media_type`. */
+export function mapBrowse(json: unknown, type: MediaType | null): BrowseHit[] {
+  const page = parse(searchSchema, json, "list");
+  return page.results.flatMap((r): BrowseHit[] => {
+    const kind = type ?? r.media_type;
+    if (kind !== "tv" && kind !== "movie") return [];
+    const title = kind === "tv" ? r.name : r.title;
+    if (!title) return [];
+    const releaseDate = clean(kind === "tv" ? r.first_air_date : r.release_date);
+    return [{ ref: { provider: "tmdb", type: kind, externalId: String(r.id) }, title, year: yearOf(releaseDate), posterPath: r.poster_path ?? null, releaseDate }];
+  });
 }

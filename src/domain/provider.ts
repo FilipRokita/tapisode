@@ -13,6 +13,14 @@ export interface SearchHit {
   readonly posterPath: string | null;
 }
 
+/** The lists Home shows besides the user's own. */
+export type BrowseList = "trending" | "in-cinemas" | "coming-soon";
+
+/** A title in one of those lists. `releaseDate` is when it came out, or comes out for "coming-soon". */
+export interface BrowseHit extends SearchHit {
+  readonly releaseDate: DateString | null;
+}
+
 export interface SearchPage {
   readonly hits: readonly SearchHit[];
   readonly page: number;
@@ -68,6 +76,8 @@ export interface MediaProvider {
   readonly id: string;
   search(query: string, page: number): Promise<SearchPage>;
   popular(): Promise<readonly SearchHit[]>;
+  /** A list for Home. "in-cinemas" and "coming-soon" are movies in the given region, "coming-soon" soonest first. */
+  browse(list: BrowseList, region: RegionCode): Promise<readonly BrowseHit[]>;
   getTitle(ref: TitleRef, region: RegionCode): Promise<ProviderTitle | null>;
   regions(): Promise<readonly Region[]>;
   /** Builds a full image URL from a stored path. The database keeps paths only. */

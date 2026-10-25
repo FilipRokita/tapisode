@@ -1,8 +1,8 @@
 import type { DateString } from "@/domain/countdown";
-import type { BackdropSize, MediaProvider, PosterSize, ProviderTitle, Region, SearchHit, SearchPage } from "@/domain/provider";
+import type { BackdropSize, BrowseHit, BrowseList, MediaProvider, PosterSize, ProviderTitle, Region, SearchHit, SearchPage } from "@/domain/provider";
 import type { RegionCode } from "@/domain/services";
 import type { TitleRef } from "@/domain/types";
-import { FAKE_POPULAR, FAKE_REGIONS, FAKE_TITLES, type FakeTitle } from "./data";
+import { FAKE_IN_CINEMAS, FAKE_POPULAR, FAKE_REGIONS, FAKE_TITLES, type FakeTitle } from "./data";
 import { fakeBackdropPath, fakeBackdropUrl, fakePosterPath, fakePosterUrl, isFakeBackdropPath } from "./poster";
 
 const PAGE_SIZE = 20;
@@ -36,6 +36,18 @@ export class FakeProvider implements MediaProvider {
     return FAKE_POPULAR.flatMap((id) => FAKE_TITLES.filter((t) => t.id === id).map(hitOf));
   }
 
+  async browse(list: BrowseList, _region: RegionCode): Promise<readonly BrowseHit[]> {
+    const today = this.today();
+    const byId = (ids: readonly string[]) => ids.flatMap((id) => FAKE_TITLES.filter((t) => t.id === id));
+    const titles =
+      list === "trending"
+        ? byId(FAKE_POPULAR)
+        : list === "in-cinemas"
+          ? byId(FAKE_IN_CINEMAS)
+          : FAKE_TITLES.filter((t) => t.comingInDays !== undefined).sort((a, b) => a.comingInDays! - b.comingInDays!);
+    return titles.map((t) => ({ ...hitOf(t), releaseDate: t.comingInDays !== undefined ? addDays(today, t.comingInDays) : `${t.year}-01-01` }));
+  }
+
   async getTitle(ref: TitleRef, region: RegionCode): Promise<ProviderTitle | null> {
     const t = FAKE_TITLES.find((x) => x.id === ref.externalId && x.type === ref.type);
     if (!t) return null;
@@ -48,7 +60,7 @@ export class FakeProvider implements MediaProvider {
       imdbId: null,
       title: t.title,
       overview: t.overview,
-      releaseDate: `${t.year}-01-01`,
+      releaseDate: t.comingInDays !== undefined ? addDays(today, t.comingInDays) : `${t.year}-01-01`,
       posterPath: t.noPoster ? null : fakePosterPath(t.hue, t.id),
       backdropPath: t.noBackdrop || t.noPoster ? null : fakeBackdropPath(t.hue, t.id),
       runtimeMinutes: t.runtimeMinutes > 0 ? t.runtimeMinutes : null,

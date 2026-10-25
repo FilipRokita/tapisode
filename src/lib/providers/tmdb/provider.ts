@@ -1,9 +1,9 @@
 import type { DateString } from "@/domain/countdown";
-import { ProviderError, type BackdropSize, type MediaProvider, type PosterSize, type ProviderTitle, type Region, type SearchHit, type SearchPage } from "@/domain/provider";
+import { ProviderError, type BackdropSize, type BrowseHit, type BrowseList, type MediaProvider, type PosterSize, type ProviderTitle, type Region, type SearchHit, type SearchPage } from "@/domain/provider";
 import type { RegionCode } from "@/domain/services";
 import type { TitleRef } from "@/domain/types";
 import type { RequestGate } from "../gate";
-import { mapMovie, mapSearch, mapTv } from "./mapper";
+import { mapBrowse, mapMovie, mapSearch, mapTv } from "./mapper";
 
 const API = "https://api.themoviedb.org/3";
 const IMAGES = "https://image.tmdb.org/t/p/";
@@ -68,6 +68,18 @@ export class TmdbProvider implements MediaProvider {
   async popular(): Promise<readonly SearchHit[]> {
     const body = await this.get("/trending/all/week", {}, 3600);
     return body === null ? [] : mapSearch(body).hits;
+  }
+
+  async browse(list: BrowseList, region: RegionCode): Promise<readonly BrowseHit[]> {
+    if (list === "trending") {
+      const body = await this.get("/trending/all/week", {}, 3600);
+      return body === null ? [] : mapBrowse(body, null);
+    }
+    const body = await this.get(list === "in-cinemas" ? "/movie/now_playing" : "/movie/upcoming", { region }, 3600);
+    const hits = body === null ? [] : mapBrowse(body, "movie");
+    if (list === "in-cinemas") return hits;
+    const today = this.today();
+    return hits.filter((h) => h.releaseDate !== null && h.releaseDate >= today).sort((a, b) => a.releaseDate!.localeCompare(b.releaseDate!));
   }
 
   async getTitle(ref: TitleRef, region: RegionCode): Promise<ProviderTitle | null> {

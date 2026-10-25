@@ -6,7 +6,9 @@ import { TmdbProvider } from "@/lib/providers/tmdb/provider";
 import movieJson from "../fixtures/tmdb/movie-released.json";
 import ongoingJson from "../fixtures/tmdb/tv-ongoing.json";
 import regionsJson from "../fixtures/tmdb/regions.json";
+import nowPlayingJson from "../fixtures/tmdb/now-playing.json";
 import searchJson from "../fixtures/tmdb/search.json";
+import upcomingJson from "../fixtures/tmdb/upcoming.json";
 
 const json = (body: unknown, status = 200, headers: Record<string, string> = {}) => new Response(JSON.stringify(body), { status, headers });
 
@@ -15,6 +17,8 @@ const tmdbStub = async (url: string): Promise<Response> => {
   const { pathname } = new URL(url);
   if (pathname === "/3/search/multi") return json(searchJson);
   if (pathname === "/3/trending/all/week") return json(searchJson);
+  if (pathname === "/3/movie/now_playing") return json(nowPlayingJson);
+  if (pathname === "/3/movie/upcoming") return json(upcomingJson);
   if (pathname === "/3/watch/providers/regions") return json(regionsJson);
   if (pathname === "/3/tv/9001") return json(ongoingJson);
   if (pathname === "/3/movie/9101") return json(movieJson);
@@ -45,6 +49,20 @@ describe.each(cases)("provider contract: $name", ({ make, series, movie, searchT
     const p = make();
     expect((await p.popular()).length).toBeGreaterThan(0);
     expect((await p.regions()).length).toBeGreaterThan(0);
+  });
+
+  it("browses the lists for Home: trending, in cinemas, and coming soon with the soonest first", async () => {
+    const p = make();
+    for (const list of ["trending", "in-cinemas", "coming-soon"] as const) {
+      const hits = await p.browse(list, "PL");
+      expect(hits.length).toBeGreaterThan(0);
+      for (const h of hits) expect(h.title).not.toBe("");
+    }
+    const soon = await p.browse("coming-soon", "PL");
+    const dates = soon.map((h) => h.releaseDate);
+    expect(dates).toEqual([...dates].sort());
+    for (const h of soon) expect(h.ref.type).toBe("movie");
+    for (const h of await p.browse("in-cinemas", "PL")) expect(h.ref.type).toBe("movie");
   });
 
   it("returns a series with well-formed seasons", async () => {
