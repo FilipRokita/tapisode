@@ -4,6 +4,7 @@ import { DEFAULT_COUNTRY } from "@/config/constants";
 import { getCurrentUser, type CurrentUser } from "@/lib/auth/session";
 import type { Region } from "@/domain/provider";
 import { getProvider } from "@/lib/providers";
+import { browseLists } from "@/lib/catalog/browse";
 import { countPending, listLibrary, userStats } from "@/lib/library/service";
 
 /** The signed-in user for a page, or null. For pages that look but do not require a session. */
@@ -22,6 +23,9 @@ export async function loadLibrary(user: CurrentUser) {
   const [titles, pending] = await Promise.all([listLibrary(user.id, regionOf(user)), countPending(user.id)]);
   return { titles, pending };
 }
+
+/** What is trending, in cinemas and coming soon, in the user's country. Titles they already track are left out. */
+export const loadBrowse = (user: CurrentUser) => browseLists(user.id, regionOf(user));
 
 export const loadStats = (user: CurrentUser) => userStats(user.id);
 
