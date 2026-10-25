@@ -45,12 +45,13 @@ export function HomeView({ name, rows }: HomeViewProps) {
 
   const watching = titles.filter((t): t is TitleView => t.state?.status === "watching");
   const [chosenId, setChosenId] = useState<string | null>(null);
-  // Under the hero: the three titles the user was in most recently, and the Watchlist title that has waited longest (one
+  // Under the hero: the three titles the user was in most recently, and the two Watchlist titles that have waited longest (one
   // that is not out yet cannot be started).
   const suggested = titles
     .filter((t) => t.state?.status === "watchlist" && isReleased(t.facts))
-    .sort((a, b) => a.activityAt - b.activityAt)[0];
-  const items: SwitcherItem[] = [...watching.slice(0, 3).map((view): SwitcherItem => ({ view, kind: "watching" })), ...(suggested ? [{ view: suggested, kind: "suggestion" } as const] : [])];
+    .sort((a, b) => a.activityAt - b.activityAt)
+    .slice(0, 2);
+  const items: SwitcherItem[] = [...watching.slice(0, 3).map((view): SwitcherItem => ({ view, kind: "watching" })), ...suggested.map((view): SwitcherItem => ({ view, kind: "suggestion" }))];
   // The pick, or the newest title in Watching, or the suggestion when nothing is in Watching.
   const current = items.find((i) => i.view.id === chosenId) ?? items[0];
   const upNext = current?.view;
@@ -78,7 +79,7 @@ export function HomeView({ name, rows }: HomeViewProps) {
               suggestion={current.kind === "suggestion" ? { onStart: () => void setStatus(upNext, "watching").then((ok) => ok && setChosenId(upNext.id)) } : undefined}
             />
             <div className="mt-3.5">
-              <HeroSwitcher items={items} selectedId={upNext.id} watchingTotal={watching.length} onSelect={setChosenId} />
+              <HeroSwitcher items={items} selectedId={upNext.id} onSelect={setChosenId} />
             </div>
           </>
         ) : (

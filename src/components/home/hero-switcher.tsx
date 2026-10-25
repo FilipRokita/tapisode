@@ -1,8 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import Link from "next/link";
-import { ChevronRight, Plus } from "@/components/primitives/icons";
+import { Plus } from "@/components/primitives/icons";
 import { Poster } from "@/components/primitives/poster";
 import type { TitleView } from "@/domain/view";
 
@@ -16,9 +15,9 @@ const banner = "relative hidden aspect-[16/9] w-full overflow-hidden rounded-[14
 
 /**
  * The titles under the hero. A desktop gets wide banners as wide as the hero, a phone small posters. Choosing one puts it in the
- * hero. The last tile, the same size, leads to the whole Watching list.
+ * hero. A title from the Watchlist carries a "Start new" pill.
  */
-export function HeroSwitcher({ items, selectedId, watchingTotal, onSelect }: { items: readonly SwitcherItem[]; selectedId: string; watchingTotal: number; onSelect: (id: string) => void }) {
+export function HeroSwitcher({ items, selectedId, onSelect }: { items: readonly SwitcherItem[]; selectedId: string; onSelect: (id: string) => void }) {
   if (items.length < 2) return null;
   return (
     <ul aria-label="Choose what to continue" className="flex gap-2.5 md:grid md:grid-cols-5 md:gap-3">
@@ -56,20 +55,6 @@ export function HeroSwitcher({ items, selectedId, watchingTotal, onSelect }: { i
           </li>
         );
       })}
-      <li className="w-[58px] shrink-0 md:w-auto">
-        <Link
-          href="/app/watching"
-          aria-label={`All ${watchingTotal} in Watching`}
-          className="group grid aspect-[2/3] w-full place-content-center justify-items-center gap-0.5 rounded-[12px] border border-dashed border-border-strong bg-surface text-dim transition-colors hover:border-brand-edge hover:bg-brand-soft hover:text-foreground md:aspect-[16/9] md:gap-1 md:rounded-[14px]"
-        >
-          <span className="text-[11px] font-semibold tracking-[0.1em] uppercase md:hidden">All</span>
-          <span className="hidden text-[11px] font-semibold tracking-[0.1em] uppercase md:block">All in Watching</span>
-          <span className="flex items-center gap-1">
-            <b className="mono text-[20px] leading-none font-bold tracking-[-0.04em] text-foreground md:text-[26px]">{watchingTotal}</b>
-            <ChevronRight className="size-4 transition-transform duration-300 ease-app group-hover:translate-x-1 md:size-5" />
-          </span>
-        </Link>
-      </li>
     </ul>
   );
 }
