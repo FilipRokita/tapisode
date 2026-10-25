@@ -36,8 +36,8 @@ export function ScrollRail({ className, children }: { className?: string; childr
   return (
     <div
       ref={rail}
-      className={cn("relative [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-md:[mask-image:linear-gradient(to_right,var(--m0),#000_32px,#000_calc(100%-32px),var(--m1))]", className)}
-      style={{ "--m0": edges.start ? "transparent" : "#000", "--m1": edges.end ? "transparent" : "#000" } as CSSProperties}
+      className={cn("relative [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-md:[mask-image:linear-gradient(to_right,var(--m0),var(--background)_32px,var(--background)_calc(100%-32px),var(--m1))]", className)}
+      style={{ "--m0": edges.start ? "transparent" : "var(--background)", "--m1": edges.end ? "transparent" : "var(--background)" } as CSSProperties}
     >
       {children}
     </div>
