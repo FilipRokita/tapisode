@@ -45,6 +45,17 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
   const countdown = today && info.caughtUp ? countdownLabel(view.nextEpisode?.airDate ?? null, today) : null;
   const percent = info.finished ? 100 : info.percent;
 
+  // Choosing another title: the old picture stays for a moment and fades out over the new one.
+  const lastBackdrop = useRef(view.backdrop);
+  const [leaving, setLeaving] = useState<string | null>(null);
+  useEffect(() => {
+    if (lastBackdrop.current === view.backdrop) return;
+    setLeaving(lastBackdrop.current);
+    lastBackdrop.current = view.backdrop;
+    const timer = setTimeout(() => setLeaving(null), 1000);
+    return () => clearTimeout(timer);
+  }, [view.backdrop]);
+
   // Scrolling away: the picture lags, the words lift, and the card dims a little as the page moves over it.
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -113,12 +124,16 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
             </div>
           </div>
         )}
+        {leaving && (
+          // eslint-disable-next-line @next/next/no-img-element -- backdrops come straight from the provider's CDN, never through the host's optimizer (catalog-data.md)
+          <img src={leaving} alt="" className="absolute -inset-5 size-full max-w-none animate-[fade-out_0.9s_var(--ease)_forwards] object-cover opacity-90" />
+        )}
         <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--background)_4%,transparent_58%)] max-md:hidden" />
         <div className="absolute inset-x-0 bottom-0 h-4/5 bg-[linear-gradient(to_top,var(--background)_10%,transparent)] md:h-3/5 md:bg-[linear-gradient(to_top,var(--background)_6%,transparent)]" />
         <div className="absolute -right-[10%] -bottom-[30%] h-[90%] w-3/5 bg-[radial-gradient(closest-side,var(--glow-strong),transparent_70%)]" />
       </div>
 
-      <div className="relative z-10 flex min-w-0 flex-1 flex-col justify-end gap-3 p-5 pb-7 [transform:translate3d(0,calc(var(--sp)*-30px),0)] md:max-w-[640px] md:gap-4 md:p-9 md:pb-10">
+      <div key={view.id} className="relative z-10 flex min-w-0 flex-1 flex-col justify-end gap-3 p-5 pb-7 [transform:translate3d(0,calc(var(--sp)*-30px),0)] md:max-w-[640px] md:gap-4 md:p-9 md:pb-10">
         <div className="flex flex-wrap items-center gap-2 animate-[blur-in_0.7s_var(--ease)_0.1s_backwards]">
           <span className="eyebrow inline-flex items-center gap-2 rounded-full border border-brand-edge bg-badge-bg px-3 py-1 text-brand-text backdrop-blur-md">
             <i aria-hidden="true" className="block size-1.5 rounded-full bg-brand-text motion-safe:animate-pulse" />
@@ -175,7 +190,7 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
         </div>
       </div>
 
-      <div ref={posterBox} className="relative z-10 hidden shrink-0 pr-12 pb-12 md:block">
+      <div key={`poster-${view.id}`} ref={posterBox} className="relative z-10 hidden shrink-0 pr-12 pb-12 md:block">
         <TiltPoster className="w-[210px] drop-shadow-[0_26px_44px_rgb(0_0_0/0.65)] transition-transform duration-300 ease-out [transform:translate3d(calc(var(--px)*10px),calc(var(--py)*6px),0)_rotate(3deg)]">
           <Poster src={view.poster?.w342 ?? null} title={view.title} className="w-full" eager />
         </TiltPoster>
