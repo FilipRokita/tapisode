@@ -19,7 +19,7 @@ function Card({ row, index }: { row: BrowseRow; index: number }) {
         ref={button}
         type="button"
         onClick={() => openTitle(row.ref, button.current)}
-        className="relative block aspect-[16/10] w-full overflow-hidden rounded-[20px] border border-border bg-surface text-left shadow-[var(--shadow-poster)] transition-[transform,border-color] duration-[250ms] ease-app hover:border-border-strong md:hover:scale-[1.03] active:scale-[0.98]"
+        className="relative block aspect-[16/10] w-full overflow-hidden rounded-[20px] border border-border bg-surface text-left shadow-[var(--shadow-poster)] transition-[scale,border-color] duration-[250ms] ease-app hover:border-border-strong md:hover:scale-[1.03] active:scale-[0.98]"
       >
         {row.backdrop ? (
           // eslint-disable-next-line @next/next/no-img-element -- backdrops come straight from the provider's CDN, never through the host's optimizer (catalog-data.md)
