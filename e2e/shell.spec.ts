@@ -61,7 +61,11 @@ test.describe("shell", () => {
     await page.goto("/app/settings");
     await page.getByRole("button", { name: "Change password" }).click();
     await page.getByLabel("Current password").fill("not the password");
-    await page.getByLabel("New password").fill("a brand new one");
+    await page.getByLabel("New password", { exact: true }).fill("a brand new one");
+    await page.getByLabel("Repeat new password").fill("something else");
+    await page.getByRole("button", { name: "Update password" }).click();
+    await expect(page.getByText("The passwords do not match.")).toBeVisible();
+    await page.getByLabel("Repeat new password").fill("a brand new one");
     await page.getByRole("button", { name: "Update password" }).click();
     await expect(page.getByText("Current password is wrong.")).toBeVisible();
     await page.getByLabel("Current password").fill(PASSWORD);

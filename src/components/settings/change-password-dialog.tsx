@@ -11,13 +11,15 @@ import { Input } from "@/components/ui/input";
 export function ChangePasswordDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
-  const [errors, setErrors] = useState<{ current?: string; next?: string }>({});
+  const [confirm, setConfirm] = useState("");
+  const [errors, setErrors] = useState<{ current?: string; next?: string; confirm?: string }>({});
   const [busy, setBusy] = useState(false);
 
   const close = (value: boolean) => {
     if (!value) {
       setCurrent("");
       setNext("");
+      setConfirm("");
       setErrors({});
     }
     onOpenChange(value);
@@ -29,8 +31,9 @@ export function ChangePasswordDialog({ open, onOpenChange }: { open: boolean; on
     if (!current) found.current = "Enter your current password.";
     const parsed = passwordSchema.safeParse(next);
     if (!parsed.success) found.next = parsed.error.issues[0]?.message;
+    if (confirm !== next) found.confirm = "The passwords do not match.";
     setErrors(found);
-    if (found.current || found.next) return;
+    if (found.current || found.next || found.confirm) return;
     setBusy(true);
     const { error } = await authClient.changePassword({ currentPassword: current, newPassword: next, revokeOtherSessions: true });
     setBusy(false);
@@ -63,6 +66,13 @@ export function ChangePasswordDialog({ open, onOpenChange }: { open: boolean; on
             </label>
             <Input id="new-password" type="password" autoComplete="new-password" placeholder="At least 8 characters" value={next} onChange={(e) => { setNext(e.target.value); setErrors((x) => ({ ...x, next: undefined })); }} aria-invalid={!!errors.next} aria-describedby="new-password-error" />
             <p id="new-password-error" className="text-[12.5px] text-danger empty:hidden">{errors.next}</p>
+          </div>
+          <div className="grid gap-1.5">
+            <label htmlFor="confirm-password" className="text-[13px] font-semibold text-dim">
+              Repeat new password
+            </label>
+            <Input id="confirm-password" type="password" autoComplete="new-password" value={confirm} onChange={(e) => { setConfirm(e.target.value); setErrors((x) => ({ ...x, confirm: undefined })); }} aria-invalid={!!errors.confirm} aria-describedby="confirm-password-error" />
+            <p id="confirm-password-error" className="text-[12.5px] text-danger empty:hidden">{errors.confirm}</p>
           </div>
           <div className="mt-1.5 flex gap-2.5">
             <Button type="button" variant="secondary" className="flex-1" onClick={() => close(false)} disabled={busy}>
