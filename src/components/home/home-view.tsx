@@ -13,10 +13,11 @@ import { useAmbientHue } from "@/components/library/use-ambient-hue";
 import { useToday } from "@/components/library/use-today";
 import { Reveal } from "@/components/landing/reveal";
 import { airDateLabel } from "@/domain/countdown";
+import { isReleased } from "@/domain/progress";
 import { backlog, catchUp, greetingFor, nextAiring, weekAgenda } from "@/domain/home";
 import type { TitleView } from "@/domain/view";
 import { Hero } from "./hero";
-import { HeroSwitcher } from "./hero-switcher";
+import { HeroSwitcher, type SwitcherItem } from "./hero-switcher";
 import { Numbers } from "./numbers";
 import { WeekAgenda } from "./week-agenda";
 
@@ -44,8 +45,15 @@ export function HomeView({ name, rows }: HomeViewProps) {
 
   const watching = titles.filter((t): t is TitleView => t.state?.status === "watching");
   const [chosenId, setChosenId] = useState<string | null>(null);
-  // The title the user picked under the hero, or the newest one when none is picked or the pick left Watching.
-  const upNext = watching.find((t) => t.id === chosenId) ?? watching[0];
+  // Under the hero: the three titles the user was in most recently, and the Watchlist title that has waited longest (one
+  // that is not out yet cannot be started).
+  const suggested = titles
+    .filter((t) => t.state?.status === "watchlist" && isReleased(t.facts))
+    .sort((a, b) => a.activityAt - b.activityAt)[0];
+  const items: SwitcherItem[] = [...watching.slice(0, 3).map((view): SwitcherItem => ({ view, kind: "watching" })), ...(suggested ? [{ view: suggested, kind: "suggestion" } as const] : [])];
+  // The pick, or the newest title in Watching, or the suggestion when nothing is in Watching.
+  const current = items.find((i) => i.view.id === chosenId) ?? items[0];
+  const upNext = current?.view;
   const hue = useAmbientHue(upNext?.poster?.w185 ?? null);
   const finished = titles.filter((t) => t.state?.status === "complete").length;
   const greeting = hour === null ? "Welcome back" : greetingFor(hour);
@@ -62,9 +70,15 @@ export function HomeView({ name, rows }: HomeViewProps) {
       <div className="mt-5 md:mt-1">
         {upNext ? (
           <>
-            <Hero view={upNext} preview={previews[upNext.id]} onPlus={() => plusOne(upNext, true)} onMarkWatched={() => setStatus(upNext, "complete")} />
+            <Hero
+              view={upNext}
+              preview={previews[upNext.id]}
+              onPlus={() => plusOne(upNext, true)}
+              onMarkWatched={() => setStatus(upNext, "complete")}
+              suggestion={current.kind === "suggestion" ? { onStart: () => void setStatus(upNext, "watching").then((ok) => ok && setChosenId(upNext.id)) } : undefined}
+            />
             <div className="mt-3.5">
-              <HeroSwitcher titles={watching} selectedId={upNext.id} onSelect={setChosenId} />
+              <HeroSwitcher items={items} selectedId={upNext.id} watchingTotal={watching.length} onSelect={setChosenId} />
             </div>
           </>
         ) : (

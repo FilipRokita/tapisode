@@ -24,6 +24,8 @@ interface HeroProps {
   preview?: UserTitleState;
   onPlus: () => void;
   onMarkWatched: () => void;
+  /** Set when the card suggests a title from the Watchlist to start, rather than one the user is in the middle of. */
+  suggestion?: { readonly onStart: () => void };
   className?: string;
 }
 
@@ -31,7 +33,7 @@ interface HeroProps {
  * The title the user left off at, as a cinematic card: its backdrop fills it and drifts, the words rise out of a blur, and
  * a line along the bottom draws the progress. The pointer moves the picture and the poster a little against each other.
  */
-export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroProps) {
+export function Hero({ view, preview, onPlus, onMarkWatched, suggestion, className }: HeroProps) {
   const shown = preview ? { ...view, state: preview } : view;
   const info = describeTitle(shown);
   const button = describeTitle(view);
@@ -44,6 +46,8 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
   const backdropLoaded = view.backdrop !== null && loadedBackdrop === view.backdrop;
   const countdown = today && info.caughtUp ? countdownLabel(view.nextEpisode?.airDate ?? null, today) : null;
   const percent = info.finished ? 100 : info.percent;
+  const seasons = view.facts.type === "tv" ? view.facts.seasons.length : null;
+  const facts = [view.year, seasons !== null ? `${seasons} season${seasons === 1 ? "" : "s"}` : info.runtime].filter(Boolean).join(" · ");
 
   // Choosing another title: the old picture stays for a moment and fades out over the new one.
   const lastBackdrop = useRef(view.backdrop);
@@ -98,7 +102,7 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
         // A tap anywhere on the card opens the title, which is how a phone gets there. The buttons keep their own job.
         if (!(event.target as HTMLElement).closest("button, a")) open();
       }}
-      aria-label="Up next"
+      aria-label={suggestion ? "Start something new" : "Up next"}
       className={cn("hue relative isolate flex min-h-[430px] cursor-pointer flex-col justify-end overflow-hidden rounded-[28px] border border-border-strong bg-surface md:min-h-[470px] md:flex-row md:items-end md:justify-between md:gap-8", className)}
       style={{ "--h": hue, "--px": 0, "--py": 0, "--sp": 0, opacity: "calc(1 - var(--sp) * 0.5)", transform: "scale(calc(1 - var(--sp) * 0.04))", transformOrigin: "50% 0" } as CSSProperties}
     >
@@ -137,7 +141,7 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
         <div className="flex flex-wrap items-center gap-2 animate-[blur-in_0.7s_var(--ease)_0.1s_backwards]">
           <span className="eyebrow inline-flex items-center gap-2 rounded-full border border-brand-edge bg-badge-bg px-3 py-1 text-brand-text backdrop-blur-md">
             <i aria-hidden="true" className="block size-1.5 rounded-full bg-brand-text motion-safe:animate-pulse" />
-            Up next
+            {suggestion ? "Start something new" : "Up next"}
           </span>
           {(view.services ?? []).slice(0, 2).map((s) => (
             <span key={s} className="rounded-full bg-badge-bg backdrop-blur-md">
@@ -151,7 +155,9 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
             <span className="sr-only">, open details</span>
           </button>
         </h2>
-        {info.isSeries ? (
+        {suggestion ? (
+          <div className="font-sans text-[14px] leading-5 text-text-soft animate-[blur-in_0.8s_var(--ease)_0.3s_backwards]">{facts}</div>
+        ) : info.isSeries ? (
           <div className="mono flex flex-wrap items-center gap-x-3 gap-y-1 text-[15px] leading-5 text-text-soft animate-[blur-in_0.8s_var(--ease)_0.3s_backwards]" title="Last watched">
             <span className="inline-flex items-center gap-1.5 text-foreground">
               <Check className="size-5 text-brand-text" aria-hidden="true" />
@@ -172,7 +178,11 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
         )}
         {view.overview && <p className="line-clamp-3 max-w-[54ch] text-[15px] leading-[1.55] text-text-soft animate-[blur-in_0.8s_var(--ease)_0.4s_backwards] max-md:hidden">{view.overview}</p>}
         <div className="mt-1 flex flex-wrap items-center gap-2.5 animate-[blur-in_0.8s_var(--ease)_0.5s_backwards]">
-          {info.isSeries ? (
+          {suggestion ? (
+            <Button variant="primary" className="needs-net min-h-[52px] w-full px-7 text-base md:w-auto" onClick={suggestion.onStart}>
+              Start watching
+            </Button>
+          ) : info.isSeries ? (
             <PlusButton
               tone="white"
               className="mt-0 min-h-[52px] w-full px-7 text-base md:w-auto"
@@ -196,9 +206,11 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
         </TiltPoster>
       </div>
 
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-10 h-[3px] bg-border">
-        <i className="block h-full origin-left animate-[draw_1.4s_var(--ease)_0.6s_backwards] bg-[linear-gradient(90deg,var(--brand),var(--brand-text))] transition-[width] duration-[600ms] ease-app" style={{ width: `${percent}%` }} />
-      </div>
+      {!suggestion && (
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-10 h-[3px] bg-border">
+          <i className="block h-full origin-left animate-[draw_1.4s_var(--ease)_0.6s_backwards] bg-[linear-gradient(90deg,var(--brand),var(--brand-text))] transition-[width] duration-[600ms] ease-app" style={{ width: `${percent}%` }} />
+        </div>
+      )}
     </section>
   );
 }
