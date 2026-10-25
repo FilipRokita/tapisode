@@ -64,7 +64,7 @@ export function ChangePasswordDialog({ open, onOpenChange }: { open: boolean; on
             <label htmlFor="new-password" className="text-[13px] font-semibold text-dim">
               New password
             </label>
-            <Input id="new-password" type="password" autoComplete="new-password" placeholder="At least 8 characters" value={next} onChange={(e) => { setNext(e.target.value); setErrors((x) => ({ ...x, next: undefined })); }} aria-invalid={!!errors.next} aria-describedby="new-password-error" />
+            <Input id="new-password" type="password" autoComplete="new-password" value={next} onChange={(e) => { setNext(e.target.value); setErrors((x) => ({ ...x, next: undefined })); }} aria-invalid={!!errors.next} aria-describedby="new-password-error" />
             <p id="new-password-error" className="text-[12.5px] text-danger empty:hidden">{errors.next}</p>
           </div>
           <div className="grid gap-1.5">
