@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Clock } from "@/components/primitives/icons";
 import { Logo } from "@/components/primitives/logo";
 import { Segmented } from "@/components/primitives/segmented";
 import { prefersReducedMotion } from "@/components/primitives/use-reduced-motion";
@@ -191,12 +190,6 @@ export function AuthScreen({ initialMode }: { initialMode: Mode }) {
             <Field id="password" label="Password" error={errors.password}>
               <Input id="password" type="password" autoComplete={signUp ? "new-password" : "current-password"} placeholder="At least 8 characters" value={values.password} onChange={(e) => edit("password", e.target.value)} aria-invalid={!!errors.password} aria-describedby="password-error" />
             </Field>
-            <Collapse open={signUp}>
-              <div className="mt-4 flex gap-2.5 rounded-[14px] border border-border bg-surface p-3 text-[13.5px] text-dim">
-                <Clock className="mt-0.5 size-5 shrink-0" />
-                <span>This is a demo project. Please use a throwaway email address. You must be at least 16 to register.</span>
-              </div>
-            </Collapse>
             {failure && (
               <p role="alert" className="mt-4 text-[13.5px] text-danger">
                 {failure.text}{" "}
