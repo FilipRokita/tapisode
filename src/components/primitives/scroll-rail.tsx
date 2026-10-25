@@ -72,7 +72,7 @@ function Arrow({ side, shown, onClick }: { side: "left" | "right"; shown: boolea
       onClick={onClick}
       tabIndex={shown ? 0 : -1}
       className={cn(
-        "group/arrow absolute top-1.5 bottom-[4.75rem] z-10 hidden w-[72px] items-center text-foreground transition-opacity duration-200 ease-app md:flex",
+        "group/arrow absolute top-1.5 bottom-[4.75rem] z-10 hidden w-9 items-center justify-center text-foreground transition-opacity duration-200 ease-app md:flex",
         side === "left" ? "-left-9" : "-right-9",
         shown ? "opacity-0 group-focus-within/rail:opacity-100 group-hover/rail:opacity-100" : "pointer-events-none opacity-0",
       )}
