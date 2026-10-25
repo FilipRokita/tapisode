@@ -87,7 +87,7 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
           )}
         </p>
       ) : (
-        <ScrollRail always arrows className="-mx-4 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pb-2 md:mx-0 md:scroll-px-0 md:px-0">
+        <ScrollRail always arrows className="-mx-4 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pb-2 md:-mx-9 md:scroll-px-9 md:px-9">
           <ol className="relative flex w-max gap-3">
             {segments(days).map((segment) => {
               if (segment.kind === "gap") {

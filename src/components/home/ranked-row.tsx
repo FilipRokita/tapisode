@@ -35,7 +35,7 @@ export function RankedRow({ id, title, rows }: { id: string; title: string; rows
   return (
     <section aria-labelledby={id} className="mt-10 md:mt-12">
       <SectionHeading id={id}>{title}</SectionHeading>
-      <ScrollRail always arrows className="-mx-4 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pt-1.5 pb-3 md:mx-0 md:scroll-px-0 md:px-0">
+      <ScrollRail always arrows className="-mx-4 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pt-1.5 pb-3 md:-mx-9 md:scroll-px-9 md:px-9">
         <ul className="flex gap-3.5 md:gap-5">
           {rows.map((row, i) => (
             <Tile key={`${row.ref.type}:${row.ref.externalId}`} row={row} index={i} />
