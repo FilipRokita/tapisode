@@ -22,7 +22,7 @@
 ---
 
 <div align="center">
-  <a href="https://tapisode.vercel.app">
+  <a href="https://tapisode.filrok.com">
     <img src="https://img.shields.io/badge/LIVE_PREVIEW-Click_Here-green?style=for-the-badge" alt="Live preview">
   </a>
   <br>
@@ -179,12 +179,13 @@ The same application and code. Only environment variables differ.
 
 ## 🌐 Live demo infrastructure
 
-The live demo at [tapisode.vercel.app](https://tapisode.vercel.app) runs on these services:
+The live demo at [tapisode.filrok.com](https://tapisode.filrok.com) runs on these services:
 
 | Component | Provider | Details |
 | :--- | :--- | :--- |
 | **Application** | [Vercel](https://vercel.com) | Next.js hosting, deployed from `main`, with a weekly maintenance job |
 | **Database** | [Neon](https://neon.com) | Serverless PostgreSQL 17 (AWS Frankfurt `eu-central-1`) |
+| **Domain name** | [Cloudflare](https://www.cloudflare.com) | DNS for [tapisode.filrok.com](https://tapisode.filrok.com), pointing at the Vercel deployment |
 | **Catalog data** | [TMDB](https://www.themoviedb.org) | Titles and posters, behind a replaceable provider port |
 | **Source code** | [GitHub](https://github.com) | Repository, version control and CI |
 
