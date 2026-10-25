@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { Download } from "@/components/primitives/icons";
 import { Segmented } from "@/components/primitives/segmented";
 import { Button } from "@/components/ui/button";
-import { CloseButton } from "@/components/ui/close-button";
 import { ResponsiveSheet } from "@/components/ui/responsive-sheet";
 import type { Stats } from "@/domain/stats";
 import { readCardPalette } from "./card-palette";
@@ -63,10 +62,7 @@ export function ShareCard({ stats, open, onOpenChange }: { stats: Stats; open: b
 
   return (
     <ResponsiveSheet open={open} onOpenChange={onOpenChange} title="Share your stats" description="A picture of your stats to save or share.">
-      <div className="mb-3 flex items-center justify-between">
-        <b className="text-[17px] tracking-[-0.02em]">Share your stats</b>
-        <CloseButton onClick={() => onOpenChange(false)} className="relative -my-1" />
-      </div>
+      <b className="mb-3 block text-[17px] tracking-[-0.02em]">Share your stats</b>
       <Segmented
         kind="tab"
         label="Format"
