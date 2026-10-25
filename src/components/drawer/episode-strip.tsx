@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { isAired, isStarted } from "@/domain/progress";
 import type { Command } from "@/domain/transitions";
 import type { SeriesFacts, UserTitleState } from "@/domain/types";
@@ -21,6 +21,24 @@ export function EpisodeStrip({ facts, state, run }: EpisodeStripProps) {
   const grid = useRef<HTMLDivElement>(null);
   const marker = useRef<HTMLSpanElement>(null);
   const lastTab = useRef<number | null>(null);
+  const tabs = useRef<HTMLDivElement>(null);
+  const [edges, setEdges] = useState({ start: false, end: false });
+  const hasTabs = facts.seasons.length > 1;
+
+  // Each edge of the season chips fades only while more chips lie beyond it.
+  useEffect(() => {
+    const el = tabs.current;
+    if (!el) return;
+    const update = () => setEdges({ start: el.scrollLeft > 1, end: el.scrollLeft + el.clientWidth < el.scrollWidth - 1 });
+    update();
+    el.addEventListener("scroll", update);
+    const resize = new ResizeObserver(update);
+    resize.observe(el);
+    return () => {
+      el.removeEventListener("scroll", update);
+      resize.disconnect();
+    };
+  }, [hasTabs]);
 
   useLayoutEffect(() => {
     const place = (animate: boolean) => {
@@ -61,8 +79,14 @@ export function EpisodeStrip({ facts, state, run }: EpisodeStripProps) {
           {watchedCount} / {season.episodeCount}
         </span>
       </div>
-      {facts.seasons.length > 1 && (
-        <div role="tablist" aria-label="Season" className="mb-3 flex gap-1.5 overflow-x-auto">
+      {hasTabs && (
+        <div
+          ref={tabs}
+          role="tablist"
+          aria-label="Season"
+          className="mb-3 flex gap-1.5 overflow-x-auto"
+          style={{ maskImage: `linear-gradient(to right, ${edges.start ? "transparent" : "#000"}, #000 32px, #000 calc(100% - 32px), ${edges.end ? "transparent" : "#000"})` }}
+        >
           {facts.seasons.map((s) => (
             <button
               key={s.number}
