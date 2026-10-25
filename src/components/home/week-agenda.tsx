@@ -67,9 +67,10 @@ function segments(days: readonly AgendaDay<TitleView>[]): Segment[] {
   return out;
 }
 
-// The line of the axis: each column draws its own piece, from its dot to the next one, so it runs unbroken and ends at the last dot.
-const LINE = "before:absolute before:top-[5px] before:-right-1.5 before:-left-1.5 before:h-px first:before:left-0 last:before:hidden";
-const FADE = "before:bg-[linear-gradient(90deg,var(--brand-soft),var(--home-line))]";
+// The axis is a thick violet track with a soft glow. Each column draws its own piece, from its dot to the next one, so it runs unbroken and ends at the last dot.
+const LINE = "before:absolute before:top-1 before:-right-1.5 before:-left-1.5 before:h-[3px] before:bg-[var(--brand-line)] before:shadow-[0_0_10px_var(--brand-ring)] first:before:left-0 first:before:rounded-l-full last:before:hidden";
+// Today's piece starts at full strength and settles into the track's color.
+const TODAY_LINE = "before:bg-[linear-gradient(90deg,var(--brand),var(--brand-line))]";
 
 /**
  * The coming eight weeks as one axis: a line with a dot for each day, today's glowing, and the user's series on the days they
@@ -104,8 +105,8 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
             {segs.map((segment, index) => {
               if (segment.kind === "gap") {
                 return (
-                  <li key={segment.key} aria-hidden="true" className={cn(LINE, "relative w-[112px] shrink-0 pt-7", widthOf(index), index === 1 ? FADE : "before:bg-[var(--home-line)]")}>
-                    <i className="absolute top-0 left-0 block size-[11px] rounded-full border-2 border-border-strong bg-background" />
+                  <li key={segment.key} aria-hidden="true" className={cn(LINE, "relative w-[112px] shrink-0 pt-7", widthOf(index))}>
+                    <i className="absolute top-0 left-0 block size-[11px] rounded-full border-2 border-brand-edge bg-background" />
                     <span className="mono block pl-5 text-[12px] leading-[26px] text-faint">{segment.count === 1 ? "1 day" : `${segment.count} days`}</span>
                   </li>
                 );
@@ -121,12 +122,10 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
                     "relative w-[124px] shrink-0 snap-start pt-7",
                     widthOf(index),
                     LINE,
-                    // Today's dot casts its violet onto the line, and it fades into the line's own color over the next day.
-                    isToday ? "before:bg-[linear-gradient(90deg,var(--brand),var(--brand-line)_55%,var(--brand-soft))] before:shadow-[0_0_8px_var(--brand-ring)]" : index === 1 ? FADE : "before:bg-[var(--home-line)]",
-                    day.entries.length === 0 && !isToday && "opacity-70",
+                    isToday && TODAY_LINE,
                   )}
                 >
-                  <i aria-hidden="true" className={cn("absolute top-0 left-0 block size-[11px] rounded-full border-2", isToday ? "border-brand bg-brand shadow-[0_0_0_4px_var(--brand-ring)]" : "border-border-strong bg-background")} />
+                  <i aria-hidden="true" className={cn("absolute top-0 left-0 block size-[11px] rounded-full border-2", isToday ? "border-brand bg-brand shadow-[0_0_0_4px_var(--brand-ring)]" : "border-brand-text bg-brand-text")} />
                   {isToday && <i aria-hidden="true" className="absolute top-0 left-0 block size-[11px] rounded-full bg-brand motion-safe:animate-[ring-out_2.2s_ease-out_infinite]" />}
                   <div className="mb-3 flex items-baseline gap-2">
                     <span className={cn("mono text-[26px] leading-none font-bold tracking-[-0.04em]", isToday ? "text-brand-text" : "text-foreground")}>{dayNumber}</span>
