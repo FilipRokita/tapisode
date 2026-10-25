@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useOverlays } from "@/components/app-shell/overlays";
 import { Check, Clock } from "@/components/primitives/icons";
 import { Poster } from "@/components/primitives/poster";
@@ -31,7 +31,7 @@ interface HeroProps {
 
 /**
  * The title the user left off at, as a cinematic card: its backdrop fills it and drifts, the words rise out of a blur, and
- * a line along the bottom draws the progress. The pointer moves the picture and the poster a little against each other.
+ * a line along the bottom draws the progress.
  */
 export function Hero({ view, preview, onPlus, onMarkWatched, suggestion, className }: HeroProps) {
   const shown = preview ? { ...view, state: preview } : view;
@@ -81,30 +81,16 @@ export function Hero({ view, preview, onPlus, onMarkWatched, suggestion, classNa
   // The poster flies into the drawer. Only the visible one may, not the blurred copy behind the card, and a phone shows none.
   const open = () => openTitle(view.ref, posterBox.current && posterBox.current.offsetParent !== null ? posterBox.current : null);
 
-  const parallax = (event: PointerEvent<HTMLElement>) => {
-    const el = card.current;
-    if (!el || !window.matchMedia("(hover: hover)").matches || prefersReducedMotion()) return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty("--px", String((event.clientX - r.left) / r.width - 0.5));
-    el.style.setProperty("--py", String((event.clientY - r.top) / r.height - 0.5));
-  };
-  const rest = () => {
-    card.current?.style.setProperty("--px", "0");
-    card.current?.style.setProperty("--py", "0");
-  };
-
   return (
     <section
       ref={card}
-      onPointerMove={parallax}
-      onPointerLeave={rest}
       onClick={(event) => {
         // A tap anywhere on the card opens the title, which is how a phone gets there. The buttons keep their own job.
         if (!(event.target as HTMLElement).closest("button, a")) open();
       }}
       aria-label={suggestion ? "Start something new" : "Up next"}
       className={cn("hue relative isolate flex min-h-[430px] cursor-pointer flex-col justify-end overflow-hidden rounded-[28px] border border-border-strong bg-surface md:min-h-[470px] md:flex-row md:items-end md:justify-between md:gap-8", className)}
-      style={{ "--h": hue, "--px": 0, "--py": 0, "--sp": 0, opacity: "calc(1 - var(--sp) * 0.5)", transform: "scale(calc(1 - var(--sp) * 0.04))", transformOrigin: "50% 0" } as CSSProperties}
+      style={{ "--h": hue, "--sp": 0, opacity: "calc(1 - var(--sp) * 0.5)", transform: "scale(calc(1 - var(--sp) * 0.04))", transformOrigin: "50% 0" } as CSSProperties}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className={cn("absolute -inset-10 opacity-60 transition-opacity duration-700 [filter:blur(46px)_saturate(1.6)]", backdropLoaded && "opacity-0")}>
@@ -112,7 +98,7 @@ export function Hero({ view, preview, onPlus, onMarkWatched, suggestion, classNa
         </div>
         {view.backdrop && (
           <div className="absolute -inset-5 [transform:translate3d(0,calc(var(--sp)*70px),0)]">
-            <div className="size-full transition-transform duration-300 ease-out [transform:translate3d(calc(var(--px)*-14px),calc(var(--py)*-9px),0)]">
+            <div className="size-full">
               {/* eslint-disable-next-line @next/next/no-img-element -- backdrops come straight from the provider's CDN, never through the host's optimizer (catalog-data.md) */}
               <img
                 key={view.backdrop}
@@ -201,7 +187,7 @@ export function Hero({ view, preview, onPlus, onMarkWatched, suggestion, classNa
       </div>
 
       <div key={`poster-${view.id}`} ref={posterBox} className="relative z-10 hidden shrink-0 pr-12 pb-12 md:block">
-        <TiltPoster className="w-[210px] drop-shadow-[0_26px_44px_rgb(0_0_0/0.65)] transition-transform duration-300 ease-out [transform:translate3d(calc(var(--px)*10px),calc(var(--py)*6px),0)_rotate(3deg)]">
+        <TiltPoster className="w-[210px] drop-shadow-[0_26px_44px_rgb(0_0_0/0.65)] rotate-[3deg]">
           <Poster src={view.poster?.w342 ?? null} title={view.title} className="w-full" eager />
         </TiltPoster>
       </div>
