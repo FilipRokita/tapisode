@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { useOverlays } from "@/components/app-shell/overlays";
 import { useToday } from "@/components/library/use-today";
 import { Poster } from "@/components/primitives/poster";
+import { spotlightMove } from "@/components/primitives/effects";
 import { ScrollRail } from "@/components/primitives/scroll-rail";
 import { airDateLabel, daysUntil } from "@/domain/countdown";
 import type { BrowseRow } from "@/domain/view";
@@ -25,7 +26,8 @@ function Ticket({ row, index }: { row: BrowseRow; index: number }) {
         ref={button}
         type="button"
         onClick={() => openTitle(row.ref, button.current)}
-        className="group flex w-full items-stretch gap-4 rounded-[20px] border border-border bg-surface p-3 text-left transition-[transform,border-color,box-shadow] duration-300 ease-app hover:border-border-strong md:hover:-translate-y-1 md:hover:shadow-[var(--shadow-lift)]"
+        onPointerMove={spotlightMove}
+        className="spotlight flex w-full items-stretch gap-4 overflow-hidden rounded-[20px] border border-border bg-surface p-3 text-left transition-colors hover:border-border-strong"
       >
         <Poster src={row.poster?.w185 ?? null} title={row.title} compact className="w-[84px] rounded-[12px] shadow-[var(--shadow-poster)]" />
         <span className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
