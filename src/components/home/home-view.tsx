@@ -1,22 +1,22 @@
 "use client";
 
-import { useSyncExternalStore, type ReactNode } from "react";
+import { useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { PageHeader } from "@/components/app-shell/page-header";
 import { useOverlays } from "@/components/app-shell/overlays";
 import { EmptyState } from "@/components/primitives/empty-state";
 import { House, Search } from "@/components/primitives/icons";
 import { Button } from "@/components/ui/button";
 import { useLibrary } from "@/components/library/library-provider";
-import { UpNext } from "@/components/library/up-next";
 import { usePlusOne } from "@/components/library/use-plus-one";
 import { useSetStatus } from "@/components/library/use-run-command";
+import { useAmbientHue } from "@/components/library/use-ambient-hue";
 import { useToday } from "@/components/library/use-today";
+import { Reveal } from "@/components/landing/reveal";
 import { airDateLabel } from "@/domain/countdown";
-import { backlog, greetingFor, weekAgenda } from "@/domain/home";
+import { backlog, catchUp, greetingFor, nextAiring, weekAgenda } from "@/domain/home";
 import type { TitleView } from "@/domain/view";
-import { HeroBackdrop } from "./hero-backdrop";
+import { Hero } from "./hero";
 import { Numbers } from "./numbers";
-import { stagger } from "./stagger";
 import { WeekAgenda } from "./week-agenda";
 
 const noSubscribe = () => () => {};
@@ -40,44 +40,47 @@ export function HomeView({ name, rows }: HomeViewProps) {
 
   const watching = titles.filter((t): t is TitleView => t.state?.status === "watching");
   const [upNext] = watching;
+  const hue = useAmbientHue(upNext?.poster?.w185 ?? null);
   const finished = titles.filter((t) => t.state?.status === "complete").length;
   const greeting = hour === null ? "Welcome back" : greetingFor(hour);
-  const hero = stagger(0);
 
   return (
-    <>
+    <div className="hue relative" style={{ "--h": hue } as CSSProperties}>
+      {/* The page takes the color of what the user is watching: two slow lights behind the header and the card. */}
+      <div aria-hidden="true" className="pointer-events-none absolute -inset-x-4 -top-24 -z-10 h-[620px] overflow-hidden md:-inset-x-9">
+        <div className="absolute -top-1/4 -left-[10%] h-full w-3/4 animate-[aurora_18s_ease-in-out_infinite_alternate] bg-[radial-gradient(closest-side,var(--glow-strong),transparent_70%)]" />
+        <div className="absolute -top-1/3 -right-[15%] h-4/5 w-3/5 animate-[aurora_24s_ease-in-out_infinite_alternate-reverse] bg-[radial-gradient(closest-side,var(--glow),transparent_70%)]" />
+      </div>
       <PageHeader title={name ? `${greeting}, ${name}` : greeting} sub={today ? airDateLabel(today) : "Your week at a glance"} />
       {pending > 0 && <p className="mt-2 text-[13px] text-faint">{pending === 1 ? "1 title is loading" : `${pending} titles are loading`}</p>}
-      {upNext ? (
-        <div className={hero.className} style={hero.style}>
-          <UpNext
-            view={upNext}
-            preview={previews[upNext.id]}
-            onPlus={() => plusOne(upNext, true)}
-            onMarkWatched={() => setStatus(upNext, "complete")}
-            backdrop={<HeroBackdrop view={upNext} />}
+      <div className="mt-5 md:mt-1">
+        {upNext ? (
+          <Hero view={upNext} preview={previews[upNext.id]} onPlus={() => plusOne(upNext, true)} onMarkWatched={() => setStatus(upNext, "complete")} />
+        ) : (
+          <EmptyState
+            icon={House}
+            title={titles.length === 0 ? "Your Home is waiting" : "Nothing in progress"}
+            text={titles.length === 0 ? "Search for a show or pick one from below to start tracking." : "Move something from your Watchlist to Watching, or pick a title from below."}
+            action={
+              <Button variant="primary" className="needs-net" onClick={openSearch}>
+                <Search />
+                Search titles
+              </Button>
+            }
           />
-        </div>
-      ) : (
-        <EmptyState
-          icon={House}
-          title={titles.length === 0 ? "Your Home is waiting" : "Nothing in progress"}
-          text={titles.length === 0 ? "Search for a show or pick one from below to start tracking." : "Move something from your Watchlist to Watching, or pick a title from below."}
-          action={
-            <Button variant="primary" className="needs-net" onClick={openSearch}>
-              <Search />
-              Search titles
-            </Button>
-          }
-        />
-      )}
+        )}
+      </div>
       {titles.length > 0 && today && (
         <>
-          <WeekAgenda days={weekAgenda(titles, today)} k={1} />
-          <Numbers backlog={backlog(titles)} finished={finished} tracked={titles.length} k={2} />
+          <Reveal>
+            <WeekAgenda days={weekAgenda(titles, today)} next={nextAiring(titles, today)} today={today} />
+          </Reveal>
+          <Reveal>
+            <Numbers backlog={backlog(titles)} items={catchUp(titles)} finished={finished} tracked={titles.length} />
+          </Reveal>
         </>
       )}
       {rows}
-    </>
+    </div>
   );
 }

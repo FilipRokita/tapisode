@@ -4,7 +4,8 @@ import { enterSandbox, signUp } from "./helpers";
 
 const hero = (page: Page) => page.locator("section:not([aria-hidden=true])", { hasText: "Up next" });
 const section = (page: Page, name: string) => page.getByRole("region", { name });
-const numbers = async (page: Page) => (await section(page, "Your numbers").getByText("To catch up").locator("xpath=following-sibling::b[1]/span[@class='sr-only']").textContent())?.replace(/\D/g, "");
+/** The episodes still to catch up on, from the first big number of the panel. */
+const numbers = async (page: Page) => (await section(page, "Your numbers").locator("b > span.sr-only").first().textContent())?.replace(/\D/g, "");
 
 test.describe("home", () => {
   test("the demo opens on Home, with Up next on top and the user's own sections", async ({ page }) => {

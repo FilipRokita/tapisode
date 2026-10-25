@@ -3,34 +3,55 @@
 import { cn } from "cn";
 import { useRef } from "react";
 import { useOverlays } from "@/components/app-shell/overlays";
+import { useToday } from "@/components/library/use-today";
 import { Poster } from "@/components/primitives/poster";
 import { ScrollRail } from "@/components/primitives/scroll-rail";
 import { TiltPoster } from "@/components/primitives/tilt-poster";
-import { airDateLabel } from "@/domain/countdown";
+import { airDateLabel, daysUntil } from "@/domain/countdown";
 import type { BrowseRow } from "@/domain/view";
-import { SECTION_HEADING, stagger } from "./stagger";
+import { SectionHeading } from "./section-heading";
 
 /** How many titles a row shows from `md` up, where it is a grid and does not scroll. */
 const DESKTOP_COUNT = 6;
 
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 function Tile({ row, index, ranked, dated }: { row: BrowseRow; index: number; ranked: boolean; dated: boolean }) {
   const { openTitle } = useOverlays();
+  const today = useToday();
   const button = useRef<HTMLButtonElement>(null);
+  const date = dated && row.releaseDate ? row.releaseDate : null;
+  const days = date && today ? daysUntil(date, today) : null;
   return (
-    <li className={cn("w-[132px] shrink-0 snap-start md:w-auto", index >= DESKTOP_COUNT && "md:hidden")}>
-      <button ref={button} type="button" onClick={() => openTitle(row.ref, button.current)} className="block w-full text-left">
-        <TiltPoster>
+    <li className={cn("w-[140px] shrink-0 snap-start md:w-auto", index >= DESKTOP_COUNT && "md:hidden")}>
+      <button ref={button} type="button" onClick={() => openTitle(row.ref, button.current)} className="group block w-full text-left">
+        <TiltPoster className="transition-transform duration-300 ease-app md:group-hover:-translate-y-1.5 [&_[data-poster]]:shadow-[var(--shadow-poster)] md:[&_[data-poster]]:group-hover:shadow-[var(--shadow-lift)]">
           <Poster src={row.poster?.w185 ?? null} title={row.title} className="w-full">
             {ranked && (
-              <span aria-hidden="true" className="mono pointer-events-none absolute bottom-0.5 left-2 text-[54px] leading-none font-black text-transparent [-webkit-text-stroke:2px_rgb(255_255_255/0.9)] [filter:drop-shadow(0_2px_6px_rgb(0_0_0/0.6))]">
-                {index + 1}
+              <>
+                <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(to_top,var(--background),transparent)] opacity-90" />
+                <span aria-hidden="true" className="mono pointer-events-none absolute -bottom-1.5 left-1.5 bg-[linear-gradient(to_bottom,var(--foreground),var(--home-numeral))] bg-clip-text text-[84px] leading-[0.85] font-black tracking-[-0.06em] text-transparent">
+                  {index + 1}
+                </span>
+              </>
+            )}
+            {date && (
+              <span aria-hidden="true" className="absolute top-2 left-2 grid min-w-[46px] place-items-center rounded-[12px] border border-border-strong bg-badge-bg px-2 py-1.5 leading-none backdrop-blur-md">
+                <b className="mono text-[20px] font-bold tracking-[-0.04em]">{Number(date.slice(8, 10))}</b>
+                <i className="mt-0.5 text-[10px] font-semibold tracking-[0.1em] text-dim uppercase not-italic">{MONTHS[Number(date.slice(5, 7)) - 1]}</i>
               </span>
             )}
-            {dated && row.releaseDate && <span className="mono absolute top-2 left-2 rounded-full border border-border-strong bg-badge-bg px-2 py-0.5 text-[11px]">{airDateLabel(row.releaseDate)}</span>}
           </Poster>
         </TiltPoster>
-        <span className="mt-2 line-clamp-1 block text-[13.5px] font-semibold">{row.title}</span>
-        {row.year && <span className="block text-[12px] text-faint">{row.year}</span>}
+        <span className="mt-2.5 line-clamp-1 block text-[13.5px] font-semibold">{row.title}</span>
+        {date ? (
+          <span className="block text-[12px] text-brand-text">
+            <span className="sr-only">{airDateLabel(date)}, </span>
+            {days === null ? "" : days <= 0 ? "Today" : days === 1 ? "Tomorrow" : `In ${days} days`}
+          </span>
+        ) : (
+          row.year && <span className="block text-[12px] text-faint">{row.year}</span>
+        )}
       </button>
     </li>
   );
@@ -44,21 +65,16 @@ interface PosterRowProps {
   ranked?: boolean;
   /** Shows each title's release date on its poster. */
   dated?: boolean;
-  /** Where the section sits in the page's entrance. */
-  k: number;
 }
 
 /** A titled row of posters. A rail on a phone, a grid of six from `md` up. A tap opens the title's drawer. */
-export function PosterRow({ id, title, rows, ranked = false, dated = false, k }: PosterRowProps) {
-  const s = stagger(k);
+export function PosterRow({ id, title, rows, ranked = false, dated = false }: PosterRowProps) {
   if (rows.length === 0) return null;
   return (
-    <section aria-labelledby={id} className={cn("mt-[26px]", s.className)} style={s.style}>
-      <h2 id={id} className={cn(SECTION_HEADING, "mb-3")}>
-        {title}
-      </h2>
-      <ScrollRail className="-mx-4 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 md:mx-0 md:overflow-visible md:px-0">
-        <ul className="flex w-max gap-3 md:grid md:w-auto md:grid-cols-6 md:gap-4">
+    <section aria-labelledby={id} className="mt-10 md:mt-12">
+      <SectionHeading id={id}>{title}</SectionHeading>
+      <ScrollRail className="-mx-4 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pt-1.5 pb-3 md:mx-0 md:overflow-visible md:px-0">
+        <ul className="flex w-max gap-3.5 md:grid md:w-auto md:grid-cols-6 md:gap-5">
           {rows.map((row, i) => (
             <Tile key={`${row.ref.type}:${row.ref.externalId}`} row={row} index={i} ranked={ranked} dated={dated} />
           ))}

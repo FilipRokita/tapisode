@@ -5,8 +5,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 
 /**
  * A row that scrolls sideways on a phone and does not scroll at all from `md` up (the caller lays it out as a grid there).
- * The scrollbar is hidden, each edge fades only while more lies beyond it, and the mouse wheel scrolls it for a narrow
- * desktop window. Give it `overflow-x-auto` for the phone.
+ * The scrollbar is hidden and each edge fades only while more lies beyond it. Give it `overflow-x-auto` for the phone.
  */
 export function ScrollRail({ className, children }: { className?: string; children: ReactNode }) {
   const rail = useRef<HTMLDivElement>(null);
@@ -16,19 +15,12 @@ export function ScrollRail({ className, children }: { className?: string; childr
     const el = rail.current;
     if (!el) return;
     const update = () => setEdges({ start: el.scrollLeft > 1, end: el.scrollLeft + el.clientWidth < el.scrollWidth - 1 });
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaX !== 0 || el.scrollWidth <= el.clientWidth) return;
-      e.preventDefault();
-      el.scrollLeft += e.deltaY;
-    };
     update();
     el.addEventListener("scroll", update);
-    el.addEventListener("wheel", onWheel, { passive: false });
     const resize = new ResizeObserver(update);
     resize.observe(el);
     return () => {
       el.removeEventListener("scroll", update);
-      el.removeEventListener("wheel", onWheel);
       resize.disconnect();
     };
   }, []);

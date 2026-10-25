@@ -7,7 +7,7 @@ import { HomeView } from "@/components/home/home-view";
 export const metadata: Metadata = { title: "Home · Tapisode" };
 
 async function Rows({ user }: { user: CurrentUser }) {
-  return <BrowseSections lists={await loadBrowse(user)} firstK={3} />;
+  return <BrowseSections lists={await loadBrowse(user)} />;
 }
 
 export default async function HomePage() {

@@ -53,6 +53,8 @@
   --shadow-toast: 0 12px 40px rgb(0 0 0 / 0.5);
   --text-shadow: 0 1px 8px rgb(0 0 0 / 0.5);
   --badge-bg: rgb(9 9 11 / 0.8);
+  --home-line: rgb(255 255 255 / 0.12);
+  --home-numeral: rgb(255 255 255 / 0.18);
   --panel-fill: rgb(9 9 11 / 0.45);
   --sidebar-fade: rgb(255 255 255 / 0.02);
   --prog-fade-a: rgb(255 255 255 / 0.035);

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { addDays } from "@/domain/countdown";
-import { backlog, greetingFor, weekAgenda, type HomeTitle } from "@/domain/home";
+import { backlog, catchUp, greetingFor, nextAiring, weekAgenda, type HomeTitle } from "@/domain/home";
 import type { Status } from "@/domain/types";
 import { ended, ongoing, releasedMovie } from "./fixtures";
 
@@ -49,6 +49,31 @@ describe("weekAgenda", () => {
   it("ignores movies and orders a day by the newest activity", () => {
     const titles = [series("old", "watching", "2026-10-27", { activityAt: 1 }), series("new", "watching", "2026-10-27", { activityAt: 9 }), series("film", "watching", "2026-10-27", { facts: releasedMovie })];
     expect(weekAgenda(titles, TODAY)[2]!.entries.map((e) => e.view.id)).toEqual(["new", "old"]);
+  });
+});
+
+describe("nextAiring", () => {
+  it("is the soonest episode after the seven days, of a tracked series", () => {
+    const titles = [series("far", "watching", "2026-12-01"), series("soon", "watchlist", "2026-11-03"), series("inside", "watching", "2026-10-30"), series("done", "complete", "2026-11-02"), series("none", "watching", null)];
+    expect(nextAiring(titles, TODAY)?.view.id).toBe("soon");
+    expect(nextAiring(titles, TODAY)?.airDate).toBe("2026-11-03");
+  });
+
+  it("treats the first day after the window as outside it, and is null with nothing", () => {
+    expect(nextAiring([series("edge", "watching", "2026-11-01")], TODAY)?.view.id).toBe("edge");
+    expect(nextAiring([series("edge", "watching", "2026-10-31")], TODAY)).toBeNull();
+    expect(nextAiring([], TODAY)).toBeNull();
+  });
+});
+
+describe("catchUp", () => {
+  it("lists Watching series with aired episodes left, longest first", () => {
+    const a = series("a", "watching", null);
+    const b = series("b", "watching", null, { state: { status: "watching", position: { season: 1, episode: 2 } } });
+    const done = series("done", "watching", null, { state: { status: "watching", position: { season: 2, episode: 4 } } });
+    const rows = catchUp([a, done, b, series("w", "watchlist", null)]);
+    expect(rows.map((r) => [r.view.id, r.left])).toEqual([["b", 10], ["a", 2]]);
+    expect(rows[1]!.percent).toBe(83);
   });
 });
 

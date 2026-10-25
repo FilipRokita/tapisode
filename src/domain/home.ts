@@ -33,6 +33,37 @@ export function weekAgenda<T extends HomeTitle>(titles: readonly T[], today: Dat
   });
 }
 
+/** The first episode of a tracked series that airs after the window of `weekAgenda`, or null. For when nothing airs this week. */
+export function nextAiring<T extends HomeTitle>(titles: readonly T[], today: DateString, days = 7): { readonly view: T; readonly airDate: DateString } | null {
+  const lastDay = addDays(today, days - 1);
+  let best: { view: T; airDate: DateString } | null = null;
+  for (const view of titles) {
+    const airDate = view.nextEpisode?.airDate;
+    if (view.facts.type !== "tv" || (view.state?.status !== "watching" && view.state?.status !== "watchlist") || !airDate || airDate <= lastDay) continue;
+    if (!best || airDate < best.airDate) best = { view, airDate };
+  }
+  return best;
+}
+
+export interface CatchUp<T extends HomeTitle> {
+  readonly view: T;
+  /** Aired episodes not watched yet. */
+  readonly left: number;
+  readonly percent: number;
+}
+
+/** The Watching series that still have aired episodes to watch, the longest backlog first. */
+export function catchUp<T extends HomeTitle>(titles: readonly T[]): CatchUp<T>[] {
+  return titles
+    .flatMap((view): CatchUp<T>[] => {
+      if (view.facts.type !== "tv" || view.state?.status !== "watching") return [];
+      const aired = airedEpisodes(view.facts.seasons);
+      const watched = watchedEpisodes(view.state.position, view.facts.seasons);
+      return aired - watched > 0 ? [{ view, left: aired - watched, percent: Math.round((watched / aired) * 100) }] : [];
+    })
+    .sort((a, b) => b.left - a.left);
+}
+
 export interface Backlog {
   /** Aired episodes of Watching series that the user has not watched. */
   readonly episodes: number;
