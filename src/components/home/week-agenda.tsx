@@ -43,17 +43,44 @@ interface WeekAgendaProps {
   today: string;
 }
 
+type Segment = { readonly kind: "day"; readonly day: AgendaDay<TitleView> } | { readonly kind: "gap"; readonly key: string; readonly count: number };
+
+/** Today, the days with an episode, and a lone empty day stay as they are. Two or more empty days in a row become one gap. */
+function segments(days: readonly AgendaDay<TitleView>[]): Segment[] {
+  const out: Segment[] = [];
+  let run: AgendaDay<TitleView>[] = [];
+  const flush = () => {
+    if (run.length >= 2) out.push({ kind: "gap", key: `gap-${run[0]!.date}`, count: run.length });
+    else for (const day of run) out.push({ kind: "day", day });
+    run = [];
+  };
+  for (const day of days) {
+    if (day.daysAway !== 0 && day.entries.length === 0) run.push(day);
+    else {
+      flush();
+      out.push({ kind: "day", day });
+    }
+  }
+  // Empty days at the very end say nothing, so the axis just stops.
+  if (run.length === 1) flush();
+  return out;
+}
+
+// The line of the axis: each column draws its own piece and reaches half a gap to each side, so it runs unbroken.
+const LINE = "before:absolute before:top-[5px] before:-right-1.5 before:-left-1.5 before:h-px first:before:left-0 last:before:right-0";
+const FADE = "before:bg-[linear-gradient(90deg,var(--brand-soft),var(--home-line))]";
+
 /**
  * The coming eight weeks as one axis: a line with a dot for each day, today's glowing, and the user's series on the days they
- * air. Seven days fit across, and the arrows at the sides move it a week at a time (a phone swipes). A day with nothing is just
- * its date. The line sits right under the heading and takes its place.
+ * air, and a run of empty days is a short gap such as "2 days". About seven days fit across, and the arrows at the sides move it a week at a time (a phone swipes). A day with nothing is just
+ * its date. 
  */
 export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
   const { openTitle } = useOverlays();
   const empty = days.every((d) => d.entries.length === 0);
   return (
     <section aria-labelledby="coming-up" className="mt-10 md:mt-12">
-      <SectionHeading id="coming-up" rule={false}>
+      <SectionHeading id="coming-up">
         Coming up
       </SectionHeading>
       {empty ? (
@@ -68,7 +95,16 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
       ) : (
         <ScrollRail always arrows className="-mx-4 -mt-1 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pt-3 pb-2 md:-mx-9 md:scroll-px-9 md:px-9">
           <ol className="flex gap-3">
-            {days.map((day, index) => {
+            {segments(days).map((segment, index) => {
+              if (segment.kind === "gap") {
+                return (
+                  <li key={segment.key} aria-hidden="true" className={cn(LINE, "relative w-[68px] shrink-0 pt-7 text-center", index === 1 ? FADE : "before:bg-[var(--home-line)]")}>
+                    <i className="absolute top-0 left-0 block size-[11px] rounded-full border-2 border-border-strong bg-background" />
+                    <span className="mono block text-left text-[12px] leading-[26px] text-faint">{segment.count} days</span>
+                  </li>
+                );
+              }
+              const { day } = segment;
               const isToday = day.daysAway === 0;
               const [weekday, dayNumber, month] = airDateLabel(day.date).split(" ");
               const first = Number(dayNumber) === 1;
@@ -77,10 +113,9 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
                   key={day.date}
                   className={cn(
                     "relative w-[124px] shrink-0 snap-start pt-7 md:w-auto md:basis-[calc((100%-72px)/7)]",
-                    // The line of the axis: each day draws its own piece and reaches half a gap to each side, so it runs unbroken.
-                    "before:absolute before:top-[5px] before:-right-1.5 before:-left-1.5 before:h-px first:before:left-0 last:before:right-0",
+                    LINE,
                     // Today's dot casts its violet onto the line, and it fades into the line's own color over the next day.
-                    isToday ? "before:bg-[linear-gradient(90deg,var(--brand),var(--brand-line)_55%,var(--brand-soft))] before:shadow-[0_0_8px_var(--brand-ring)]" : index === 1 ? "before:bg-[linear-gradient(90deg,var(--brand-soft),var(--home-line))]" : "before:bg-[var(--home-line)]",
+                    isToday ? "before:bg-[linear-gradient(90deg,var(--brand),var(--brand-line)_55%,var(--brand-soft))] before:shadow-[0_0_8px_var(--brand-ring)]" : index === 1 ? FADE : "before:bg-[var(--home-line)]",
                     day.entries.length === 0 && !isToday && "opacity-70",
                   )}
                 >
