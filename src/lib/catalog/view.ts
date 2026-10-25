@@ -39,7 +39,7 @@ export function toTitleView(
     overview: c.overview,
     year: c.releaseDate ? Number(c.releaseDate.slice(0, 4)) : null,
     poster: posterUrls(c.posterPath, imageUrl),
-    backdrop: c.backdropPath ? imageUrl(c.backdropPath, "w780") : null,
+    backdrop: c.backdropPath ? imageUrl(c.backdropPath, "w1280") : null,
     runtimeMinutes: c.runtimeMinutes,
     facts: factsOf(c),
     nextEpisode: c.nextEpisode,
