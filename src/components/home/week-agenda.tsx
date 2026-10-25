@@ -68,7 +68,7 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
       ) : (
         <ScrollRail always arrows className="-mx-4 -mt-1 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pt-3 pb-2 md:-mx-9 md:scroll-px-9 md:px-9">
           <ol className="flex gap-3">
-            {days.map((day) => {
+            {days.map((day, index) => {
               const isToday = day.daysAway === 0;
               const [weekday, dayNumber, month] = airDateLabel(day.date).split(" ");
               const first = Number(dayNumber) === 1;
@@ -78,7 +78,9 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
                   className={cn(
                     "relative w-[124px] shrink-0 snap-start pt-7 md:w-auto md:basis-[calc((100%-72px)/7)]",
                     // The line of the axis: each day draws its own piece and reaches half a gap to each side, so it runs unbroken.
-                    "before:absolute before:top-[5px] before:-right-1.5 before:-left-1.5 before:h-px before:bg-[var(--home-line)] first:before:left-0 last:before:right-0",
+                    "before:absolute before:top-[5px] before:-right-1.5 before:-left-1.5 before:h-px first:before:left-0 last:before:right-0",
+                    // Today's dot casts its violet onto the line, and it fades into the line's own color over the next day.
+                    isToday ? "before:bg-[linear-gradient(90deg,var(--brand),var(--brand-line)_55%,var(--brand-soft))] before:shadow-[0_0_8px_var(--brand-ring)]" : index === 1 ? "before:bg-[linear-gradient(90deg,var(--brand-soft),var(--home-line))]" : "before:bg-[var(--home-line)]",
                     day.entries.length === 0 && !isToday && "opacity-70",
                   )}
                 >
