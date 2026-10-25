@@ -19,6 +19,9 @@ import { Hero } from "./hero";
 import { Numbers } from "./numbers";
 import { WeekAgenda } from "./week-agenda";
 
+/** How far ahead Coming up looks: about two months. */
+const AGENDA_DAYS = 60;
+
 const noSubscribe = () => () => {};
 /** The visitor's local hour, or null during the server render. */
 const useHour = (): number | null => useSyncExternalStore(noSubscribe, () => new Date().getHours(), () => null);
@@ -73,7 +76,7 @@ export function HomeView({ name, rows }: HomeViewProps) {
       {titles.length > 0 && today && (
         <>
           <Reveal>
-            <WeekAgenda days={weekAgenda(titles, today)} next={nextAiring(titles, today)} today={today} />
+            <WeekAgenda days={weekAgenda(titles, today, AGENDA_DAYS)} next={nextAiring(titles, today, AGENDA_DAYS)} today={today} />
           </Reveal>
           <Reveal>
             <Numbers backlog={backlog(titles)} items={catchUp(titles)} finished={finished} tracked={titles.length} />
