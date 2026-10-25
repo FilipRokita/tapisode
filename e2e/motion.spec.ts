@@ -35,4 +35,12 @@ test.describe("reduced motion", () => {
       expect(await tile.locator("[data-poster]").evaluate((el) => (el as HTMLElement).style.transform)).toBe("");
     }
   });
+
+  test("Home shows its final numbers at once and its backdrop does not drift", async ({ page }) => {
+    await enterSandbox(page, "/app");
+    const tile = page.getByRole("region", { name: "Your numbers" }).getByText("To catch up").locator("xpath=following-sibling::b[1]");
+    await expect(tile.locator("[aria-hidden=true]")).toHaveText("11");
+    const drift = await page.locator("[class*='animate-[drift']").evaluateAll((els) => els.map((el) => getComputedStyle(el).animationName));
+    expect(drift.every((name) => name === "none")).toBe(true);
+  });
 });

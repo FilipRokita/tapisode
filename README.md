@@ -54,18 +54,21 @@ responsive on desktop.
 
 1. **One-tap episode progress.** Advance active shows with a thumb-friendly `+1 Episode`
    button. The change shows at once and can be undone.
-2. **Three states, nothing else.** Watching, Watchlist, Complete. No ratings, no
-   feeds, no recommendations. The rules keep the state and the episode in step: a
-   show still airing never counts as complete.
-3. **Where it streams.** See which of your services carry a title in your country,
+2. **A home for tonight.** Home opens on your next episode with its `+1`, lists the
+   episodes of your shows that air in the next seven days, adds a few numbers about your
+   lists, and shows what is trending, in cinemas and coming soon in your country.
+3. **Three states, nothing else.** Watching, Watchlist, Complete. No ratings and no
+   social feed. The rules keep the state and the episode in step: a show still airing
+   never counts as complete.
+4. **Where it streams.** See which of your services carry a title in your country,
    and filter your lists by service.
-4. **Title drawer.** Tap any title for a bottom sheet (a dialog on desktop) with the
+5. **Title drawer.** Tap any title for a bottom sheet (a dialog on desktop) with the
    synopsis, your progress, an episode picker and streaming availability.
-5. **Search and stats.** Press `Ctrl K` or `⌘K` to search, and see your episode count,
+6. **Search and stats.** Press `Ctrl K` or `⌘K` to search, and see your episode count,
    hours and a shareable stats image.
-6. **Try it without an account.** A demo session starts with a ready-made list and
+7. **Try it without an account.** A demo session starts with a ready-made list and
    lasts six hours. Creating an account keeps the list.
-7. **Installable.** A web app manifest, icons and an offline page make it installable
+8. **Installable.** A web app manifest, icons and an offline page make it installable
    on a phone.
 
 ## 🧱 Stack

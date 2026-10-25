@@ -53,6 +53,7 @@ test.describe("landing", () => {
     // Real data is untouched: a new demo visitor still finds Salt & Static at S01E07.
     await page.getByRole("button", { name: "Try it without an account" }).first().click();
     await expect(page).toHaveURL(/\/app$/);
+    await page.goto("/app/watching");
     await expect(page.locator("article", { hasText: "Salt & Static" })).toContainText("S01E07");
   });
 

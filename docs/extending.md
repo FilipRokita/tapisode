@@ -7,7 +7,8 @@ TMDB and the fake provider are two adapters of it.
 
 1. Implement `MediaProvider` in `src/lib/providers/<name>/provider.ts`. Map the provider's
    data into our vocabulary (`ProviderTitle`, our service keys, our series states) and
-   throw only `ProviderError`. Send every call through the shared `RequestGate`.
+   throw only `ProviderError`. Send every call through the shared `RequestGate`. Besides search and titles, the port
+   has `popular()` for the search palette and `browse()` for the three lists on Home.
 2. Register it in `src/lib/providers/index.ts`, the only file that names a concrete
    adapter, and add the name to `MEDIA_PROVIDER` in `src/config/env.ts`.
 3. Add it to the contract tests in `tests/lib/provider-contract.test.ts`, which run the
