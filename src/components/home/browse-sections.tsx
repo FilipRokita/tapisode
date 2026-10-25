@@ -1,20 +1,22 @@
 import { Skeleton } from "@/components/primitives/skeleton";
 import { Reveal } from "@/components/landing/reveal";
 import type { BrowseLists } from "@/domain/view";
-import { PosterRow } from "./poster-row";
+import { RankedRow } from "./ranked-row";
+import { TicketRow } from "./ticket-row";
+import { WideRow } from "./wide-row";
 
 /** What is trending, in cinemas and coming soon. A list that is empty is not shown. */
 export function BrowseSections({ lists }: { lists: BrowseLists }) {
   return (
     <>
       <Reveal>
-        <PosterRow id="trending" title="Trending this week" rows={lists.trending} ranked />
+        <RankedRow id="trending" title="Trending this week" rows={lists.trending} />
       </Reveal>
       <Reveal>
-        <PosterRow id="in-cinemas" title="In cinemas now" rows={lists.inCinemas} />
+        <WideRow id="in-cinemas" title="In cinemas now" rows={lists.inCinemas} />
       </Reveal>
       <Reveal>
-        <PosterRow id="coming-soon" title="Coming soon" rows={lists.comingSoon} dated />
+        <TicketRow id="coming-soon" title="Coming soon" rows={lists.comingSoon} />
       </Reveal>
     </>
   );

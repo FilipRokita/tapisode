@@ -45,7 +45,7 @@ export class FakeProvider implements MediaProvider {
         : list === "in-cinemas"
           ? byId(FAKE_IN_CINEMAS)
           : FAKE_TITLES.filter((t) => t.comingInDays !== undefined).sort((a, b) => a.comingInDays! - b.comingInDays!);
-    return titles.map((t) => ({ ...hitOf(t), releaseDate: t.comingInDays !== undefined ? addDays(today, t.comingInDays) : `${t.year}-01-01` }));
+    return titles.map((t) => ({ ...hitOf(t), releaseDate: t.comingInDays !== undefined ? addDays(today, t.comingInDays) : `${t.year}-01-01`, backdropPath: t.noBackdrop || t.noPoster ? null : fakeBackdropPath(t.hue, t.id) }));
   }
 
   async getTitle(ref: TitleRef, region: RegionCode): Promise<ProviderTitle | null> {

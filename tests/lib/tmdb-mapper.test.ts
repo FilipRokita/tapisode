@@ -97,8 +97,8 @@ describe("search", () => {
 describe("browse lists", () => {
   it("takes the type from the list when the results carry none, and drops untitled ones", () => {
     expect(mapBrowse(nowPlayingJson, "movie")).toEqual([
-      { ref: { provider: "tmdb", type: "movie", externalId: "9201" }, title: "Fixture Lantern", year: 2026, posterPath: "/fixture-lantern.jpg", releaseDate: "2026-10-10" },
-      { ref: { provider: "tmdb", type: "movie", externalId: "9202" }, title: "Fixture Tram", year: 2026, posterPath: null, releaseDate: "2026-09-26" },
+      { ref: { provider: "tmdb", type: "movie", externalId: "9201" }, title: "Fixture Lantern", year: 2026, posterPath: "/fixture-lantern.jpg", releaseDate: "2026-10-10", backdropPath: "/fixture-lantern-wide.jpg" },
+      { ref: { provider: "tmdb", type: "movie", externalId: "9202" }, title: "Fixture Tram", year: 2026, posterPath: null, releaseDate: "2026-09-26", backdropPath: null },
     ]);
   });
 

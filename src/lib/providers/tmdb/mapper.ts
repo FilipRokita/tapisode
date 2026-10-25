@@ -56,7 +56,7 @@ const searchSchema = z.object({
   page: z.number(),
   total_pages: z.number(),
   results: z.array(
-    z.object({ id: z.number(), media_type: z.string().optional(), title: z.string().optional(), name: z.string().optional(), release_date: date, first_air_date: date, poster_path: z.string().nullish() }),
+    z.object({ id: z.number(), media_type: z.string().optional(), title: z.string().optional(), name: z.string().optional(), release_date: date, first_air_date: date, poster_path: z.string().nullish(), backdrop_path: z.string().nullish() }),
   ),
 });
 
@@ -161,6 +161,6 @@ export function mapBrowse(json: unknown, type: MediaType | null): BrowseHit[] {
     const title = kind === "tv" ? r.name : r.title;
     if (!title) return [];
     const releaseDate = clean(kind === "tv" ? r.first_air_date : r.release_date);
-    return [{ ref: { provider: "tmdb", type: kind, externalId: String(r.id) }, title, year: yearOf(releaseDate), posterPath: r.poster_path ?? null, releaseDate }];
+    return [{ ref: { provider: "tmdb", type: kind, externalId: String(r.id) }, title, year: yearOf(releaseDate), posterPath: r.poster_path ?? null, releaseDate, backdropPath: r.backdrop_path ?? null }];
   });
 }

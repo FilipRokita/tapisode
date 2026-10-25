@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useRef, useState, type CSSProperties, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { useOverlays } from "@/components/app-shell/overlays";
 import { Check, Clock } from "@/components/primitives/icons";
 import { Poster } from "@/components/primitives/poster";
@@ -44,6 +44,24 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
   const countdown = today && info.caughtUp ? countdownLabel(view.nextEpisode?.airDate ?? null, today) : null;
   const percent = info.finished ? 100 : info.percent;
 
+  // Scrolling away: the picture lags, the words lift, and the card dims a little as the page moves over it.
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      card.current?.style.setProperty("--sp", String(Math.min(1, Math.max(0, window.scrollY / 520))));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
   const parallax = (event: PointerEvent<HTMLElement>) => {
     const el = card.current;
     if (!el || !window.matchMedia("(hover: hover)").matches || prefersReducedMotion()) return;
@@ -63,26 +81,28 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
       onPointerLeave={rest}
       aria-label="Up next"
       className={cn("hue relative isolate flex min-h-[430px] flex-col justify-end overflow-hidden rounded-[28px] border border-border-strong bg-surface md:min-h-[470px] md:flex-row md:items-end md:justify-between md:gap-8", className)}
-      style={{ "--h": hue, "--px": 0, "--py": 0 } as CSSProperties}
+      style={{ "--h": hue, "--px": 0, "--py": 0, "--sp": 0, opacity: "calc(1 - var(--sp) * 0.5)", transform: "scale(calc(1 - var(--sp) * 0.04))", transformOrigin: "50% 0" } as CSSProperties}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className={cn("absolute -inset-10 opacity-60 transition-opacity duration-700 [filter:blur(46px)_saturate(1.6)]", backdropLoaded && "opacity-0")}>
           <Poster src={view.poster?.w342 ?? null} title={view.title} compact className="aspect-auto size-full rounded-none after:hidden" />
         </div>
         {view.backdrop && (
-          <div className="absolute -inset-5 transition-transform duration-300 ease-out [transform:translate3d(calc(var(--px)*-14px),calc(var(--py)*-9px),0)]">
-            {/* eslint-disable-next-line @next/next/no-img-element -- backdrops come straight from the provider's CDN, never through the host's optimizer (catalog-data.md) */}
-            <img
-              key={view.backdrop}
-              ref={(img) => {
-                if (img?.complete && img.naturalWidth > 0) setLoadedBackdrop(view.backdrop);
-              }}
-              src={view.backdrop}
-              alt=""
-              decoding="async"
-              onLoad={() => setLoadedBackdrop(view.backdrop)}
-              className={cn("size-full max-w-none animate-[settle_1.6s_var(--ease)_both,drift_32s_ease-in-out_1.6s_infinite_alternate] object-cover opacity-0 transition-opacity duration-1000 motion-reduce:animate-none", backdropLoaded && "opacity-90")}
-            />
+          <div className="absolute -inset-5 [transform:translate3d(0,calc(var(--sp)*70px),0)]">
+            <div className="size-full transition-transform duration-300 ease-out [transform:translate3d(calc(var(--px)*-14px),calc(var(--py)*-9px),0)]">
+              {/* eslint-disable-next-line @next/next/no-img-element -- backdrops come straight from the provider's CDN, never through the host's optimizer (catalog-data.md) */}
+              <img
+                key={view.backdrop}
+                ref={(img) => {
+                  if (img?.complete && img.naturalWidth > 0) setLoadedBackdrop(view.backdrop);
+                }}
+                src={view.backdrop}
+                alt=""
+                decoding="async"
+                onLoad={() => setLoadedBackdrop(view.backdrop)}
+                className={cn("size-full max-w-none animate-[settle_1.6s_var(--ease)_both,drift_32s_ease-in-out_1.6s_infinite_alternate] object-cover opacity-0 transition-opacity duration-1000 motion-reduce:animate-none", backdropLoaded && "opacity-90")}
+              />
+            </div>
           </div>
         )}
         <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--background)_4%,transparent_58%)] max-md:hidden" />
@@ -90,7 +110,7 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
         <div className="absolute -right-[10%] -bottom-[30%] h-[90%] w-3/5 bg-[radial-gradient(closest-side,var(--glow-strong),transparent_70%)]" />
       </div>
 
-      <div className="relative z-10 flex min-w-0 flex-1 flex-col justify-end gap-3 p-5 pb-7 md:max-w-[640px] md:gap-4 md:p-9 md:pb-10">
+      <div className="relative z-10 flex min-w-0 flex-1 flex-col justify-end gap-3 p-5 pb-7 [transform:translate3d(0,calc(var(--sp)*-30px),0)] md:max-w-[640px] md:gap-4 md:p-9 md:pb-10">
         <div className="flex flex-wrap items-center gap-2 animate-[blur-in_0.7s_var(--ease)_0.1s_backwards]">
           <span className="eyebrow inline-flex items-center gap-2 rounded-full border border-brand-edge bg-brand-soft px-3 py-1 text-brand-text">
             <i aria-hidden="true" className="block size-1.5 rounded-full bg-brand-text motion-safe:animate-pulse" />

@@ -18,6 +18,6 @@ export async function browseLists(userId: string, region: RegionCode): Promise<B
     list
       .filter((h) => !tracked.has(`${h.ref.provider}:${h.ref.type}:${h.ref.externalId}`))
       .slice(0, PER_LIST)
-      .map((h) => ({ ref: h.ref, title: h.title, year: h.year, poster: h.posterPath ? { w185: provider.imageUrl(h.posterPath, "w185") } : null, releaseDate: h.releaseDate }));
+      .map((h) => ({ ref: h.ref, title: h.title, year: h.year, poster: h.posterPath ? { w185: provider.imageUrl(h.posterPath, "w185") } : null, backdrop: h.backdropPath ? provider.imageUrl(h.backdropPath, "w780") : null, releaseDate: h.releaseDate }));
   return { trending: rows(hits[0]!), inCinemas: rows(hits[1]!), comingSoon: rows(hits[2]!) };
 }

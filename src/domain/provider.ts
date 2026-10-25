@@ -19,6 +19,8 @@ export type BrowseList = "trending" | "in-cinemas" | "coming-soon";
 /** A title in one of those lists. `releaseDate` is when it came out, or comes out for "coming-soon". */
 export interface BrowseHit extends SearchHit {
   readonly releaseDate: DateString | null;
+  /** The wide still of the title, for the cards that show one. Null when the provider has none. */
+  readonly backdropPath: string | null;
 }
 
 export interface SearchPage {

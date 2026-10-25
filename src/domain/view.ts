@@ -40,6 +40,8 @@ export interface BrowseRow {
   readonly title: string;
   readonly year: number | null;
   readonly poster: Pick<PosterUrls, "w185"> | null;
+  /** The wide still, or null. */
+  readonly backdrop: string | null;
   /** When it came out, or comes out. */
   readonly releaseDate: DateString | null;
 }
