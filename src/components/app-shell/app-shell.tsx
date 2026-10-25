@@ -184,7 +184,7 @@ export function AppShell({ user, region, overlays, children }: { user: ShellUser
       <TitleDrawerProvider region={region}>
         <div className="grid min-h-screen md:grid-cols-[260px_1fr]">
           <Sidebar user={user} counts={counts} />
-          <main id="main" className="min-w-0 px-4 pb-[calc(92px+var(--safe-bottom))] md:mx-auto md:w-full md:max-w-[1180px] md:px-9 md:pt-[calc(36px+var(--safe-top))] md:pb-14">
+          <main id="main" className="min-w-0 overflow-x-clip px-4 pb-[calc(92px+var(--safe-bottom))] md:mx-auto md:w-full md:max-w-[1180px] md:px-9 md:pt-[calc(36px+var(--safe-top))] md:pb-14">
             <StickyTop user={user} />
             <InstallHint />
             {!online && (
