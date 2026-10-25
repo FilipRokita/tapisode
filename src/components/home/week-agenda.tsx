@@ -74,7 +74,7 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
   const empty = days.every((d) => d.entries.length === 0);
   return (
     <section aria-labelledby="coming-up" className="mt-10 md:mt-12">
-      <SectionHeading id="coming-up" aside={`Next ${days.length} days`} rule={false}>
+      <SectionHeading id="coming-up" aside={`Next ${days.length} days`}>
         Coming up
       </SectionHeading>
       {empty ? (
@@ -89,7 +89,6 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
       ) : (
         <ScrollRail always arrows className="-mx-4 snap-x snap-proximity overflow-x-auto scroll-px-4 px-4 pb-2 md:mx-0 md:scroll-px-0 md:px-0">
           <ol className="relative flex w-max gap-3">
-            <i aria-hidden="true" className="absolute top-[5px] right-0 left-0 h-px bg-[linear-gradient(90deg,var(--brand-edge),var(--home-line)_6%,var(--home-line)_94%,transparent)]" />
             {segments(days).map((segment) => {
               if (segment.kind === "gap") {
                 return (
