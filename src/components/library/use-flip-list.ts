@@ -32,11 +32,22 @@ export function useFlipList(containerRef: RefObject<HTMLElement | null>): void {
     const root = containerRef.current;
     const before = previous.current;
     const now = new Map<string, HTMLElement>();
+    // A running animation moves the element, so it is set aside while the resting positions are measured, and put back
+    // at the same point of its run. Without that, every later render (the server's answer, the end of a preview)
+    // would cut a glide short.
+    const running: { animation: Animation; time: number }[] = [];
     root?.querySelectorAll<HTMLElement>("[data-flip]").forEach((el) => {
-      el.getAnimations().forEach((a) => a.cancel());
+      el.getAnimations().forEach((animation) => {
+        if (animation.currentTime !== null) running.push({ animation, time: Number(animation.currentTime) });
+        animation.cancel();
+      });
       now.set(el.dataset.flip!, el);
     });
     const rects = new Map([...now].map(([key, el]) => [key, measure(el)]));
+    running.forEach(({ animation, time }) => {
+      animation.play();
+      animation.currentTime = time;
+    });
     // The snapshot for the next render is taken before any animation starts, so it holds resting positions.
     previous.current = new Map([...now].map(([key, el]) => [key, { rect: rects.get(key)!, ghost: el.cloneNode(true) as HTMLElement }]));
 
