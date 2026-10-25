@@ -45,13 +45,12 @@ interface WeekAgendaProps {
 
 type Segment = { readonly kind: "day"; readonly day: AgendaDay<TitleView> } | { readonly kind: "gap"; readonly key: string; readonly count: number };
 
-/** Today, the days with an episode, and a lone empty day stay as they are. Two or more empty days in a row become one gap. */
+/** Today and the days with an episode stay as they are. Every run of empty days between them, even one day, becomes one gap. */
 function segments(days: readonly AgendaDay<TitleView>[]): Segment[] {
   const out: Segment[] = [];
   let run: AgendaDay<TitleView>[] = [];
   const flush = () => {
-    if (run.length >= 2) out.push({ kind: "gap", key: `gap-${run[0]!.date}`, count: run.length });
-    else for (const day of run) out.push({ kind: "day", day });
+    if (run.length > 0) out.push({ kind: "gap", key: `gap-${run[0]!.date}`, count: run.length });
     run = [];
   };
   for (const day of days) {
@@ -61,13 +60,12 @@ function segments(days: readonly AgendaDay<TitleView>[]): Segment[] {
       out.push({ kind: "day", day });
     }
   }
-  // Empty days at the very end say nothing, so the axis just stops.
-  if (run.length === 1) flush();
+  // Empty days at the very end say nothing: the axis stops at the last dot.
   return out;
 }
 
-// The line of the axis: each column draws its own piece and reaches half a gap to each side, so it runs unbroken.
-const LINE = "before:absolute before:top-[5px] before:-right-1.5 before:-left-1.5 before:h-px first:before:left-0 last:before:right-0";
+// The line of the axis: each column draws its own piece, from its dot to the next one, so it runs unbroken and ends at the last dot.
+const LINE = "before:absolute before:top-[5px] before:-right-1.5 before:-left-1.5 before:h-px first:before:left-0 last:before:hidden";
 const FADE = "before:bg-[linear-gradient(90deg,var(--brand-soft),var(--home-line))]";
 
 /**
@@ -98,9 +96,9 @@ export function WeekAgenda({ days, next, today }: WeekAgendaProps) {
             {segments(days).map((segment, index) => {
               if (segment.kind === "gap") {
                 return (
-                  <li key={segment.key} aria-hidden="true" className={cn(LINE, "relative w-[68px] shrink-0 pt-7 text-center", index === 1 ? FADE : "before:bg-[var(--home-line)]")}>
+                  <li key={segment.key} aria-hidden="true" className={cn(LINE, "relative w-[112px] shrink-0 pt-7", index === 1 ? FADE : "before:bg-[var(--home-line)]")}>
                     <i className="absolute top-0 left-0 block size-[11px] rounded-full border-2 border-border-strong bg-background" />
-                    <span className="mono block text-left text-[12px] leading-[26px] text-faint">{segment.count} days</span>
+                    <span className="mono block pl-5 text-[12px] leading-[26px] text-faint">{segment.count === 1 ? "1 day" : `${segment.count} days`}</span>
                   </li>
                 );
               }
