@@ -34,7 +34,7 @@ export function HeroSwitcher({ items, selectedId, onSelect }: { items: readonly 
                 </span>
               )}
             </button>
-            <button type="button" aria-label={label} aria-pressed={active} onClick={() => onSelect(t.id)} className={cn(banner, "group", active ? "border-brand shadow-[0_0_0_1px_var(--brand),0_10px_30px_-10px_var(--brand-line)]" : "border-border hover:border-border-strong")}>
+            <button type="button" aria-pressed={active} onClick={() => onSelect(t.id)} className={cn(banner, "group", active ? "border-brand shadow-[0_0_0_1px_var(--brand),0_10px_30px_-10px_var(--brand-line)]" : "border-border hover:border-border-strong")}>
               <span className={cn("absolute inset-0 block transition-[opacity,scale] duration-500 ease-app", active ? "opacity-100" : "opacity-55 group-hover:scale-[1.04] group-hover:opacity-85")}>
                 {t.backdrop ? (
                   // eslint-disable-next-line @next/next/no-img-element -- backdrops come straight from the provider's CDN, never through the host's optimizer (catalog-data.md)
@@ -45,7 +45,7 @@ export function HeroSwitcher({ items, selectedId, onSelect }: { items: readonly 
               </span>
               <span aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_top,var(--background)_6%,transparent_70%)]" />
               {fresh && (
-                <span aria-hidden="true" className="eyebrow absolute top-2 left-2 rounded-full border border-brand-edge bg-badge-bg px-2 py-0.5 text-[10px] text-brand-text backdrop-blur-md">
+                <span className="eyebrow absolute top-2 left-2 rounded-full border border-brand-edge bg-badge-bg px-2 py-0.5 text-[10px] text-brand-text backdrop-blur-md">
                   Start new
                 </span>
               )}

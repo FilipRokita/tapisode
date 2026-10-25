@@ -136,7 +136,7 @@ export function Hero({ view, preview, onPlus, onMarkWatched, suggestion, classNa
           ))}
         </div>
         <h2 className="animate-[blur-in_0.8s_var(--ease)_0.2s_backwards] text-[44px] leading-[0.95] font-extrabold tracking-[-0.05em] [text-shadow:var(--text-shadow)] [text-wrap:balance] md:text-[68px]">
-          <button type="button" onClick={open} className="text-left">
+          <button type="button" onClick={open} className="min-h-11 text-left">
             {view.title}
             <span className="sr-only">, open details</span>
           </button>

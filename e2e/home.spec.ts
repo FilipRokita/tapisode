@@ -42,7 +42,7 @@ test.describe("home", () => {
   test("the lists show the titles on offer, and a tap opens one where it can be added", async ({ page }) => {
     await enterSandbox(page, "/app");
     const trending = section(page, "Trending this week");
-    await expect(trending.getByRole("button")).toHaveCount(4);
+    await expect(trending.getByRole("listitem")).toHaveCount(4);
     await expect(section(page, "Coming soon").getByRole("button", { name: /Copper Sky/ })).toBeVisible();
     await expect(section(page, "In cinemas now").getByRole("button", { name: /Neon Vesper/ })).toBeVisible();
     await trending.getByRole("button", { name: /Harbor Lights/ }).click();
