@@ -39,6 +39,7 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
   const today = useToday();
   const { openTitle } = useOverlays();
   const card = useRef<HTMLElement>(null);
+  const posterBox = useRef<HTMLDivElement>(null);
   const [loadedBackdrop, setLoadedBackdrop] = useState<string | null>(null);
   const backdropLoaded = view.backdrop !== null && loadedBackdrop === view.backdrop;
   const countdown = today && info.caughtUp ? countdownLabel(view.nextEpisode?.airDate ?? null, today) : null;
@@ -61,6 +62,9 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
       cancelAnimationFrame(frame);
     };
   }, []);
+
+  // The poster flies into the drawer. Only the visible one may, not the blurred copy behind the card, and a phone shows none.
+  const open = () => openTitle(view.ref, posterBox.current && posterBox.current.offsetParent !== null ? posterBox.current : null);
 
   const parallax = (event: PointerEvent<HTMLElement>) => {
     const el = card.current;
@@ -121,7 +125,7 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
           ))}
         </div>
         <h2 className="animate-[blur-in_0.8s_var(--ease)_0.2s_backwards] text-[44px] leading-[0.95] font-extrabold tracking-[-0.05em] [text-shadow:var(--text-shadow)] [text-wrap:balance] md:text-[68px]">
-          <button type="button" onClick={() => openTitle(view.ref, card.current)} className="text-left">
+          <button type="button" onClick={open} className="text-left">
             {view.title}
             <span className="sr-only">, open details</span>
           </button>
@@ -159,13 +163,13 @@ export function Hero({ view, preview, onPlus, onMarkWatched, className }: HeroPr
           ) : (
             <PlusButton tone="white" className="mt-0 min-h-[52px] w-full px-7 text-base md:w-auto" label="Mark as watched" onPress={onMarkWatched} />
           )}
-          <Button variant="secondary" onClick={() => openTitle(view.ref, card.current)} className="hidden min-h-[52px] bg-background/40 px-6 backdrop-blur-md md:inline-flex">
+          <Button variant="secondary" onClick={open} className="hidden min-h-[52px] bg-background/40 px-6 backdrop-blur-md md:inline-flex">
             Details
           </Button>
         </div>
       </div>
 
-      <div className="relative z-10 hidden shrink-0 pr-12 pb-12 md:block">
+      <div ref={posterBox} className="relative z-10 hidden shrink-0 pr-12 pb-12 md:block">
         <TiltPoster className="w-[210px] drop-shadow-[0_26px_44px_rgb(0_0_0/0.65)] transition-transform duration-300 ease-out [transform:translate3d(calc(var(--px)*10px),calc(var(--py)*6px),0)_rotate(3deg)]">
           <Poster src={view.poster?.w342 ?? null} title={view.title} className="w-full" eager />
         </TiltPoster>
