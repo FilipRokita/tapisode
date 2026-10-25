@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { PageHeader } from "@/components/app-shell/page-header";
 import { useOverlays } from "@/components/app-shell/overlays";
 import { EmptyState } from "@/components/primitives/empty-state";
 import { House, Search } from "@/components/primitives/icons";
+import { prefersReducedMotion } from "@/components/primitives/use-reduced-motion";
 import { Button } from "@/components/ui/button";
 import { useLibrary } from "@/components/library/library-provider";
 import { usePlusOne } from "@/components/library/use-plus-one";
@@ -20,6 +21,10 @@ import { Hero } from "./hero";
 import { HeroSwitcher, type SwitcherItem } from "./hero-switcher";
 import { Numbers } from "./numbers";
 import { WeekAgenda } from "./week-agenda";
+
+/** How long the hero stays on a title before it moves to the next, and how long it waits after the user picked one. */
+const ROTATE_MS = 7000;
+const IDLE_AFTER_PICK_MS = 15000;
 
 /** How far ahead Coming up looks: about two months. */
 const AGENDA_DAYS = 60;
@@ -55,6 +60,27 @@ export function HomeView({ name, rows }: HomeViewProps) {
   // The pick, or the newest title in Watching, or the suggestion when nothing is in Watching.
   const current = items.find((i) => i.view.id === chosenId) ?? items[0];
   const upNext = current?.view;
+  // The hero moves through the titles by itself, except while the pointer or focus is on it, the page is in the background, a
+  // drawer is open, the user picked a title a moment ago, or motion is off.
+  const [engaged, setEngaged] = useState(false);
+  const pickedAt = useRef(0);
+  const rotation = useRef<{ ids: string[]; current: string | undefined }>({ ids: [], current: undefined });
+  useEffect(() => {
+    rotation.current = { ids: items.map((i) => i.view.id), current: upNext?.id };
+  });
+  useEffect(() => {
+    if (engaged || prefersReducedMotion()) return;
+    const timer = setInterval(() => {
+      const { ids, current: id } = rotation.current;
+      if (ids.length < 2 || document.hidden || document.querySelector('[role="dialog"]') || Date.now() - pickedAt.current < IDLE_AFTER_PICK_MS) return;
+      setChosenId(ids[(ids.indexOf(id ?? "") + 1) % ids.length] ?? null);
+    }, ROTATE_MS);
+    return () => clearInterval(timer);
+  }, [engaged]);
+  const pick = (id: string) => {
+    pickedAt.current = Date.now();
+    setChosenId(id);
+  };
   const hue = useAmbientHue(upNext?.poster?.w185 ?? null);
   const finished = titles.filter((t) => t.state?.status === "complete").length;
   const greeting = hour === null ? "Welcome back" : greetingFor(hour);
@@ -70,7 +96,7 @@ export function HomeView({ name, rows }: HomeViewProps) {
       {pending > 0 && <p className="mt-2 text-[13px] text-faint">{pending === 1 ? "1 title is loading" : `${pending} titles are loading`}</p>}
       <div className="mt-5 md:mt-1">
         {upNext ? (
-          <>
+          <div onPointerEnter={() => setEngaged(true)} onPointerLeave={() => setEngaged(false)} onFocus={() => setEngaged(true)} onBlur={() => setEngaged(false)}>
             <Hero
               view={upNext}
               preview={previews[upNext.id]}
@@ -79,9 +105,9 @@ export function HomeView({ name, rows }: HomeViewProps) {
               suggestion={current.kind === "suggestion" ? { onStart: () => void setStatus(upNext, "watching").then((ok) => ok && setChosenId(upNext.id)) } : undefined}
             />
             <div className="mt-3.5">
-              <HeroSwitcher items={items} selectedId={upNext.id} onSelect={setChosenId} />
+              <HeroSwitcher items={items} selectedId={upNext.id} onSelect={pick} />
             </div>
-          </>
+          </div>
         ) : (
           <EmptyState
             icon={House}
